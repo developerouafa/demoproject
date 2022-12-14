@@ -8,6 +8,7 @@ use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ImageUserController extends Controller
 {
@@ -42,22 +43,26 @@ class ImageUserController extends Controller
     public function store(Request $request)
     {
         try{
-            $path = $this->uploadImage($request, 'file1');
-            DB::beginTransaction();
-            ImageUser::create([
-                'user_id' => $request->id,
-                'image'=>$path
-            ]);
-            DB::commit();
-            toastr()->success(trans('message.create'));
-            return redirect()->route('profile.edit');
+            $input = $request->all();
+            if(!empty($input['imageuser'])){
+                $path = $this->uploadImage($request, 'file1');
+                DB::beginTransaction();
+                ImageUser::create([
+                    'user_id' => $request->id,
+                    'image'=>$path
+                ]);
+                DB::commit();
+                toastr()->success(trans('message.create'));
+                return redirect()->route('profile.edit');
+            }else{
+                toastr()->error(trans('messagevalidation.users.imageuserrequired'));
+                return redirect()->route('profile.edit');
+            }
         }
         catch(\Exception $exception){
             DB::rollBack();
             return 'erreur';
         }
-        // $path = $this->uploadImage($request, 'file1');
-        // return $path;
     }
 
     /**
@@ -91,15 +96,21 @@ class ImageUserController extends Controller
      */
     public function update(Request $request)
     {
-            $idimageuser = $request->id;
-            $imageuser = ImageUser::findOrFail($idimageuser);
+        $request->validate([
+            'imageuser' => ['required'],
+        ],[
+            'imageuser.required' =>__('messagevalidation.users.imageuserrequired'),
+        ]);
+        try{
+            $idimageuser = Auth::user()->id;
+            $tableimageuser = ImageUser::where('user_id','=',$idimageuser)->first();
             if($request->has('imageuser')){
-                    $image = $imageuser->image;
+                    $image = $tableimageuser->image;
                     if(!$image) abort(404);
-                    unlink(public_path('storage/'.$imageuser->image));
+                    unlink(public_path('storage/'.$image));
                     $image = $this->uploadImage($request, 'file1');
                     DB::beginTransaction();
-                    $imageuser->update([
+                    $tableimageuser->update([
                         'image' => $image
                     ]);
                     DB::commit();
@@ -107,9 +118,15 @@ class ImageUserController extends Controller
                     return redirect()->route('profile.edit');
             }
             else{
-                    return redirect()->route('profile.edit');
+                toastr()->error(trans('messagevalidation.users.imageuserrequired'));
+                return redirect()->route('profile.edit');
             }
-
+        }
+        catch(\Exception $exception){
+            DB::rollBack();
+            toastr()->error(trans('message.error'));
+            return redirect()->route('profile.edit');
+        }
     }
 
     /**
@@ -120,15 +137,21 @@ class ImageUserController extends Controller
      */
     public function destroy(ImageUser $imageUser)
     {
-        $id = Auth::user()->id;
-        $imageuser = ImageUser::findorFail($id);
-        DB::beginTransaction();
-        $imageuser->delete();
-        $image = $imageuser->image;
-        if(!$image) abort(404);
-        unlink(public_path('storage/'.$imageuser->image));
-        DB::commit();
-        toastr()->success(trans('message.delete'));
-        return redirect()->route('profile.edit');
+        try{
+            $id = Auth::user()->id;
+            $tableimageuser = ImageUser::where('user_id','=',$id)->first();
+            DB::beginTransaction();
+            $tableimageuser->delete();
+            $image = $tableimageuser->image;
+            if(!$image) abort(404);
+            unlink(public_path('storage/'.$image));
+            DB::commit();
+            toastr()->success(trans('message.delete'));
+            return redirect()->route('profile.edit');
+        }catch(\Exception $execption){
+            DB::rollBack();
+            toastr()->error(trans('message.error'));
+            return redirect()->route('profile.edit');
+        }
     }
 }

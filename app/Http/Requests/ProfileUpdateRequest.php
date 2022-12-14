@@ -16,21 +16,53 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'name' => ['string', 'max:255'],
-            'nickname' => ['string', 'max:255'],
-            'firstname' => ['string', 'max:255'],
-            'lastname' => ['string', 'max:255'],
-            'designation' => ['string', 'max:255'],
-            'address' => ['string', 'max:255'],
-            'biographicalinfo' => ['string', 'max:255'],
-            // 'phone' => ['string', 'digits:10'],
-            'website' => ['string', 'max:255'],
-            'twitter' => ['string', 'max:255'],
-            'facebook' => ['string', 'max:255'],
-            'google' => ['string', 'max:255'],
-            'linkedin' => ['string', 'max:255'],
-            'github' => ['string', 'max:255']
+            'name' => ['required', 'max:100'],
+            'nickname' => ['required', 'max:100'],
+            'firstname' => ['required', 'max:100'],
+            'lastname' => ['required', 'max:100'],
+            'designation' => ['required', 'max:100'],
+            'address' => ['required', 'max:100'],
+            'biographicalinfo' => ['required', 'max:100'],
+            'phone' => ['required', 'max:10'],
+            'website' => ['required', 'max:100'],
+            'twitter' => ['required', 'max:100'],
+            'facebook' => ['required', 'max:100'],
+            'google' => ['required', 'max:100'],
+            'linkedin' => ['required', 'max:100'],
+            'github' => ['required', 'max:100']
+        ];
+    }
+    public function messages()
+    {
+        return[
+                'name.required' =>__('messagevalidation.users.namerequired'),
+                'name.max' =>__('messagevalidation.users.namemax'),
+                'nickname.required' =>__('messagevalidation.users.isrequired'),
+                'nickname.max' =>__('messagevalidation.users.ismax'),
+                'firstname.required' =>__('messagevalidation.users.isrequired'),
+                'firstname.max' =>__('messagevalidation.users.ismax'),
+                'lastname.required' =>__('messagevalidation.users.isrequired'),
+                'lastname.max' =>__('messagevalidation.users.ismax'),
+                'designation.required' =>__('messagevalidation.users.isrequired'),
+                'designation.max' =>__('messagevalidation.users.ismax'),
+                'address.required' =>__('messagevalidation.users.isrequired'),
+                'address.max' =>__('messagevalidation.users.ismax'),
+                'website.required' =>__('messagevalidation.users.isrequired'),
+                'website.max' =>__('messagevalidation.users.ismax'),
+                'twitter.required' =>__('messagevalidation.users.isrequired'),
+                'twitter.max' =>__('messagevalidation.users.ismax'),
+                'facebook.required' =>__('messagevalidation.users.isrequired'),
+                'facebook.max' =>__('messagevalidation.users.ismax'),
+                'google.required' =>__('messagevalidation.users.isrequired'),
+                'google.max' =>__('messagevalidation.users.ismax'),
+                'linkedin.required' =>__('messagevalidation.users.isrequired'),
+                'linkedin.max' =>__('messagevalidation.users.ismax'),
+                'github.required' =>__('messagevalidation.users.isrequired'),
+                'github.max' =>__('messagevalidation.users.ismax'),
+
+                'phone.required' =>__('messagevalidation.users.isrequired'),
+                'phone.max' =>__('messagevalidation.users.isphonemax'),
+                'biographicalinfo.max' =>__('messagevalidation.users.isbiographicalinfomax'),
         ];
     }
 }

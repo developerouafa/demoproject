@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\ImageUser;
 use App\Models\User;
@@ -20,8 +21,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
-        $imageuser = User::query()->select('id')->with('image')->get();
-        // return view('products.productscreate', compact('products', 'categories', 'childrens', 'colors'));
+        $id = Auth::user()->id;
+        $imageuser = User::query()->select('id')->where('id', '=', $id)->with('image')->get();
         return view('profile.edit', ['user' => $request->user(),], compact('imageuser'));
     }
 
@@ -31,7 +32,27 @@ class ProfileController extends Controller
      * @param  \App\Http\Requests\ProfileUpdateRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProfileUpdateRequest $request)
+    public function updateprofile(ProfileUpdateRequest $request)
+    {
+        try{
+            DB::beginTransaction();
+            $request->user()->fill($request->validated());
+
+            // if ($request->user()->isDirty('email')) {
+            //     $request->user()->email_verified_at = null;
+            // }
+            $request->user()->save();
+            DB::commit();
+            toastr()->success(trans('message.update'));
+            return redirect()->route('profile.edit');
+        }catch(\Exception $execption){
+            DB::rollBack();
+            return redirect()->route('profile.edit');
+        }
+
+    }
+
+    public function updatemail(EmailUpdateRequest $request)
     {
         try{
             DB::beginTransaction();
@@ -44,7 +65,6 @@ class ProfileController extends Controller
             DB::commit();
             toastr()->success(trans('message.update'));
             return redirect()->route('profile.edit');
-            // return Redirect::route('profile.edit')->with('status', 'Has been modified successfully');
         }catch(\Exception $execption){
             DB::rollBack();
             return redirect()->route('profile.edit');

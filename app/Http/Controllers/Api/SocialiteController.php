@@ -47,11 +47,12 @@ class SocialiteController extends Controller
                 'google' => 'null',
                 'linkedin' => 'null',
                 'github' => 'null',
-                'biographicalinfo' => 'null'
+                'biographicalinfo' => 'null',
+                'roles_name' => 'role',
             ]);
 
             Auth::login($newUser, true);
         }
-        return redirect()->to('/offers/dashboard');
+        return redirect()->to('/dashboard');
     }
 }

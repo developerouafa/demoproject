@@ -43,6 +43,8 @@
         <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
         <!--Internal  TelephoneInput css-->
         {{-- <link rel="stylesheet" href="{{ URL::asset('assets/plugins/telephoneinput/telephoneinput-rtl.css') }}"> --}}
+
+
 @endsection
 @section('page-header')
         <!-- breadcrumb -->
@@ -93,7 +95,7 @@
                                     @foreach ($imageuser as $img)
                                             @if (empty($img->image->image))
                                                 <img src="{{URL::asset('assets/img/faces/6.jpg')}}">
-                                                <a class="fas fa-camera profile-edit" href="#clickcamera"></a>
+                                                <a class="fas fa-camera profile-edit" href=""></a>
                                             @else
                                                     <img src="{{URL::asset('storage/'.$img->image->image)}}">
                                                     <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a>
@@ -124,16 +126,23 @@
                                             </div>
                                         </form>
                                         @else
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <form action="{{ route('imageuser.update') }}" method="post" enctype="multipart/form-data" autocomplete="off">
                                             {{ method_field('patch') }}
                                             {{ csrf_field() }}
 
-                                            <input type="hidden" value="{{Auth::user()->id}}" name="id">
-
                                             <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                                             <h5 class="card-title"> {{__('message.imageuserupdate')}} </h5>
 
-                                            <div class="col-sm-12 col-md-12" id="clickcamera">
+                                            <div class="col-sm-12 col-md-12">
                                                 <input type="file" name="imageuser" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png"
                                                     data-height="70" />
                                             </div><br>
@@ -144,8 +153,6 @@
                                         </form>
                                     @endif
                                 @endforeach
-
-
 
                             <div class="d-flex justify-content-between mg-b-20">
                                 <div>
@@ -268,11 +275,12 @@
                         </div>
                     </div>
 
-                    {{-- <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             @include('profile.partials.delete-user-form')
                         </div>
-                    </div> --}}
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -285,6 +293,7 @@
 		<!-- main-content closed -->
 @endsection
 @section('js')
+
     <!--Internal  Chart.bundle js -->
     <script src="{{URL::asset('assets/plugins/chart.js/Chart.bundle.min.js')}}"></script>
     <!-- Internal Select2.min js -->

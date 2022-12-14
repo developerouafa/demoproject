@@ -1,10 +1,5 @@
 @extends('layouts.master')
 @section('css')
-
-@section('title')
-    المستخدمين - مورا سوفت للادارة الفواتير
-@stop
-
 <!-- Internal Data table css -->
 
 <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -21,8 +16,7 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">المستخدمين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة
-                المستخدمين</span>
+            <h4 class="content-title mb-0 my-auto">{{__('message.users')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{__('message.users')}}</span>
         </div>
     </div>
 </div>
@@ -44,7 +38,7 @@
             <div class="card-header pb-0">
                 <div class="col-sm-1 col-md-2">
                     {{-- @can('اضافة مستخدم') --}}
-                        <a class="btn btn-primary btn-sm" href="{{ route('users.create') }}">اضافة مستخدم</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('users.create') }}">{{__('message.addauser')}}</a>
                     {{-- @endcan --}}
                 </div>
             </div>
@@ -54,11 +48,11 @@
                         <thead>
                             <tr>
                                 <th class="wd-10p border-bottom-0">#</th>
-                                <th class="wd-15p border-bottom-0">اسم المستخدم</th>
-                                <th class="wd-20p border-bottom-0">البريد الالكتروني</th>
-                                <th class="wd-15p border-bottom-0">حالة المستخدم</th>
-                                <th class="wd-15p border-bottom-0">نوع المستخدم</th>
-                                <th class="wd-10p border-bottom-0">العمليات</th>
+                                <th class="wd-15p border-bottom-0"> {{__('message.username')}} </th>
+                                <th class="wd-20p border-bottom-0"> {{__('message.Email')}} </th>
+                                <th class="wd-15p border-bottom-0"> {{__('message.userstatus')}} </th>
+                                <th class="wd-15p border-bottom-0"> {{__('message.usertype')}} </th>
+                                <th class="wd-10p border-bottom-0"> {{__('message.processes')}} </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -115,20 +109,20 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
+                    <h6 class="modal-title">{{__('message.deletetheuser')}}</h6><button aria-label="Close" class="close"
                         data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form action="{{ route('users.destroy', 'test') }}" method="post">
                     {{ method_field('delete') }}
                     {{ csrf_field() }}
                     <div class="modal-body">
-                        <p>هل انت متاكد من عملية الحذف ؟</p><br>
+                        <p>{{__('message.aresureofthedeleting')}}</p><br>
                         <input type="hidden" name="user_id" id="user_id" value="">
                         <input class="form-control" name="username" id="username" type="text" readonly>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                        <button type="submit" class="btn btn-danger">تاكيد</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.cancel')}}</button>
+                        <button type="submit" class="btn btn-danger">{{__('message.save')}}</button>
                     </div>
             </div>
             </form>

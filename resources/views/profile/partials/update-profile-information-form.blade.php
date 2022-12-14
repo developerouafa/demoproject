@@ -1,7 +1,7 @@
 
     <div class="card">
         <div class="card-body">
-                <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+                <form method="post" action="{{ route('profile.updateprofile') }}" class="mt-6 space-y-6">
                     @csrf
                     @method('patch')
                     <div class="mb-4 main-content-label">{{__('message.personal information')}}</div>

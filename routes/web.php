@@ -23,35 +23,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-    // Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function(){
-    //     // Route::group(['prefix' => 'offers'], function (){
-    //         Route::get('/', function () {
-    //             return view('auth.login');
-    //         });
-    //         // Route::get('{page}', [AdminController::class, 'index']);
-
-    //         Route::middleware('auth')->group(function () {
-    //             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    //             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    //             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    //         });
-
-    //         Route::get('login-github', [SocialiteController::class, 'redirectToProviderGithub'])->name('github.login');
-    //         Route::get('/auth/callback', [SocialiteController::class, 'handleCallbackGithub'])->name('github.login.callback');
-
-    //         Route::get('destroy', [AuthenticatedSessionController::class, 'destroy'])->name('auth.destroy');
-
-    //         require __DIR__.'/auth.php';
-
-    //         Route::get('dashboard', function () {
-    //             return view('index');
-    //         })->middleware(['auth', 'verified'])->name('dashboard');
-
-    //         Route::resource('roles', RolesController::class);
-    //         Route::resource('users', UserController::class);
-    //     // });
-    // });
-
     Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'xss', 'UserStatus']], function(){
         // Route::group(['prefix' => 'offers'], function (){
             Route::get('/', function () {
@@ -64,7 +35,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
             Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-                Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+                Route::patch('/updateprofile', [ProfileController::class, 'updateprofile'])->name('profile.updateprofile');
+                Route::patch('/updatemail', [ProfileController::class, 'updatemail'])->name('profile.updatemail');
                 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
                 Route::get('destroy', [AuthenticatedSessionController::class, 'destroy'])->name('auth.destroy');
                 Route::resource('roles', RolesController::class);

@@ -8,7 +8,18 @@
 				<div class="app-sidebar__user clearfix">
 					<div class="dropdown user-pro-body">
 						<div class="">
-							<img alt="user-img" class="avatar avatar-xl brround" src="{{URL::asset('assets/img/faces/6.jpg')}}"><span class="avatar-status profile-status bg-green"></span>
+                            <?php
+                                use App\Models\User;
+                                $imageuser = User::query()->select('id')->where('id', '=', Auth::user()->id)->with('image')->get();
+                            ?>
+                            @foreach ($imageuser as $img)
+                                @if (empty($img->image->image))
+                                    <img alt="user-img" class="avatar avatar-xl brround" src="{{URL::asset('assets/img/faces/6.jpg')}}"><span class="avatar-status profile-status bg-green"></span>
+                                @else
+                                    <img alt="user-img" class="avatar avatar-xl brround" src="{{URL::asset('storage/'.$img->image->image)}}"><span class="avatar-status profile-status bg-green"></span>
+                                @endif
+                            @endforeach
+
 						</div>
 						<div class="user-info">
 							<h4 class="font-weight-semibold mt-3 mb-0">Petey Cruiser</h4>
@@ -27,14 +38,14 @@
                                 <path d="M15 11V4H4v8.17l.59-.58.58-.59H6z" opacity=".3" />
                                 <path
                                     d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-5 7c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10zM4.59 11.59l-.59.58V4h11v7H5.17l-.58.59z" />
-                            </svg><span class="side-menu__label">المستخدمين</span><i class="angle fe fe-chevron-down"></i></a>
+                            </svg><span class="side-menu__label">{{__('message.users')}}</span><i class="angle fe fe-chevron-down"></i></a>
                         <ul class="slide-menu">
                             {{-- @can('قائمة المستخدمين') --}}
-                            <li><a class="slide-item" href="{{ url('/' . ($page = 'users')) }}">قائمة المستخدمين</a></li>
+                            <li><a class="slide-item" href="{{ url('/' . ($page = 'users')) }}">{{__('message.userlist')}}</a></li>
                             {{-- @endcan --}}
 
                             {{-- @can('صلاحيات المستخدمين') --}}
-                                <li><a class="slide-item" href="{{ url('/' . ($page = 'roles')) }}">صلاحيات المستخدمين</a></li>
+                                <li><a class="slide-item" href="{{ url('/' . ($page = 'roles')) }}">{{__('message.userpermissions')}}</a></li>
                             {{-- @endcan --}}
                         </ul>
                     </li>

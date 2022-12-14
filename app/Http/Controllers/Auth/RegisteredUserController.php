@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -34,35 +35,50 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'name' => ['required', 'max:100'],
+            'namear' => ['required', 'max:100'],
+            'email' => ['required', 'email', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ],[
+            'name.required' =>__('messagevalidation.users.namerequired'),
+            'name.max' =>__('messagevalidation.users.namemax'),
+            'namear.required' =>__('messagevalidation.users.namearrequired'),
+            'email.required' =>__('messagevalidation.users.emailrequired'),
+            'email.email' =>__('messagevalidation.users.emailemail'),
+            'email.unique' =>__('messagevalidation.users.emailunique'),
+            'password.required' =>__('messagevalidation.users.passwordrequired'),
         ]);
 
-        $user = User::create([
-            // 'name' => $request->name,
-            'name' => ['en' => $request->name, 'ar' => $request->namear],
-            'nickname' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'github_id' => 'null',
-            'firstname' => 'null',
-            'lastname' => 'null',
-            'designation' => 'null',
-            'website' => 'null',
-            'phone' => 'null',
-            'Address' => 'null',
-            'twitter' => 'null',
-            'facebook' => 'null',
-            'google' => 'null',
-            'linkedin' => 'null',
-            'github' => 'null',
-            'biographicalinfo' => 'null',
-            'roles_name' => ["ouafa"],
-        ]);
-
-        event(new Registered($user));
-        Auth::login($user);
-        return redirect(RouteServiceProvider::HOME);
+        try{
+            DB::beginTransaction();
+            $user = User::create([
+                'name' => ['en' => $request->name, 'ar' => $request->namear],
+                'nickname' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'github_id' => 'null',
+                'firstname' => 'null',
+                'lastname' => 'null',
+                'designation' => 'null',
+                'website' => 'null',
+                'phone' => 'null',
+                'Address' => 'null',
+                'twitter' => 'null',
+                'facebook' => 'null',
+                'google' => 'null',
+                'linkedin' => 'null',
+                'github' => 'null',
+                'biographicalinfo' => 'null',
+                'roles_name' => 'role',
+            ]);
+            event(new Registered($user));
+            Auth::login($user);
+            DB::commit();
+            return redirect(RouteServiceProvider::HOME);
+        }catch(\Exception $execption){
+            DB::rollBack();
+            toastr()->error(trans('message.error'));
+            return redirect()->back();
+        }
     }
 }

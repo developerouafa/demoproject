@@ -7,7 +7,7 @@
                 <div class="form-group ">
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="form-label"> {{__('message.Current Password')}} </label>
+                            <label class="form-label"> {{__('message.currentpassword')}} </label>
                         </div>
                         <div class="col-md-9">
                             <x-text-input id="current_password" name="current_password" type="password" class="form-control" autocomplete="current-password" />
@@ -19,7 +19,7 @@
                 <div class="form-group ">
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="form-label">{{__('message.New Password')}}</label>
+                            <label class="form-label">{{__('message.newpassword')}}</label>
                         </div>
                         <div class="col-md-9">
                             <x-text-input id="password" name="password" type="password" class="form-control" autocomplete="new-password" />
@@ -31,7 +31,7 @@
                 <div class="form-group ">
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="form-label">{{__('message.Confirm Password')}}</label>
+                            <label class="form-label">{{__('message.confirmpassword')}}</label>
                         </div>
                         <div class="col-md-9">
                             <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password" />

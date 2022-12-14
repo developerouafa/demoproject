@@ -13,8 +13,8 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">المستخدمين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0"> /
-                صلاحيات المستخدمين</span>
+            <h4 class="content-title mb-0 my-auto">{{__('message.users')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0"> /
+                {{__('message.userpermissions')}}</span>
         </div>
     </div>
 </div>
@@ -68,7 +68,7 @@
                     <div class="col-lg-12 margin-tb">
                         <div class="pull-right">
                             {{-- @can('اضافة صلاحية') --}}
-                                <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">اضافة</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">{{__('message.add')}}</a>
                             {{-- @endcan --}}
                         </div>
                     </div>
@@ -82,8 +82,8 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>الاسم</th>
-                                <th>العمليات</th>
+                                <th>{{__('message.name')}}</th>
+                                <th>{{__('message.processes')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,19 +94,20 @@
                                     <td>
                                         {{-- @can('عرض صلاحية') --}}
                                             <a class="btn btn-success btn-sm"
-                                                href="{{ route('roles.show', $role->id) }}">عرض</a>
+                                                href="{{ route('roles.show', $role->id) }}">{{__('message.show')}}</a>
                                         {{-- @endcan --}}
 
                                         {{-- @can('تعديل صلاحية') --}}
                                             <a class="btn btn-primary btn-sm"
-                                                href="{{ route('roles.edit', $role->id) }}">تعديل</a>
+                                                href="{{ route('roles.edit', $role->id) }}">{{__('message.modify')}}</a>
                                         {{-- @endcan --}}
 
                                         @if ($role->name !== 'owner')
                                             {{-- @can('حذف صلاحية') --}}
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy',
                                                 $role->id], 'style' => 'display:inline']) !!}
-                                                {!! Form::submit('حذف', ['class' => 'btn btn-danger btn-sm']) !!}
+                                                <input type="submit" class="btn btn-danger btn-sm" value="{{__('message.delete')}}">
+                                                {{-- {!! Form::submit('حذف', ['class' => 'btn btn-danger btn-sm']) !!} --}}
                                                 {!! Form::close() !!}
                                             {{-- @endcan --}}
                                         @endif
