@@ -11,4 +11,18 @@ trait UploadImageTrait
         $path = $request->file('imageuser')->store($folderName, 'public');
         return $path;
     }
+
+    public function uploadImagecategory(Request $request, $folderName){
+        $image = $request->file('image')->getClientOriginalName();
+        // hash
+        $path = $request->file('image')->store($folderName, 'public');
+        return $path;
+    }
+
+    public function uploadImageChildrenCat(Request $request, $folderName){
+        $image = $request->file('image')->getClientOriginalName();
+        // hash
+        $path = $request->file('image')->store($folderName, 'public');
+        return $path;
+    }
 }

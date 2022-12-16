@@ -87,7 +87,6 @@ class RolesController extends Controller
         try{
             DB::beginTransaction();
             $role = Role::findOrFail($id);
-
             $input = $request->all();
             $b_exists = Role::where('name', '=', $input['name'])->exists();
             if($b_exists){

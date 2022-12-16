@@ -22,7 +22,7 @@
 
 						</div>
 						<div class="user-info">
-							<h4 class="font-weight-semibold mt-3 mb-0">Petey Cruiser</h4>
+							<h4 class="font-weight-semibold mt-3 mb-0">{{Auth::user()->name}}</h4>
 							<span class="mb-0 text-muted">Premium Member</span>
 						</div>
 					</div>
@@ -30,15 +30,18 @@
 				<ul class="side-menu">
 
                     {{-- @can('المستخدمين') --}}
-                    <li class="side-item side-item-category">المستخدمين</li>
+                    <li class="side-item side-item-category">{{__('message.Dashboard')}}</li>
                     <li class="slide">
-                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . ($page = '#')) }}"><svg
+                        <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . ($page = '#')) }}">
+                            {{-- <svg
                                 xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                                 <path d="M0 0h24v24H0V0z" fill="none" />
                                 <path d="M15 11V4H4v8.17l.59-.58.58-.59H6z" opacity=".3" />
                                 <path
                                     d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-5 7c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10zM4.59 11.59l-.59.58V4h11v7H5.17l-.58.59z" />
-                            </svg><span class="side-menu__label">{{__('message.users')}}</span><i class="angle fe fe-chevron-down"></i></a>
+                            </svg> --}}
+                            <span class="side-menu__label">{{__('message.users')}}</span><i class="angle fe fe-chevron-down"></i>
+                        </a>
                         <ul class="slide-menu">
                             {{-- @can('قائمة المستخدمين') --}}
                             <li><a class="slide-item" href="{{ url('/' . ($page = 'users')) }}">{{__('message.userlist')}}</a></li>
@@ -50,6 +53,17 @@
                         </ul>
                     </li>
                     {{-- @endcan --}}
+
+                    <li class="slide">
+						<a class="side-menu__item" data-toggle="slide" href="{{ url('/' . $page='#') }}">
+                            <span class="side-menu__label">{{__('message.Dashboard')}}</span><i class="angle fe fe-chevron-down"></i>
+                        </a>
+						<ul class="slide-menu">
+                            <li><a class="slide-item" href="{{ route('category_index') }}">{{__('messagevalidation.users.Categories')}}</a></li>
+							<li><a class="slide-item" href="{{ route('childcat_index') }}">{{__('messagevalidation.users.children')}}</a></li>
+							<li><a class="slide-item" href="{{ route('tags_index') }}">{{__('message.tags')}}</a></li>
+						</ul>
+					</li>
 
 					<li class="side-item side-item-category">Main</li>
 					<li class="slide">

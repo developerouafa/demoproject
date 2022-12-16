@@ -290,7 +290,7 @@
                                                 @endif
                                             @endforeach
 											<div class="mr-3 my-auto">
-												<h6>Petey Cruiser</h6><span>Premium Member</span>
+												<h6>{{Auth::user()->name}}</h6><span>Premium Member</span>
 											</div>
 										</div>
 									</div>

@@ -47,6 +47,7 @@ class ProfileController extends Controller
             return redirect()->route('profile.edit');
         }catch(\Exception $execption){
             DB::rollBack();
+            toastr()->error(trans('message.error'));
             return redirect()->route('profile.edit');
         }
 
@@ -67,6 +68,7 @@ class ProfileController extends Controller
             return redirect()->route('profile.edit');
         }catch(\Exception $execption){
             DB::rollBack();
+            toastr()->error(trans('message.error'));
             return redirect()->route('profile.edit');
         }
 
@@ -80,19 +82,26 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request)
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
+        try{
+            DB::beginTransaction();
+            $request->validateWithBag('userDeletion', [
+                'password' => ['required', 'current-password'],
+            ]);
 
-        $user = $request->user();
+            $user = $request->user();
 
-        Auth::logout();
+            Auth::logout();
 
-        $user->delete();
+            $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            DB::commit();
+            return Redirect::to('/');
+        }catch(\Exception $execption){
+            DB::rollBack();
+            toastr()->error(trans('message.error'));
+            return redirect()->route('profile.edit');
+        }
     }
 }
