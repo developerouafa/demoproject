@@ -219,6 +219,8 @@ return [
         'Socialite' => 'Laravel\Socialite\Facades\Socialite',
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth'
     ])->toArray(),
 
 ];

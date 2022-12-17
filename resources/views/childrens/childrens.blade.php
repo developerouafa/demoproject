@@ -116,8 +116,14 @@
                                                 <form action="{{route('childcat.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                                     @csrf
                                                         <div class="form-group">
-                                                            <input placeholder="{{__('messagevalidation.users.children')}}" type="text" value="{{old('children')}}" class="form-control @error('children') is-invalid @enderror" id="children" name="children">
+                                                            {{-- <input placeholder="{{__('messagevalidation.users.children')}}" type="text" value="{{old('children')}}" class="form-control @error('children') is-invalid @enderror" id="children" name="children">
+                                                            <br> --}}
+
+                                                            <input placeholder="{{__('messagevalidation.users.childrenen')}}" type="text" value="{{old('childrenen')}}" class="form-control @error('childrenen') is-invalid @enderror" id="childrenen" name="childrenen">
                                                             <br>
+                                                            <input placeholder="{{__('messagevalidation.users.childrenar')}}" type="text" value="{{old('childrenar')}}" class="form-control @error('childrenar') is-invalid @enderror" id="childrenar" name="childrenar">
+                                                            <br>
+
                                                             <select name="category_id" value="{{old('category_id')}}" class="form-control SlectBox" class="@error('category_id') is-invalid @enderror">
                                                                 <option value="" selected disabled>{{__('messagevalidation.users.Categories')}}</option>
                                                                     @forelse ($categories as $categoryone)
@@ -207,7 +213,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                                        <button type="submit" class="btn btn-danger">{{__('message.save')}}</button>
+                                                        <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
                                                     </div>
                                                 </form>
                                             </div>

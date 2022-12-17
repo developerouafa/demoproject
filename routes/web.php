@@ -91,6 +91,15 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                         Route::patch('/updatechild', [ChildrenCatController::class, 'update'])->name('childcat.update');
                         Route::delete('/deletechild', [ChildrenCatController::class, 'delete'])->name('childcat.delete');
                     });
+
+                    Route::prefix('posts')->group(function (){
+                        Route::get('/post', [PostController::class, 'index'])->name('posts_index');
+                        Route::get('/linkcreatepost', [PostController::class, 'create'])->name('linkposts.createpost');
+                        Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
+                        Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
+                        Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
+                    });
+                    Route::get('/category/{id}', [PostController::class, 'getchild']);
             });
 
             Route::get('login-github', [SocialiteController::class, 'redirectToProviderGithub'])->name('github.login');

@@ -90,13 +90,6 @@ Categories
                                                             @endif
                                                         </td>
                                                         <td><img src="{{asset('storage/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td>
-                                                        {{-- <td>
-                                                                @forelse ($x->childrens as $children)
-                                                                {{$children->children}}
-                                                                @empty
-                                                                    No Children yet!
-                                                                @endforelse ()
-                                                        </td> --}}
                                                         <td>
                                                                 <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                                     data-id="{{ $x->id }}" data-title="{{ $x->title }}"
@@ -130,11 +123,9 @@ Categories
                                         <form action="{{route('categories.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                             @csrf
                                                 <div class="form-group">
-                                                    {{-- <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
-                                                    <br>
-                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('titlear')}}" class="form-control @error('titlear') is-invalid @enderror" id="title" name="titlear">
-                                                    <br> --}}
                                                     <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                                    <br>
+                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('titlear')}}" class="form-control @error('titlear') is-invalid @enderror" id="titlear" name="titlear">
                                                     <br>
                                                     <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png">
                                                 </div>
@@ -198,7 +189,7 @@ Categories
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                            <button type="submit" class="btn btn-danger">{{__('message.save')}}</button>
+                                            <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
                                         </div>
                                     </form>
                                 </div>

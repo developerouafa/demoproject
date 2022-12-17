@@ -6,17 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Translatable\HasTranslations;
 
 class category extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+
     protected $fillable = [
         'title',
+        'name',
         'status',
         'image',
         'parent_id',
     ];
 
+    public $translatable = ['title'];
     /*-------------------- Scope --------------------*/
 
     public function scopeParent(mixed $query)
@@ -37,7 +41,6 @@ class category extends Model
     {
         return $this->hasMany(category::class, 'parent_id')->child();
     }
-
 
     public function category(): BelongsTo
     {

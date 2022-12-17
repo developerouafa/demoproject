@@ -71,7 +71,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Title</th>
                                         <th scope="col">Body</th>
-                                        <th scope="col">Image</th>
+                                        {{-- <th scope="col">Image</th> --}}
                                         <th scope="col">Category</th>
                                         <th scope="col">child</th>
                                         <th scope="col"> </th>
@@ -84,14 +84,14 @@
                                                 <td>{{$x->id}}</td>
                                                 <td>{{$x->title}}</td>
                                                 <td>{{$x->body}}</td>
-                                                <td><img src="{{asset('file/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td>
+                                                {{-- <td><img src="{{asset('file/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td> --}}
                                                 <td><a href="{{ url('post_tags/post_tags') }}/{{ $x->id }}">View Tags</a></td>
                                                 <td>{{$x->category->title}}</td>
-                                                <td>{{$x->children->children}}</td>
+                                                <td>{{$x->subcategories->title}}</td>
                                                 <td>
                                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                             data-id="{{ $x->id }}" data-title="{{ $x->title }}"
-                                                            data-body="{{ $x->body }}" data-category_id="{{ $x->category->title }}" data-children_id="{{ $x->children->children }}" data-toggle="modal"
+                                                            data-body="{{ $x->body }}" data-category_id="{{ $x->category->title }}" data-children_id="{{ $x->subcategories->title }}" data-toggle="modal"
                                                             href="#exampleModal2" title="Update">
                                                             <i class="las la-pen"></i></a>
                                                         <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
@@ -111,7 +111,7 @@
         {{-- </div> --}}
 
                 <!-- edit -->
-                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                {{-- <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -161,10 +161,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- delete -->
-                <div class="modal" id="modaldemo9">
+                {{-- <div class="modal" id="modaldemo9">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content modal-content-demo">
                             <div class="modal-header">
@@ -186,7 +186,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
     </div>
 				<!-- row closed -->

@@ -6,6 +6,7 @@ use App\Models\category;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -16,25 +17,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //  public function index(Request $request)
-    //  {
-    //      // عرض الطلبات حسب التصفية
-    //      $paginate = $request->query('paginate') ? $request->query('paginate') : 10;
-    //      // جلب جميع التصنيفات الرئيسة و التصنيفات الفرعية عن طريق التصفح
-    //      $categories = Category::Selection()
-    //                              ->with(['subcategories'])
-    //                              ->parent()
-    //                              ->orderBy('created_at', 'desc')
-    //                              ->paginate(5);
-    //      //->get();
-
-    //      // اظهار العناصر
-    //      return response()->success(__("messages.oprations.get_all_data"), $categories);
-    //  }
     public function index()
     {
         $categoriesindex = category::query()->select('id', 'title', 'status', 'image')->with('category')->parent()->get();
-        // $categoriesindex = Category::query()->select('id', 'title', 'status', 'image')->get();
         return view('categories.categories', compact('categoriesindex'));
     }
 
@@ -47,22 +32,28 @@ class CategoryController extends Controller
         ],[
             'title.required' =>__('messagevalidation.users.titlerequired'),
             'title.unique' =>__('messagevalidation.users.titlunique'),
-            // 'titlear.required' =>__('messagevalidation.users.titlearrequired'),
-            // 'titlear.unique' =>__('messagevalidation.users.titlearunique'),
             'image.required' =>__('messagevalidation.users.imagerequired'),
         ]);
         try{
-            $image = $this->uploadImagecategory($request, 'filecategory');
-            DB::beginTransaction();
-            category::create([
-                'title' => $request->title,
-                // 'title' => ['en' => $request->title, 'ar' => $request->titlear],
-                'status' => 0,
-                'image' => $image
-            ]);
-            DB::commit();
-            toastr()->success(trans('message.create'));
-            return redirect()->route('category_index');
+            $exists = category::where('name', '=',  $request->title)->exists();
+            if($exists){
+                toastr()->error('Category Is Exist');
+                return redirect()->route('category_index');
+            }
+            else{
+                $image = $this->uploadImagecategory($request, 'filecategory');
+                DB::beginTransaction();
+                category::create([
+                    // 'title' => $request->title,
+                    'title' => ['en' => $request->title, 'ar' => $request->titlear],
+                    'status' => 0,
+                    'image' => $image,
+                    'name' => $request->title
+                ]);
+                DB::commit();
+                toastr()->success(trans('message.create'));
+                return redirect()->route('category_index');
+            }
         }
         catch(\Exception $exception){
             DB::rollBack();
@@ -74,7 +65,7 @@ class CategoryController extends Controller
     public function editstatusdéactive($id)
     {
         try{
-            $categories = Category::findorFail($id);
+            $categories = category::findorFail($id);
             DB::beginTransaction();
             $categories->update([
                 'status' => 1,
@@ -92,7 +83,7 @@ class CategoryController extends Controller
     public function editstatusactive($id)
     {
         try{
-            $categories = Category::findorFail($id);
+            $categories = category::findorFail($id);
             DB::beginTransaction();
             $categories->update([
                 'status' => 0,
@@ -116,10 +107,10 @@ class CategoryController extends Controller
         ]);
         try{
             $category = $request->id;
-            $categories = Category::findOrFail($category);
+            $categories = category::findOrFail($category);
             if($request->has('image')){
                 $input = $request->all();
-                $b_exists = Category::where('title', '=', $input['title'])->exists();
+                $b_exists = category::where('name', '=', $input['title'])->exists();
                 if($b_exists){
                     $image = $categories->image;
                     if(!$image) abort(404);
@@ -141,7 +132,8 @@ class CategoryController extends Controller
                     DB::beginTransaction();
                     $categories->update([
                         'title' => $request->title,
-                        'image' => $image
+                        'image' => $image,
+                        'name' => $request->title
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.update'));
@@ -150,7 +142,7 @@ class CategoryController extends Controller
             }
             else{
                 $input = $request->all();
-                $b_exists = Category::where('title', '=', $input['title'])->exists();
+                $b_exists = category::where('name', '=', $input['title'])->exists();
                 if($b_exists){
                     toastr()->error('This Is Exist');
                     return redirect()->route('category_index');
@@ -158,7 +150,8 @@ class CategoryController extends Controller
                 else{
                     DB::beginTransaction();
                     $categories->update([
-                        'title' => $request->title
+                        'title' => $request->title,
+                        'name' => $request->title
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.update'));

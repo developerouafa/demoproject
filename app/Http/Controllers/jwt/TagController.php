@@ -20,9 +20,9 @@ class TagController extends Controller
 
     public function index()
     {
-        // $tags = tag::query()->select('id', 'title')->with('post_tags')->get();
         $tags = tag::query()->select('id', 'title')->get();
-        return view('tags.tags', compact('tags'));
+        return response()->json($tags);
+        // return view('tags.tags', compact('tags'));
     }
 
     // public function tag_posts($id)

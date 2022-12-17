@@ -111,7 +111,10 @@
                                     <form action="{{route('tags.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                         @csrf
                                             <div class="form-group">
-                                                <input placeholder="{{__('message.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                                <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                                <br>
+                                                <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('titlear')}}" class="form-control @error('titlear') is-invalid @enderror" id="titlear" name="titlear">
+                                                <br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
@@ -140,7 +143,8 @@
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <input type="hidden" name="id" id="id">
-                                        <input placeholder="{{__('message.title')}}" class="form-control" name="title" id="title" type="text">
+                                        <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                        <br>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
@@ -170,7 +174,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                    <button type="submit" class="btn btn-danger">{{__('message.save')}}</button>
+                                    <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
                                 </div>
                             </form>
                         </div>
