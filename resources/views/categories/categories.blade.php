@@ -1,15 +1,15 @@
 @extends('layouts.master')
 @section('title')
-Categories
+{{__('messagevalidation.users.Categories')}}
 @endsection
 @section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Internal Data table css -->
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -83,10 +83,10 @@ Categories
                                                         <td>{{$x->title}}</td>
                                                         <td>
                                                             @if ($x->status == 0)
-                                                                <a href="{{route('categories.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
+                                                                <a href="{{route('categories.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
                                                             @endif
                                                             @if ($x->status == 1)
-                                                                <a href="{{route('categories.editstatusactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
+                                                                <a href="{{route('categories.editstatusactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
                                                             @endif
                                                         </td>
                                                         <td><img src="{{asset('storage/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td>
@@ -123,9 +123,9 @@ Categories
                                         <form action="{{route('categories.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                             @csrf
                                                 <div class="form-group">
-                                                    <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                                    <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title_en">
                                                     <br>
-                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('titlear')}}" class="form-control @error('titlear') is-invalid @enderror" id="titlear" name="titlear">
+                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
                                                     <br>
                                                     <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png">
                                                 </div>
@@ -204,49 +204,48 @@ Categories
 		<!-- main-content closed -->
 @endsection
 @section('js')
-<!-- Internal Data tables -->
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
-<!--Internal  Datatable js -->
-<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
-<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+    <!-- Internal Data tables -->
+    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
+    <!--Internal  Datatable js -->
+    <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+    <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
+    <script>
+        $('#exampleModal2').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var title = button.data('title')
+            var description = button.data('description')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #description').val(description);
+        })
+    </script>
 
-<script>
-    $('#exampleModal2').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var description = button.data('description')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-        modal.find('.modal-body #description').val(description);
-    })
-</script>
-
-<script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-    })
-</script>
+    <script>
+        $('#modaldemo9').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var title = button.data('title')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #title').val(title);
+        })
+    </script>
 @endsection

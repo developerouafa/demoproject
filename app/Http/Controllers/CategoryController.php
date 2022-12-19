@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Storage;
 class CategoryController extends Controller
 {
     Use UploadImageTrait;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {
@@ -26,32 +21,36 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|max:255|unique:categories,title',
-            // 'titlear' => 'required|max:255|unique:categories,title',
-            'image' => 'required',
+            'title_en' => 'required',
+            'title_ar' => 'required',
         ],[
-            'title.required' =>__('messagevalidation.users.titlerequired'),
-            'title.unique' =>__('messagevalidation.users.titlunique'),
-            'image.required' =>__('messagevalidation.users.imagerequired'),
+            'title_en.required' =>__('messagevalidation.users.titleenrequired'),
+            'title_ar.required' =>__('messagevalidation.users.titlearrequired'),
         ]);
         try{
-            $exists = category::where('name', '=',  $request->title)->exists();
-            if($exists){
-                toastr()->error('Category Is Exist');
-                return redirect()->route('category_index');
+            if($request->has('image')){
+                $exists = category::where('name_en', '=',  $request->title_en)->where('name_ar', '=',  $request->title_ar)->exists();
+                if($exists){
+                    toastr()->error('Category Is Exist');
+                    return redirect()->route('category_index');
+                }
+                else{
+                    $image = $this->uploadImagecategory($request, 'filecategory');
+                    DB::beginTransaction();
+                    category::create([
+                        'title' => ['en' => $request->title_en, 'ar' => $request->title_ar],
+                        'status' => 0,
+                        'image' => $image,
+                        'name_en' => $request->title_en,
+                        'name_ar' => $request->title_ar
+                    ]);
+                    DB::commit();
+                    toastr()->success(trans('message.create'));
+                    return redirect()->route('category_index');
+                }
             }
             else{
-                $image = $this->uploadImagecategory($request, 'filecategory');
-                DB::beginTransaction();
-                category::create([
-                    // 'title' => $request->title,
-                    'title' => ['en' => $request->title, 'ar' => $request->titlear],
-                    'status' => 0,
-                    'image' => $image,
-                    'name' => $request->title
-                ]);
-                DB::commit();
-                toastr()->success(trans('message.create'));
+                toastr()->error(trans('messagevalidation.users.imagerequired'));
                 return redirect()->route('category_index');
             }
         }
@@ -101,7 +100,7 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|max:255',
+            'title' => 'required',
         ],[
             'title.required' =>__('messagevalidation.users.titlerequired')
         ]);
@@ -110,7 +109,7 @@ class CategoryController extends Controller
             $categories = category::findOrFail($category);
             if($request->has('image')){
                 $input = $request->all();
-                $b_exists = category::where('name', '=', $input['title'])->exists();
+                $b_exists = category::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
                 if($b_exists){
                     $image = $categories->image;
                     if(!$image) abort(404);
@@ -133,7 +132,7 @@ class CategoryController extends Controller
                     $categories->update([
                         'title' => $request->title,
                         'image' => $image,
-                        'name' => $request->title
+                        'name_'.app()->getLocale().'' => $request->title
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.update'));
@@ -142,16 +141,16 @@ class CategoryController extends Controller
             }
             else{
                 $input = $request->all();
-                $b_exists = category::where('name', '=', $input['title'])->exists();
+                $b_exists = category::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
                 if($b_exists){
-                    toastr()->error('This Is Exist');
+                    toastr()->error(trans('message.thisexist'));
                     return redirect()->route('category_index');
                 }
                 else{
                     DB::beginTransaction();
                     $categories->update([
                         'title' => $request->title,
-                        'name' => $request->title
+                        'name_'.app()->getLocale().'' => $request->title
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.update'));
@@ -171,17 +170,17 @@ class CategoryController extends Controller
             $id = $request->id;
             $Category = category::findorFail($id);
             DB::beginTransaction();
-            $Category->delete();
-            $image = $Category->image;
-            if(!$image) abort(404);
-            unlink(public_path('storage/'.$image));
+                $Category->delete();
+                $image = $Category->image;
+                if(!$image) abort(404);
+                unlink(public_path('storage/'.$image));
             DB::commit();
-            toastr()->success(trans('message.delete'));
-            return redirect()->route('category_index');
+                toastr()->success(trans('message.delete'));
+                return redirect()->route('category_index');
         }catch(\Exception $execption){
             DB::rollBack();
-            toastr()->error(trans('message.error'));
-            return redirect()->route('category_index');
+                toastr()->error(trans('message.error'));
+                return redirect()->route('category_index');
         }
     }
 }

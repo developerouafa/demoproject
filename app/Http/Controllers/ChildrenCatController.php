@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 class ChildrenCatController extends Controller
 {
     Use UploadImageTrait;
+
     public function index()
     {
         $childrens = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('subcategories')->child()->get();
@@ -20,18 +21,18 @@ class ChildrenCatController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'childrenen' => 'required|max:255',
-            'childrenar' => 'required|max:255',
+            'title_en' => 'required',
+            'title_ar' => 'required',
             'image' => 'required',
         ],[
-            'childrenen.required' =>__('messagevalidation.users.titlearrequired'),
-            'childrenar.required' =>__('messagevalidation.users.titleenrequired'),
+            'title_en.required' =>__('messagevalidation.users.titleenrequired'),
+            'title_ar.required' =>__('messagevalidation.users.titlearrequired'),
             'image.required' =>__('messagevalidation.users.imagerequired'),
         ]);
         try{
                 $image = $this->uploadImageChildrenCat($request, 'fileChildren');
                 $input = $request->all();
-                $b_exists = category::where('name', '=', $input['childrenen'])->where('parent_id', '=', $input['category_id'])->exists();
+                $b_exists = category::where('name_en', '=',  $request->title_en)->where('name_ar', '=',  $request->title_ar)->where('parent_id', '=', $input['category_id'])->exists();
                 if($b_exists){
                     toastr()->error('Children Is Exist');
                     return redirect()->route('childcat_index');
@@ -39,10 +40,11 @@ class ChildrenCatController extends Controller
                 else{
                     DB::beginTransaction();
                     category::create([
-                        'title' => ['en' => $request->childrenen, 'ar' => $request->childrenar],
+                        'title' => ['en' => $request->title_en, 'ar' => $request->title_ar],
                         'parent_id' => $request->category_id,
                         'image' => $image,
-                        'name' => $request->childrenen
+                        'name_en' => $request->title_en,
+                        'name_ar' => $request->title_ar
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.create'));
@@ -59,7 +61,7 @@ class ChildrenCatController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'children' => 'required|max:255',
+            'children' => 'required',
         ],[
             'children.required' =>__('messagevalidation.users.titlerequiredd'),
         ]);
@@ -68,7 +70,7 @@ class ChildrenCatController extends Controller
             $child = category::findOrFail($children);
             if($request->has('image')){
                 $input = $request->all();
-                $b_exists = category::where('name', '=', $input['children'])->where('parent_id', '=', $input['category_id'])->exists();
+                $b_exists = category::where('name_'.app()->getLocale().'' , $input['children'])->where('parent_id', '=', $input['category_id'])->exists();
                 if($b_exists){
                     $image = $child->image;
                     if(!$image) abort(404);
@@ -92,7 +94,7 @@ class ChildrenCatController extends Controller
                         'title' => $request->children,
                         'parent_id' => $request->category_id,
                         'image' => $image,
-                        'name' => $request->children
+                        'name_'.app()->getLocale().'' => $request->children
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.update'));
@@ -101,9 +103,9 @@ class ChildrenCatController extends Controller
             }
             else{
                 $input = $request->all();
-                $b_exists = category::where('name', '=', $input['children'])->where('parent_id', '=', $input['category_id'])->exists();
+                $b_exists = category::where('name_'.app()->getLocale().'' , $input['children'])->where('parent_id', '=', $input['category_id'])->exists();
                 if($b_exists){
-                    toastr()->error('This Is Exist');
+                    toastr()->error(trans('message.thisexist'));
                     return redirect()->route('childcat_index');
                 }
                 else{
@@ -111,7 +113,7 @@ class ChildrenCatController extends Controller
                     $child->update([
                         'title' => $request->children,
                         'parent_id' => $request->category_id,
-                        'name' => $request->children
+                        'name_'.app()->getLocale().'' => $request->children
                     ]);
                     DB::commit();
                     toastr()->success(trans('message.update'));
@@ -143,6 +145,5 @@ class ChildrenCatController extends Controller
             toastr()->error(trans('message.error'));
             return redirect()->route('childcat_index');
         }
-
     }
 }

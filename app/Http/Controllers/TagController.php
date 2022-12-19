@@ -2,52 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Post_tag;
 use App\Models\tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-     public function tag_testing(){
-        return tag::get();
-    }
-
     public function index()
     {
-        // $tags = tag::query()->select('id', 'title')->with('post_tags')->get();
-        $tags = tag::query()->select('id', 'title')->get();
+        $tags = tag::query()->select('id', 'title')->with('post_tags')->get();
         return view('tags.tags', compact('tags'));
     }
 
-    // public function tag_posts($id)
-    // {
-    //     $tag_posts = Post_tag::query()->where('tag_id', $id)->get();
-    //     $posts = Post::query()->get();
-    //     return view('tag_posts.tag_posts',compact('tag_posts', 'posts'));
-    // }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function tag_posts($id)
     {
-        //
+        $tag_posts = Post_tag::query()->where('tag_id', $id)->get();
+        $posts = Post::query()->get();
+        return view('tag_posts.tag_posts',compact('tag_posts', 'posts'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -57,7 +32,7 @@ class TagController extends Controller
         ]);
 
         try{
-            $exists = tag::where('name', '=',  $request->title)->exists();
+            $exists = tag::where('name_en', '=',  $request->title)->where('name_ar', '=',  $request->titlear)->exists();
             if($exists){
                 toastr()->error('Tag Is Exist');
                 return redirect()->route('tags_index');
@@ -66,7 +41,8 @@ class TagController extends Controller
                 DB::beginTransaction();
                 tag::create([
                     'title' => ['en' => $request->title, 'ar' => $request->titlear],
-                    'name' => $request->title,
+                    'name_en' => $request->title,
+                    'name_ar' => $request->titlear,
                 ]);
                 DB::commit();
                 toastr()->success(trans('message.create'));
@@ -92,7 +68,7 @@ class TagController extends Controller
             $tag = $request->id;
             $tags = tag::findOrFail($tag);
             $input = $request->all();
-            $b_exists = tag::where('name', '=', $input['title'])->exists();
+            $b_exists = tag::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
             if($b_exists){
                 toastr()->success(trans('Tag Is Exist'));
                 return redirect()->route('tags_index');
@@ -101,7 +77,7 @@ class TagController extends Controller
                 DB::beginTransaction();
                 $tags->update([
                     'title' => $request->title,
-                    'name' => $request->title
+                    'name_'.app()->getLocale().'' => $request->title
                 ]);
                 DB::commit();
                 toastr()->success(trans('message.update'));

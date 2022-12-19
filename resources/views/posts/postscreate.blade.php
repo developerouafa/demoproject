@@ -1,23 +1,35 @@
 @extends('layouts.master')
 @section('title')
-الاقسام
+{{__('messagevalidation.users.createposts')}}
 @endsection
 @section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Internal Data table css -->
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+    {{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
 
+    <!--- Internal Select2 css-->
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <!---Internal Fileupload css-->
+    <link href="{{ URL::asset('assets/plugins/fileuploads/css/fileupload.css') }}" rel="stylesheet" type="text/css" />
+    <!---Internal Fancy uploader css-->
+    <link href="{{ URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css') }}" rel="stylesheet" />
+    <!--Internal Sumoselect css-->
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
+
+    <!--Internal  Quill css -->
+    <link href="{{URL::asset('assets/plugins/quill/quill.snow.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/quill/quill.bubble.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-children mb-0 my-auto">Create Posts</h4>
+							<h4 class="content-children mb-0 my-auto">{{__('messagevalidation.users.createposts')}}</h4>
 						</div>
 					</div>
 				</div>
@@ -54,53 +66,68 @@
 
 				<!-- row -->
     <div class="row">
-                <!-- Basic modal -->
-                                <div class="modal-body">
-                                    <form action="{{route('posts.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                                        @csrf
-                                            <div class="form-group">
-                                                <input placeholder="Enter Title" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
-                                                <br>
-                                                <input placeholder="Enter Body" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
-                                                <br>
-                                                <label for="">Tag</label>
-                                                <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
-                                                    @foreach ($tags as $tag)
-                                                            <option value="{{ $tag->id }}">
-                                                                {{ $tag->title }}
-                                                            </option>
-                                                    @endforeach
-                                                </select>
-                                                <br>
-                                                <div class="col">
-                                                    <label for="inputName" class="control-label">Categories</label>
-                                                    <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                                                        onchange="console.log('change is firing')">
-                                                        <option value="" selected disabled>Select Category</option>
-                                                        @foreach ($categories as $category)
-                                                            @if ($category->status == 0)
-                                                                <option value="{{ $category->id }}"> {{ $category->title }}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <br>
-                                                <div class="col">
-                                                    <label for="inputName1" class="control-label">Children</label>
-                                                    <select id="children" name="children" class="form-control">
-                                                    </select>
-                                                </div>
-                                                <br>
-                                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png">
-                                                <br>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn ripple btn-primary" type="submit">Save changes</button>
-                                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                                            </div>
-                                    </form>
+        <!-- Basic modal -->
+            <div class="modal-body">
+                <form action="{{route('posts.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                    @csrf
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
                                 </div>
-                <!-- End Basic modal -->
+                                <div class="col-lg-6">
+                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <input placeholder="{{__('messagevalidation.users.body')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
+                                </div>
+                                <div class="col-lg-4">
+                                    <input placeholder="{{__('messagevalidation.users.bodyar')}}" type="text" value="{{old('body_ar')}}" class="form-control @error('body_ar') is-invalid @enderror" id="body_ar" name="body_ar">
+                                </div>
+                                <div class="col-lg-4">
+                                    <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
+                                        @foreach ($tags as $tag)
+                                                <option value="{{ $tag->id }}">
+                                                    {{ $tag->title }}
+                                                </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
+                                    <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                                        onchange="console.log('change is firing')">
+                                        <option value="" selected disabled>{{__('messagevalidation.users.selectcategory')}}</option>
+                                        @foreach ($categories as $category)
+                                            @if ($category->status == 0)
+                                                <option value="{{ $category->id }}"> {{ $category->title }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
+                                    <select id="children" name="children" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
+                            <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
+                        </div>
+                </form>
+            </div>
+        <!-- End Basic modal -->
     </div>
 				<!-- row closed -->
 			</div>
@@ -350,6 +377,23 @@
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
+
+<!--Internal Fileuploads js-->
+<script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+<!--Internal Fancy uploader js-->
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+<!--Internal  Form-elements js-->
+{{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+<script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
+<!--Internal Sumoselect js-->
+<script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
+<!--Internal quill js -->
+<script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('select[name="Category"]').on('change', function() {
@@ -373,6 +417,5 @@
         });
     });
 </script>
-
 @endsection
 

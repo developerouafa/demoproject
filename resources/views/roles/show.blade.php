@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+{{__('message.viewpowers')}}
+@endsection
 @section('css')
 <!--Internal  Font Awesome -->
 <link href="{{URL::asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">

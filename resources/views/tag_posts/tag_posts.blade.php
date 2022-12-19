@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-{{__('message.Dashboard')}}
+{{__('message.tags')}}
 @endsection
 @section('css')
 <!-- Internal Data table css -->
@@ -16,7 +16,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">{{__('message.tags')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{__('message.settings')}}</span>
+							<h4 class="content-title mb-0 my-auto">{{__('message.tags')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">{{__('message.settings')}}</span>
 						</div>
 					</div>
 				</div>
@@ -58,37 +58,24 @@
             {{-- <div class="row row-sm"> --}}
                 <div class="col-xl-12">
                     <div class="card mg-b-20">
-                        <div class="card-header pb-0">
-                            <div class="d-flex justify-content-between">
-                                <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">{{__('message.addtags')}}</a>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example1" class="table key-buttons text-md-nowrap">
                                     <thead>
                                         <tr>
                                             <th class="border-bottom-0">#</th>
-                                            <th class="border-bottom-0">{{__('message.title')}}</th>
-                                            <th class="border-bottom-0">{{__('message.tags')}}</th>
-                                            <th></th>
+                                            <th class="border-bottom-0">{{__('message.tag')}}</th>
+                                            <th class="border-bottom-0">{{__('messagevalidation.users.posts')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($tag_posts as $x)
                                             <tr>
-                                                <td>{{$post->id}}</td>
-                                                <td>{{$post->title}}</td>
-                                                <td>
-                                                    @foreach ($post_tag as $x)
-                                                        <form action="{{route('post_tags.delete', $x->id)}}" method="post">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                            {{$x->tag->title}}
-                                                            <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
-                                                        </form><br>
-                                                    @endforeach
-                                                </td>
+                                                <td>{{$x->id}}</td>
+                                                <td>{{$x->tag->title}}</td>
+                                                <td>{{$x->post->title}}</td>
                                             </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -97,41 +84,6 @@
                 </div>
             {{-- </div> --}}
 
-
-            <!-- Basic modal -->
-            <div class="modal" id="modaldemo8">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content modal-content-demo">
-                        <div class="modal-header">
-                            <h6 class="modal-title">{{__('message.addtags')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                        </div>
-                            <div class="modal-body">
-                                <form action="{{route('post_tags.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                                    @csrf
-                                        <div class="form-group">
-                                            <input placeholder="post_id" type="hidden" id="post_id" name="post_id" value="{{$post->id}}">
-                                            <br>
-                                            <select name="tag_id" value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror">
-                                                <option value="" selected disabled>{{__('message.tags')}}</option>
-                                                    @forelse ($tags as $tag)
-                                                        <option value="{{ $tag->id }}"> {{ $tag->title }} </option>
-                                                        @empty
-                                                        <tr>
-                                                            <td colspan="5" class="text-center">{{__('message.notags')}}</td>
-                                                        </tr>
-                                                    @endforelse
-                                            </select>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
-                                            <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
-                                        </div>
-                                </form>
-                            </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Basic modal -->
 				</div>
 				<!-- row closed -->
 			</div>
@@ -160,20 +112,6 @@
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
-
-
-<script>
-    $('#exampleModal2').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var description = button.data('description')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-        modal.find('.modal-body #description').val(description);
-    })
-</script>
 
 <script>
     $('#modaldemo9').on('show.bs.modal', function(event) {

@@ -13,12 +13,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
-     */
     public function edit(Request $request)
     {
         $id = Auth::user()->id;
@@ -26,21 +20,12 @@ class ProfileController extends Controller
         return view('profile.edit', ['user' => $request->user(),], compact('imageuser'));
     }
 
-    /**
-     * Update the user's profile information.
-     *
-     * @param  \App\Http\Requests\ProfileUpdateRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function updateprofile(ProfileUpdateRequest $request)
     {
         try{
             DB::beginTransaction();
             $request->user()->fill($request->validated());
 
-            // if ($request->user()->isDirty('email')) {
-            //     $request->user()->email_verified_at = null;
-            // }
             $request->user()->save();
             DB::commit();
             toastr()->success(trans('message.update'));
@@ -50,7 +35,6 @@ class ProfileController extends Controller
             toastr()->error(trans('message.error'));
             return redirect()->route('profile.edit');
         }
-
     }
 
     public function updatemail(EmailUpdateRequest $request)
@@ -74,12 +58,6 @@ class ProfileController extends Controller
 
     }
 
-    /**
-     * Delete the user's account.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy(Request $request)
     {
         try{

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-الاقسام
+{{__('messagevalidation.users.posts')}}
 @endsection
 @section('css')
 <!-- Internal Data table css -->
@@ -9,15 +9,23 @@
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
 <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+{{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
 
+    <!--- Internal Select2 css-->
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <!---Internal Fileupload css-->
+    <link href="{{ URL::asset('assets/plugins/fileuploads/css/fileupload.css') }}" rel="stylesheet" type="text/css" />
+    <!---Internal Fancy uploader css-->
+    <link href="{{ URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css') }}" rel="stylesheet" />
+    <!--Internal Sumoselect css-->
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-children mb-0 my-auto">Posts</h4>
+							<h4 class="content-children mb-0 my-auto">{{__('messagevalidation.users.posts')}}</h4>
 						</div>
 					</div>
 				</div>
@@ -60,7 +68,7 @@
                 <div class="card mg-b-20">
                     <div class="card-header pb-0">
                         <div class="d-flex justify-content-between">
-                            <a class="btn btn-outline-primary btn-block" href="{{route('linkposts.createpost')}}">Add Post</a>
+                            <a class="btn btn-outline-primary btn-block" href="{{route('linkposts.createpost')}}">{{__('messagevalidation.users.createposts')}}</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -69,12 +77,20 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Body</th>
-                                        {{-- <th scope="col">Image</th> --}}
-                                        <th scope="col">Category</th>
-                                        <th scope="col">child</th>
-                                        <th scope="col"> </th>
+                                        <th scope="col">{{__('messagevalidation.users.title')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.bodyy')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.image')}}</th>
+                                        <th scope="col">{{__('message.tags')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.category')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.children')}}</th>
+                                        <th scope="col"></th>
+                                        {{-- <th scope="col">
+                                            <form action="{{route('post_tags.deleteallpost')}}" method="post">
+                                                {{ method_field('delete') }}
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-danger"><i class="las la-trash"></i></button>
+                                            </form>
+                                        </th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,8 +100,8 @@
                                                 <td>{{$x->id}}</td>
                                                 <td>{{$x->title}}</td>
                                                 <td>{{$x->body}}</td>
-                                                {{-- <td><img src="{{asset('file/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td> --}}
-                                                <td><a href="{{ url('post_tags/post_tags') }}/{{ $x->id }}">View Tags</a></td>
+                                                <td><img src="{{asset('storage/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td>
+                                                <td><a href="{{ url('post_tags/post_tags') }}/{{ $x->id }}">{{__('message.viewtags')}}</a></td>
                                                 <td>{{$x->category->title}}</td>
                                                 <td>{{$x->subcategories->title}}</td>
                                                 <td>
@@ -111,11 +127,11 @@
         {{-- </div> --}}
 
                 <!-- edit -->
-                {{-- <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -126,16 +142,16 @@
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <input type="hidden" name="id" id="id">
-                                        <input placeholder="title" class="form-control" name="title" id="title" type="text">
+                                        <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title" id="title" type="text">
                                         <br>
-                                        <input placeholder="Enter Body" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
+                                        <input placeholder="{{__('messagevalidation.users.bodyy')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
                                         <br>
                                         <div class="col">
-                                            <label for="inputName" class="control-label">Categories</label>
+                                            <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
                                             <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
                                                 onchange="console.log('change is firing')">
                                                 <!--placeholder-->
-                                                <option value="" selected disabled>Select Category</option>
+                                                <option value="" selected disabled>{{__('messagevalidation.users.selectcategory')}}</option>
                                                 @foreach ($categories as $category)
                                                     @if ($category->status == 0)
                                                         <option value="{{ $category->id }}"> {{ $category->title }}</option>
@@ -143,50 +159,58 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
                                         <div class="col">
-                                            <label for="inputName1" class="control-label">Children</label>
+                                            <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
                                             <select id="children" name="children" class="form-control">
                                             </select>
                                         </div>
+                                        <div class="col">
+                                            <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
+                                                @foreach ($tags as $tag)
+                                                        <option value="{{ $tag->id }}">
+                                                            {{ $tag->title }}
+                                                        </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         <br>
-                                        <input type="file" class="form-control" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png">
+                                        <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="150" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">تاكيد</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                        <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div> --}}
+                </div>
 
                 <!-- delete -->
-                {{-- <div class="modal" id="modaldemo9">
+                <div class="modal" id="modaldemo9">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content modal-content-demo">
                             <div class="modal-header">
-                                <h6 class="modal-title">Delete</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                                <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                     type="button"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <form action="{{route('posts.delete')}}" method="post">
                                 {{ method_field('delete') }}
                                 {{ csrf_field() }}
                                 <div class="modal-body">
-                                    <p>? are sure of the deleting process </p><br>
+                                    <p>{{__('message.aresuredeleting')}}</p><br>
                                     <input type="hidden" name="id" id="id">
                                     <input class="form-control" name="title" id="title" type="text" readonly>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                                    <button type="submit" class="btn btn-danger">تاكيد</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                    <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div> --}}
+                </div>
 
     </div>
 				<!-- row closed -->
@@ -268,4 +292,19 @@
         modal.find('.modal-body #title').val(title);
     })
 </script>
+
+<!--Internal Fileuploads js-->
+<script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+<!--Internal Fancy uploader js-->
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+<!--Internal  Form-elements js-->
+{{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+<script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
+<!--Internal Sumoselect js-->
+<script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
 @endsection

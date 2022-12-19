@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+// use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $fillable = [
         'title',
@@ -17,8 +19,12 @@ class Post extends Model
         'category_id',
         'parent_id',
         'image',
+        'name_en',
+        'name_ar'
     ];
 
+    public $translatable = ['title', 'body'];
+    // protected $dates = ['deleted_at'];
     /*-------------------- Scope --------------------*/
 
         public function scopeParent(mixed $query)
@@ -35,12 +41,16 @@ class Post extends Model
 
         public function subcategories(): BelongsTo
         {
-            return $this->hasMany(category::class, 'parent_id')->child();
+            return $this->BelongsTo(category::class, 'parent_id')->child();
         }
+
+        // public function category(): BelongsTo
+        // {
+        //     return $this->BelongsTo(category::class, 'parent_id')->parent();
+        // }
 
         public function category(): BelongsTo
         {
-            return $this->BelongsTo(category::class, 'parent_id')->parent();
+            return $this->BelongsTo(category::class);
         }
-
 }

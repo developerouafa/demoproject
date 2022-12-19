@@ -62,7 +62,7 @@
                             <li><a class="slide-item" href="{{ route('category_index') }}">{{__('messagevalidation.users.Categories')}}</a></li>
 							<li><a class="slide-item" href="{{ route('childcat_index') }}">{{__('messagevalidation.users.children')}}</a></li>
 							<li><a class="slide-item" href="{{ route('tags_index') }}">{{__('message.tags')}}</a></li>
-                            <li><a class="slide-item" href="{{ route('posts_index') }}">Posts</a></li>
+                            <li><a class="slide-item" href="{{ route('posts_index') }}">{{__('messagevalidation.users.posts')}}</a></li>
 						</ul>
 					</li>
 

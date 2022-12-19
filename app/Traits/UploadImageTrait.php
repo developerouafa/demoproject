@@ -19,17 +19,6 @@ trait UploadImageTrait
         // hash
         $path = $request->file('image')->store($folderName, 'public');
         return $path;
-        // $time = time();
-        // $logoPath = $request->file('image');
-        // $image = "{$time}.{$logoPath->getClientOriginalExtension()}";
-        // // $image = $request->file('image')->getClientOriginalName();
-        //         Storage::putFileAs(
-        //             // store($folderName, 'public'),
-        //             $folderName,
-        //             $request->file('image'),
-        //             $image,
-        //         );
-        // return $image;
     }
 
     public function uploadImageChildrenCat(Request $request, $folderName){

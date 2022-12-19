@@ -58,6 +58,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                         Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
                         Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
                         Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
+                        Route::delete('/deleteallpost', [PostController::class, 'deleteallpost'])->name('post_tags.deleteallpost');
                     });
 
                     Route::prefix('tags')->group(function (){
@@ -65,7 +66,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                         Route::post('/createtag', [TagController::class, 'store'])->name('tags.create');
                         Route::patch('/updatetag', [TagController::class, 'update'])->name('tags.update');
                         Route::delete('/deletetag', [TagController::class, 'delete'])->name('tags.delete');
-                        // Route::get('/tag_posts/{id}', [TagController::class, 'tag_posts']);
+                        Route::get('/tag_posts/{id}', [TagController::class, 'tag_posts']);
                     });
 
                     Route::prefix('post_tags')->group(function (){

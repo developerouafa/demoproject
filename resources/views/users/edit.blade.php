@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+{{__('message.modifyauser')}}
+@endsection
 @section('css')
 <!-- Internal Nice-select css  -->
 <link href="{{URL::asset('assets/plugins/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet" />

@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+{{__('message.users')}}
+@endsection
 @section('css')
 <!-- Internal Data table css -->
 

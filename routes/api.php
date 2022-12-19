@@ -20,8 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'xss', 'UserStatus']], function(){
-            Route::group(['middlware' => 'api', 'namespace' => 'Api'], function(){
-                Route::get('/apitag', [TagController::class, 'index']);
-            });
-        });
+// Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'xss', 'UserStatus']], function(){
+//             Route::group(['middlware' => 'api', 'namespace' => 'Api'], function(){
+//                 Route::get('/apitag', [TagController::class, 'index']);
+//             });
+//         });

@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+{{__('message.userpermissions')}}
+@endsection
 @section('css')
     <!--Internal   Notify -->
     <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />

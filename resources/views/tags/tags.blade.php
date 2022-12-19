@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-الاقسام
+{{__('message.tags')}}
 @endsection
 @section('css')
 <!-- Internal Data table css -->
@@ -77,8 +77,7 @@
                                         @foreach ($tags as $x)
                                             <tr>
                                                 <td>{{$x->id}}</td>
-                                                {{-- <td><a href="{{ url('tags/tag_posts') }}/{{ $x->id }}">{{$x->title}}</a></td> --}}
-                                                <td><a href="#">{{$x->title}}</a></td>
+                                                <td><a href="{{ url('tags/tag_posts') }}/{{ $x->id }}">{{$x->title}}</a></td>
                                                 <td>
                                                     <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
                                                         data-id="{{ $x->id }}" data-title="{{ $x->title }}" data-toggle="modal"

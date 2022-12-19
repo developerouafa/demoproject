@@ -10,6 +10,10 @@ class tag extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $fillable = ['title', 'name'];
+    protected $fillable = ['title', 'name_en', 'name_ar'];
     public $translatable = ['title'];
+
+    public function post_tags(){
+        return $this->hasMany(Post_tag::class, 'tag_id', 'id');
+    }
 }

@@ -124,9 +124,14 @@ return [
     'mssgdelete' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
     'close' => 'Close',
     'tags' => 'Tags',
+    'tag' => 'Tag',
     'addtags' => 'Add Tags',
     'title' => 'Title',
     'updatetitle' => 'Update',
     'aresuredeleting' => 'are sure of the deleting process?',
-    '' => '',
+    'settings' => 'Settings',
+    'notags' => 'No Tags yet!',
+    'viewtags' => 'View Tags',
+    'thisexist' => 'This Is Exist',
+
 ];

@@ -52,6 +52,13 @@ return [
             'throw' => false,
         ],
 
+        // 'posts' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/public'),
+        //     'url' => env('APP_URL') . '/storage',
+        //     'visibility' => 'public',
+        // ],
+
         // 'images' => [
         //     'driver' => 'local',
         //     'root' => storage_path('app/images'),
@@ -86,6 +93,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/posts'),
         // public_path('images') => storage_path('app/images'),
     ],
 
