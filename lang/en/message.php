@@ -133,5 +133,6 @@ return [
     'notags' => 'No Tags yet!',
     'viewtags' => 'View Tags',
     'thisexist' => 'This Is Exist',
-
+    'addcolor' => 'Add Color',
+    'nocoloryet' => 'No color yet!',
 ];

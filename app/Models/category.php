@@ -22,6 +22,7 @@ class category extends Model
     ];
 
     public $translatable = ['title'];
+
     /*-------------------- Scope --------------------*/
 
     public function scopeParent(mixed $query)

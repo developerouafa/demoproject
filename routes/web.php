@@ -6,11 +6,16 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChildrenCatController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageUserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostTagController;
+use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\roles\RolesController;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\users\UserController;
 use Illuminate\Support\Facades\App;
@@ -101,6 +106,34 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                         Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
                     });
                     Route::get('/category/{id}', [PostController::class, 'getchild']);
+
+                    Route::prefix('products')->group(function (){
+                        Route::get('/product', [ProductController::class, 'index'])->name('product_index');
+                        Route::get('/linkcreateproduct', [ProductController::class, 'create'])->name('product.createprod');
+                        Route::post('/createproduct', [ProductController::class, 'store'])->name('product.create');
+                        Route::patch('/updateproduct', [ProductController::class, 'update'])->name('product.update');
+                        Route::delete('/deleteproduct', [ProductController::class, 'delete'])->name('product.delete');
+                        Route::get('/products/editstatusdéactive/{id}', [ProductController::class, 'editstatusdéactive'])->name('products.editstatusdéactive');
+                        Route::get('/products/editstatusactive/{id}', [ProductController::class, 'editstatusactive'])->name('products.editstatusactive');
+                    });
+                    Route::get('/categoryproduct/{id}', [ProductController::class, 'getchildproduct']);
+
+                    Route::prefix('images')->group(function (){
+                        Route::get('/images/{id}', [ImageController::class, 'index']);
+                        Route::post('/createimage', [ImageController::class, 'store'])->name('image.create');
+                        Route::delete('/deleteimage/{id}', [ImageController::class, 'delete'])->name('image.delete');
+                    });
+
+                    Route::prefix('product_color')->group(function (){
+                        Route::get('/product_color/{id}', [ProductColorController::class, 'index']);
+                        Route::post('/createproduct_color', [ProductColorController::class, 'store'])->name('product_color.create');
+                        Route::delete('/deleteproduct_color', [ProductColorController::class, 'delete'])->name('product_color.delete');
+                    });
+
+                    Route::prefix('sizes')->group(function (){
+                        Route::get('/sizes/{id}', [SizeController::class, 'index']);
+                        Route::patch('/size', [SizeController::class, 'update'])->name('sizes.update');
+                    });
             });
 
             Route::get('login-github', [SocialiteController::class, 'redirectToProviderGithub'])->name('github.login');

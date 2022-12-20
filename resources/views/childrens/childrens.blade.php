@@ -9,7 +9,20 @@
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
     <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    {{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
+
+    <!--- Internal Select2 css-->
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <!---Internal Fileupload css-->
+    <link href="{{ URL::asset('assets/plugins/fileuploads/css/fileupload.css') }}" rel="stylesheet" type="text/css" />
+    <!---Internal Fancy uploader css-->
+    <link href="{{ URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css') }}" rel="stylesheet" />
+    <!--Internal Sumoselect css-->
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
+
+    <!--Internal  Quill css -->
+    <link href="{{URL::asset('assets/plugins/quill/quill.snow.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/quill/quill.bubble.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -137,7 +150,8 @@
                                                             @endforelse
                                                     </select>
                                                     <br>
-                                                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png">
+                                                    <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
+                                                    {{-- <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
@@ -183,7 +197,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="file" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png">
+                                            {{-- <input type="file" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
+                                            <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
@@ -273,4 +288,21 @@
             modal.find('.modal-body #children').val(children);
         })
     </script>
+
+        <!--Internal Fileuploads js-->
+        <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+        <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+        <!--Internal Fancy uploader js-->
+        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+        <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+        <!--Internal  Form-elements js-->
+        {{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+        <script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
+        <!--Internal Sumoselect js-->
+        <script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
+        <!--Internal quill js -->
+        <script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
 @endsection

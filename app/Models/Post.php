@@ -25,6 +25,7 @@ class Post extends Model
 
     public $translatable = ['title', 'body'];
     // protected $dates = ['deleted_at'];
+
     /*-------------------- Scope --------------------*/
 
         public function scopeParent(mixed $query)

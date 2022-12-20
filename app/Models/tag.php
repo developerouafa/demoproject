@@ -13,6 +13,7 @@ class tag extends Model
     protected $fillable = ['title', 'name_en', 'name_ar'];
     public $translatable = ['title'];
 
+    /*-------------------- Relations --------------------*/
     public function post_tags(){
         return $this->hasMany(Post_tag::class, 'tag_id', 'id');
     }

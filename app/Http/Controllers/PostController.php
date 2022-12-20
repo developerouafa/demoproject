@@ -59,7 +59,7 @@ class PostController extends Controller
         ]);
         try{
             if($request->has('image')){
-                $image = $this->uploadImagecategory($request, 'fileposts');
+                $image = $this->uploadImageposts($request, 'fileposts');
                 DB::beginTransaction();
                 Post::create([
                     'title' => ['en' => $request->title, 'ar' => $request->title_ar],
@@ -111,7 +111,7 @@ class PostController extends Controller
                     $image = $posts->image;
                     if(!$image) abort(404);
                     unlink(public_path('storage/'.$image));
-                    $image = $this->uploadImagecategory($request, 'fileposts');
+                    $image = $this->uploadImageposts($request, 'fileposts');
                     DB::beginTransaction();
                     $posts->update([
                         'image' => $image
@@ -124,7 +124,7 @@ class PostController extends Controller
                     $image = $posts->image;
                     if(!$image) abort(404);
                     unlink(public_path('storage/'.$image));
-                    $image = $this->uploadImagecategory($request, 'fileposts');
+                    $image = $this->uploadImageposts($request, 'fileposts');
                     DB::beginTransaction();
                     $posts->update([
                         'title' => $request->title,

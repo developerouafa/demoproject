@@ -1,15 +1,15 @@
 @extends('layouts.master')
 @section('title')
-{{__('messagevalidation.users.createposts')}}
+{{__('messagevalidation.users.addproducts')}}
 @endsection
 @section('css')
-    <!-- Internal Data table css -->
-    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-    {{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
+<!-- Internal Data table css -->
+<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+{{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
 
     <!--- Internal Select2 css-->
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
@@ -23,13 +23,22 @@
     <!--Internal  Quill css -->
     <link href="{{URL::asset('assets/plugins/quill/quill.snow.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/quill/quill.bubble.css')}}" rel="stylesheet">
+
+<!-- Internal Select2 css -->
+{{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
+<!--Internal  Datetimepicker-slider css -->
+<link href="{{URL::asset('assets/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css')}}" rel="stylesheet">
+<link href="{{URL::asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css')}}" rel="stylesheet">
+<link href="{{URL::asset('assets/plugins/pickerjs/picker.min.css')}}" rel="stylesheet">
+<!-- Internal Spectrum-colorpicker css -->
+<link href="{{URL::asset('assets/plugins/spectrum-colorpicker/spectrum.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-children mb-0 my-auto">{{__('messagevalidation.users.createposts')}}</h4>
+							<h4 class="content-children mb-0 my-auto">{{__('messagevalidation.users.addproducts')}}</h4>
 						</div>
 					</div>
 				</div>
@@ -66,68 +75,83 @@
 
 				<!-- row -->
     <div class="row">
-        <!-- Basic modal -->
-            <div class="modal-body">
-                <form action="{{route('posts.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                    @csrf
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                <!-- Basic modal -->
+                    <div class="modal-body">
+                        <form action="{{route('product.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                            @csrf
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <input placeholder="{{__('messagevalidation.users.body')}}" type="text" value="{{old('description')}}" class="form-control @error('description') is-invalid @enderror" id="description" name="description">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input placeholder="{{__('messagevalidation.users.bodyar')}}" type="text" value="{{old('description_ar')}}" class="form-control @error('description_ar') is-invalid @enderror" id="description_ar" name="description_ar">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input placeholder="{{__('messagevalidation.users.price')}}" type="number" value="{{old('price')}}" class="form-control @error('price') is-invalid @enderror" id="price" name="price">
+                                    </div>
                                 </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
+                                        <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                                            onchange="console.log('change is firing')">
+                                            <option value="" selected disabled>{{__('messagevalidation.users.selectcategory')}}</option>
+                                            @foreach ($categories as $category)
+                                                @if ($category->status == 0)
+                                                    <option value="{{ $category->id }}"> {{ $category->title }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
+                                        <select id="children" name="children" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="color">{{__('messagevalidation.users.color')}}</label>
+									    <input placeholder="{{__('messagevalidation.users.color')}}" type="color" name="color" value="{{old('color')}}" class="form-control @error('color') is-invalid @enderror" id="color">
+                                        {{-- <label for="">{{__('messagevalidation.users.color')}}</label>
+                                        <select placeholder="{{__('messagevalidation.users.colors')}}" name="color_id[]" multiple value="{{old('color')}}" class="form-control SlectBox" class="@error('color') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
+                                            @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}">
+                                                        {{ $color->title }}
+                                                    </option>
+                                            @endforeach --}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <input placeholder="{{__('messagevalidation.users.width')}}" type="number" value="{{old('width')}}" class="form-control @error('width') is-invalid @enderror" id="width" name="width">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input placeholder="{{__('messagevalidation.users.height')}}" type="number" value="{{old('hight')}}" class="form-control @error('hight') is-invalid @enderror" id="hight" name="height">
+                                    </div>
+                                </div>
+                                <br>
+								<input id="image" type="file" name="image[]" data-height="200" accept=".jpg, .png, image/jpeg, image/png, html, zip, css,js" class="dropify @error('image') is-invalid @enderror" multiple>
+                                <br>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <input placeholder="{{__('messagevalidation.users.body')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
-                                </div>
-                                <div class="col-lg-4">
-                                    <input placeholder="{{__('messagevalidation.users.bodyar')}}" type="text" value="{{old('body_ar')}}" class="form-control @error('body_ar') is-invalid @enderror" id="body_ar" name="body_ar">
-                                </div>
-                                <div class="col-lg-4">
-                                    <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
-                                        @foreach ($tags as $tag)
-                                                <option value="{{ $tag->id }}">
-                                                    {{ $tag->title }}
-                                                </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="modal-footer">
+                                <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
+                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
-                                    <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                                        onchange="console.log('change is firing')">
-                                        <option value="" selected disabled>{{__('messagevalidation.users.selectcategory')}}</option>
-                                        @foreach ($categories as $category)
-                                            @if ($category->status == 0)
-                                                <option value="{{ $category->id }}"> {{ $category->title }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
-                                    <select id="children" name="children" class="form-control">
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-                            <br>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
-                            <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
-                        </div>
-                </form>
-            </div>
-        <!-- End Basic modal -->
+                        </form>
+                    </div>
+                <!-- End Basic modal -->
     </div>
 				<!-- row closed -->
 			</div>
@@ -377,23 +401,6 @@
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
-
-<!--Internal Fileuploads js-->
-<script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
-<!--Internal Fancy uploader js-->
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
-<!--Internal  Form-elements js-->
-{{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
-<script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
-<!--Internal Sumoselect js-->
-<script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
-<!--Internal quill js -->
-<script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('select[name="Category"]').on('change', function() {
@@ -417,5 +424,41 @@
         });
     });
 </script>
+<!--Internal Fileuploads js-->
+<script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+<!--Internal Fancy uploader js-->
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+<!--Internal  Form-elements js-->
+{{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+<script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
+<!--Internal Sumoselect js-->
+<script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
+<!--Internal quill js -->
+<script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
+
+
+<!--Internal  Datepicker js -->
+<script src="{{URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
+<!--Internal  jquery.maskedinput js -->
+<script src="{{URL::asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.js')}}"></script>
+<!--Internal  spectrum-colorpicker js -->
+<script src="{{URL::asset('assets/plugins/spectrum-colorpicker/spectrum.js')}}"></script>
+<!-- Internal Select2.min js -->
+<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+<!--Internal Ion.rangeSlider.min js -->
+<script src="{{URL::asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js')}}"></script>
+<!--Internal  jquery-simple-datetimepicker js -->
+<script src="{{URL::asset('assets/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js')}}"></script>
+<!-- Ionicons js -->
+<script src="{{URL::asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.js')}}"></script>
+<!--Internal  pickerjs js -->
+<script src="{{URL::asset('assets/plugins/pickerjs/picker.min.js')}}"></script>
+<!-- Internal form-elements js -->
+<script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
 @endsection
 

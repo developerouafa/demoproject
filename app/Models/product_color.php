@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post_tag extends Model
+class product_color extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'post_id',
-        'tag_id',
+        'product_id',
+        'color',
     ];
 
     /*-------------------- Relations --------------------*/
-    public function post()
+    public function product()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(product::class);
     }
 
-    public function tag()
+    public function color()
     {
-        return $this->belongsTo(tag::class);
+        return $this->belongsTo(color::class);
     }
 }

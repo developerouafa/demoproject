@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-{{__('message.tags')}}
+{{__('messagevalidation.users.size')}}
 @endsection
 @section('css')
 <!-- Internal Data table css -->
@@ -16,7 +16,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">{{(__('message.tags'))}}</h4>
+							<h4 class="content-title mb-0 my-auto">{{__('messagevalidation.users.size')}}</h4>
 						</div>
 					</div>
 				</div>
@@ -58,35 +58,29 @@
             {{-- <div class="row row-sm"> --}}
                 <div class="col-xl-12">
                     <div class="card mg-b-20">
-                        <div class="card-header pb-0">
-                            <div class="d-flex justify-content-between">
-                                <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">{{__('message.addtags')}}</a>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example1" class="table key-buttons text-md-nowrap">
                                     <thead>
                                         <tr>
                                             <th class="border-bottom-0">#</th>
-                                            <th class="border-bottom-0">{{__('message.title')}}</th>
-                                            <th class="border-bottom-0"></th>
+                                            <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
+                                            <th class="border-bottom-0">{{__('messagevalidation.users.height')}}</th>
+                                            <th class="border-bottom-0">{{__('messagevalidation.users.width')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($tags as $x)
+                                        @foreach ($sizes as $x)
                                             <tr>
                                                 <td>{{$x->id}}</td>
-                                                <td><a href="{{ url('tags/tag_posts') }}/{{ $x->id }}">{{$x->title}}</a></td>
+                                                <td><a >{{$product->title}}</a></td>
+                                                <td><a >{{$x->height}}</a></td>
+                                                <td><a >{{$x->width}}</a></td>
                                                 <td>
                                                     <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                                        data-id="{{ $x->id }}" data-title="{{ $x->title }}" data-toggle="modal"
+                                                        data-id="{{ $x->id }}" data-height="{{ $x->height }}" data-width="{{ $x->width }}" data-toggle="modal"
                                                         href="#exampleModal2" title="Update">
-                                                        <i class="las la-pen"></i></a>
-                                                    <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                        data-id="{{ $x->id }}" data-title="{{ $x->title }}"
-                                                        data-toggle="modal" href="#modaldemo9" title="Delete">
-                                                        <i class="las la-trash"></i></a>
+                                                        <i class="las la-pen"></i>{{$product->title}}</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -98,87 +92,61 @@
                 </div>
             {{-- </div> --}}
 
-
-            <!-- Basic modal -->
-                <div class="modal" id="modaldemo8">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content modal-content-demo">
-                            <div class="modal-header">
-                                <h6 class="modal-title">{{__('message.addtags')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                                <div class="modal-body">
-                                    <form action="{{route('tags.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                                        @csrf
-                                            <div class="form-group">
-                                                <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
-                                                <br>
-                                                <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('titlear')}}" class="form-control @error('titlear') is-invalid @enderror" id="titlear" name="titlear">
-                                                <br>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
-                                                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
-                                            </div>
-                                    </form>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Basic modal -->
-
             <!-- edit -->
-                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{route('tags.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
-                                    {{ method_field('patch') }}
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <input type="hidden" name="id" id="id">
-                                        <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
-                                        <br>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                    </div>
-                                </form>
-                            </div>
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                </div>
-
-            <!-- delete -->
-                <div class="modal" id="modaldemo9">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content modal-content-demo">
-                            <div class="modal-header">
-                                <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
-                                    type="button"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <form action="{{route('tags.delete')}}" method="post">
-                                {{ method_field('delete') }}
+                        <div class="modal-body">
+                            <form action="{{route('sizes.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
+                                {{ method_field('patch') }}
                                 {{ csrf_field() }}
-                                <div class="modal-body">
-                                    <p>{{__('message.aresuredeleting')}}</p><br>
+                                <div class="form-group">
                                     <input type="hidden" name="id" id="id">
-                                    <input class="form-control" name="title" id="title" type="text" readonly>
+                                    <br>
+                                    <input placeholder="{{__('messagevalidation.users.width')}}" type="number" class="form-control" id="width" name="width">
+                                    <br>
+                                    <input placeholder="{{__('messagevalidation.users.height')}}" type="number" class="form-control" id="height" name="height">
                                 </div>
                                 <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                    <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- delete -->
+            <div class="modal" id="modaldemo9">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                                type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form action="{{route('colors.delete')}}" method="post">
+                            {{ method_field('delete') }}
+                            {{ csrf_field() }}
+                            <div class="modal-body">
+                                <p>{{__('message.aresuredeleting')}}</p><br>
+                                <input type="hidden" name="id" id="id">
+                                <input class="form-control" name="title" id="title" type="text" readonly>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 				</div>
 				<!-- row closed -->
@@ -214,12 +182,12 @@
     $('#exampleModal2').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('id')
-        var title = button.data('title')
-        var description = button.data('description')
+        var width = button.data('width')
+        var height = button.data('height')
         var modal = $(this)
         modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-        modal.find('.modal-body #description').val(description);
+        modal.find('.modal-body #width').val(width);
+        modal.find('.modal-body #height').val(height);
     })
 </script>
 
