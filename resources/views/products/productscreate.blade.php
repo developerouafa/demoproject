@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                                 <br>
-								<input id="image" type="file" name="image[]" data-height="200" accept=".jpg, .png, image/jpeg, image/png, html, zip, css,js" class="dropify @error('image') is-invalid @enderror" multiple>
+								<input id="image" type="file" name="image[]" data-height="200" accept=".jpg, .png, image/jpeg, image/png" class="dropify @error('image') is-invalid @enderror" multiple>
                                 <br>
                             </div>
                             <div class="modal-footer">

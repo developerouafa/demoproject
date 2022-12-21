@@ -3,13 +3,13 @@
 {{__('message.tags')}}
 @endsection
 @section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Internal Data table css -->
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -54,35 +54,32 @@
 				<!-- row -->
 				<div class="row">
 
-
-            {{-- <div class="row row-sm"> --}}
-                <div class="col-xl-12">
-                    <div class="card mg-b-20">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example1" class="table key-buttons text-md-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-bottom-0">#</th>
-                                            <th class="border-bottom-0">{{__('message.tag')}}</th>
-                                            <th class="border-bottom-0">{{__('messagevalidation.users.posts')}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($tag_posts as $x)
-                                            <tr>
-                                                <td>{{$x->id}}</td>
-                                                <td>{{$x->tag->title}}</td>
-                                                <td>{{$x->post->title}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="col-xl-12">
+                            <div class="card mg-b-20">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table key-buttons text-md-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom-0">#</th>
+                                                    <th class="border-bottom-0">{{__('message.tag')}}</th>
+                                                    <th class="border-bottom-0">{{__('messagevalidation.users.posts')}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($tag_posts as $x)
+                                                    <tr>
+                                                        <td>{{$x->id}}</td>
+                                                        <td>{{$x->tag->title}}</td>
+                                                        <td>{{$x->post->title}}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            {{-- </div> --}}
 
 				</div>
 				<!-- row closed -->

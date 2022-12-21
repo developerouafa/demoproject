@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChildrenCatController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ColorProduct;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageUserController;
 use App\Http\Controllers\PostController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\PostTagController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\roles\RolesController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\TagController;
@@ -34,7 +36,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
     Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'xss', 'UserStatus']], function(){
-        // Route::group(['prefix' => 'offers'], function (){
+
             Route::get('/', function () {
                 return view('auth.login');
             });
@@ -44,6 +46,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
             })->middleware(['auth', 'verified'])->name('dashboard');
 
             Route::middleware(['auth', 'verified'])->group(function () {
+
                 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
                 Route::patch('/updateprofile', [ProfileController::class, 'updateprofile'])->name('profile.updateprofile');
                 Route::patch('/updatemail', [ProfileController::class, 'updatemail'])->name('profile.updatemail');
@@ -51,89 +54,99 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                 Route::get('destroy', [AuthenticatedSessionController::class, 'destroy'])->name('auth.destroy');
                 Route::resource('roles', RolesController::class);
                 Route::resource('users', UserController::class);
-                    Route::prefix('imageuser')->group(function (){
-                        Route::post('/imageuser', [ImageUserController::class, 'store'])->name('imageuser.store');
-                        Route::patch('/imageuser', [ImageUserController::class, 'update'])->name('imageuser.update');
-                        Route::get('/imageuser', [ImageUserController::class, 'destroy'])->name('imageuser.delete');
-                    });
 
-                    Route::prefix('posts')->group(function (){
-                        Route::get('/post', [PostController::class, 'index'])->name('posts_index');
-                        Route::get('/linkcreatepost', [PostController::class, 'create'])->name('linkposts.createpost');
-                        Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
-                        Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
-                        Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
-                        Route::delete('/deleteallpost', [PostController::class, 'deleteallpost'])->name('post_tags.deleteallpost');
-                    });
+                Route::prefix('imageuser')->group(function (){
+                    Route::post('/imageuser', [ImageUserController::class, 'store'])->name('imageuser.store');
+                    Route::patch('/imageuser', [ImageUserController::class, 'update'])->name('imageuser.update');
+                    Route::get('/imageuser', [ImageUserController::class, 'destroy'])->name('imageuser.delete');
+                });
 
-                    Route::prefix('tags')->group(function (){
-                        Route::get('/tag', [TagController::class, 'index'])->name('tags_index');
-                        Route::post('/createtag', [TagController::class, 'store'])->name('tags.create');
-                        Route::patch('/updatetag', [TagController::class, 'update'])->name('tags.update');
-                        Route::delete('/deletetag', [TagController::class, 'delete'])->name('tags.delete');
-                        Route::get('/tag_posts/{id}', [TagController::class, 'tag_posts']);
-                    });
+                Route::prefix('posts')->group(function (){
+                    Route::get('/post', [PostController::class, 'index'])->name('posts_index');
+                    Route::get('/linkcreatepost', [PostController::class, 'create'])->name('linkposts.createpost');
+                    Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
+                    Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
+                    Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
+                    Route::delete('/deleteallpost', [PostController::class, 'deleteallpost'])->name('post_tags.deleteallpost');
+                });
 
-                    Route::prefix('post_tags')->group(function (){
-                        Route::get('/post_tags/{id}', [PostTagController::class, 'index']);
-                        Route::get('/post_tagsupdate/{id}', [PostTagController::class, 'update']);
-                        Route::post('/createpost_tags', [PostTagController::class, 'store'])->name('post_tags.create');
-                        Route::patch('/updatepost_tags', [PostTagController::class, 'update'])->name('post_tags.update');
-                        Route::delete('/deletepost_tags/{id}', [PostTagController::class, 'delete'])->name('post_tags.delete');
-                    });
+                Route::prefix('tags')->group(function (){
+                    Route::get('/tag', [TagController::class, 'index'])->name('tags_index');
+                    Route::post('/createtag', [TagController::class, 'store'])->name('tags.create');
+                    Route::patch('/updatetag', [TagController::class, 'update'])->name('tags.update');
+                    Route::delete('/deletetag', [TagController::class, 'delete'])->name('tags.delete');
+                    Route::get('/tag_posts/{id}', [TagController::class, 'tag_posts']);
+                });
 
-                    Route::prefix('categories')->group(function (){
-                        Route::get('/category', [CategoryController::class, 'index'])->name('category_index');
-                        Route::post('/createcat', [CategoryController::class, 'store'])->name('categories.create');
-                        Route::get('/categories/editstatusdéactive/{id}', [CategoryController::class, 'editstatusdéactive'])->name('categories.editstatusdéactive');
-                        Route::get('/categories/editstatusactive/{id}', [CategoryController::class, 'editstatusactive'])->name('categories.editstatusactive');
-                        Route::patch('/updatecat', [CategoryController::class, 'update'])->name('categories.update');
-                        Route::delete('/deletecat', [CategoryController::class, 'delete'])->name('categories.delete');
-                    });
+                Route::prefix('post_tags')->group(function (){
+                    Route::get('/post_tags/{id}', [PostTagController::class, 'index']);
+                    Route::get('/post_tagsupdate/{id}', [PostTagController::class, 'update']);
+                    Route::post('/createpost_tags', [PostTagController::class, 'store'])->name('post_tags.create');
+                    Route::patch('/updatepost_tags', [PostTagController::class, 'update'])->name('post_tags.update');
+                    Route::delete('/deletepost_tags/{id}', [PostTagController::class, 'delete'])->name('post_tags.delete');
+                });
 
-                    Route::prefix('children')->group(function (){
-                        Route::get('/child', [ChildrenCatController::class, 'index'])->name('childcat_index');
-                        Route::post('/createchild', [ChildrenCatController::class, 'store'])->name('childcat.create');
-                        Route::patch('/updatechild', [ChildrenCatController::class, 'update'])->name('childcat.update');
-                        Route::delete('/deletechild', [ChildrenCatController::class, 'delete'])->name('childcat.delete');
-                    });
+                Route::prefix('categories')->group(function (){
+                    Route::get('/category', [CategoryController::class, 'index'])->name('category_index');
+                    Route::post('/createcat', [CategoryController::class, 'store'])->name('categories.create');
+                    Route::get('/categories/editstatusdéactive/{id}', [CategoryController::class, 'editstatusdéactive'])->name('categories.editstatusdéactive');
+                    Route::get('/categories/editstatusactive/{id}', [CategoryController::class, 'editstatusactive'])->name('categories.editstatusactive');
+                    Route::patch('/updatecat', [CategoryController::class, 'update'])->name('categories.update');
+                    Route::delete('/deletecat', [CategoryController::class, 'delete'])->name('categories.delete');
+                });
 
-                    Route::prefix('posts')->group(function (){
-                        Route::get('/post', [PostController::class, 'index'])->name('posts_index');
-                        Route::get('/linkcreatepost', [PostController::class, 'create'])->name('linkposts.createpost');
-                        Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
-                        Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
-                        Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
-                    });
-                    Route::get('/category/{id}', [PostController::class, 'getchild']);
+                Route::prefix('children')->group(function (){
+                    Route::get('/child', [ChildrenCatController::class, 'index'])->name('childcat_index');
+                    Route::post('/createchild', [ChildrenCatController::class, 'store'])->name('childcat.create');
+                    Route::patch('/updatechild', [ChildrenCatController::class, 'update'])->name('childcat.update');
+                    Route::delete('/deletechild', [ChildrenCatController::class, 'delete'])->name('childcat.delete');
+                });
 
-                    Route::prefix('products')->group(function (){
-                        Route::get('/product', [ProductController::class, 'index'])->name('product_index');
-                        Route::get('/linkcreateproduct', [ProductController::class, 'create'])->name('product.createprod');
-                        Route::post('/createproduct', [ProductController::class, 'store'])->name('product.create');
-                        Route::patch('/updateproduct', [ProductController::class, 'update'])->name('product.update');
-                        Route::delete('/deleteproduct', [ProductController::class, 'delete'])->name('product.delete');
-                        Route::get('/products/editstatusdéactive/{id}', [ProductController::class, 'editstatusdéactive'])->name('products.editstatusdéactive');
-                        Route::get('/products/editstatusactive/{id}', [ProductController::class, 'editstatusactive'])->name('products.editstatusactive');
-                    });
-                    Route::get('/categoryproduct/{id}', [ProductController::class, 'getchildproduct']);
+                Route::prefix('posts')->group(function (){
+                    Route::get('/post', [PostController::class, 'index'])->name('posts_index');
+                    Route::get('/linkcreatepost', [PostController::class, 'create'])->name('linkposts.createpost');
+                    Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
+                    Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
+                    Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
+                });
+                Route::get('/category/{id}', [PostController::class, 'getchild']);
 
-                    Route::prefix('images')->group(function (){
-                        Route::get('/images/{id}', [ImageController::class, 'index']);
-                        Route::post('/createimage', [ImageController::class, 'store'])->name('image.create');
-                        Route::delete('/deleteimage/{id}', [ImageController::class, 'delete'])->name('image.delete');
-                    });
+                Route::prefix('products')->group(function (){
+                    Route::get('/product', [ProductController::class, 'index'])->name('product_index');
+                    Route::get('/linkcreateproduct', [ProductController::class, 'create'])->name('product.createprod');
+                    Route::post('/createproduct', [ProductController::class, 'store'])->name('product.create');
+                    Route::patch('/updateproduct', [ProductController::class, 'update'])->name('product.update');
+                    Route::delete('/deleteproduct', [ProductController::class, 'delete'])->name('product.delete');
+                    Route::get('/products/editstatusdéactive/{id}', [ProductController::class, 'editstatusdéactive'])->name('products.editstatusdéactive');
+                    Route::get('/products/editstatusactive/{id}', [ProductController::class, 'editstatusactive'])->name('products.editstatusactive');
+                });
+                Route::get('/categoryproduct/{id}', [ProductController::class, 'getchildproduct']);
 
-                    Route::prefix('product_color')->group(function (){
-                        Route::get('/product_color/{id}', [ProductColorController::class, 'index']);
-                        Route::post('/createproduct_color', [ProductColorController::class, 'store'])->name('product_color.create');
-                        Route::delete('/deleteproduct_color', [ProductColorController::class, 'delete'])->name('product_color.delete');
-                    });
+                Route::prefix('images')->group(function (){
+                    Route::get('/images/{id}', [ImageController::class, 'index']);
+                    Route::post('/createimage', [ImageController::class, 'store'])->name('image.create');
+                    Route::delete('/deleteimage', [ImageController::class, 'delete'])->name('image.delete');
+                });
 
-                    Route::prefix('sizes')->group(function (){
-                        Route::get('/sizes/{id}', [SizeController::class, 'index']);
-                        Route::patch('/size', [SizeController::class, 'update'])->name('sizes.update');
-                    });
+                Route::prefix('product_color')->group(function (){
+                    Route::get('/product_color/{id}', [ProductColorController::class, 'index']);
+                    Route::post('/createproduct_color', [ProductColorController::class, 'store'])->name('product_color.create');
+                    Route::delete('/deleteproduct_color', [ProductColorController::class, 'delete'])->name('product_color.delete');
+                });
+
+                Route::prefix('sizes')->group(function (){
+                    Route::get('/sizes/{id}', [SizeController::class, 'index']);
+                    Route::patch('/size', [SizeController::class, 'update'])->name('sizes.update');
+                });
+
+                Route::prefix('promotions')->group(function (){
+                    Route::get('/promotions/{id}', [PromotionController::class, 'index']);
+                    Route::post('/createpromotion', [PromotionController::class, 'store'])->name('promotions.create');
+                    Route::patch('/promotionupdate', [PromotionController::class, 'update'])->name('promotions.update');
+                    Route::get('/promotions/editstatusdéactive/{id}', [PromotionController::class, 'editstatusdéactive'])->name('promotions.editstatusdéactive');
+                    Route::get('/promotions/editstatusactive/{id}', [PromotionController::class, 'editstatusactive'])->name('promotions.editstatusactive');
+                    Route::delete('/deletepromotion', [PromotionController::class, 'delete'])->name('promotion.delete');
+                });
             });
 
             Route::get('login-github', [SocialiteController::class, 'redirectToProviderGithub'])->name('github.login');
@@ -141,5 +154,4 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
             require __DIR__.'/auth.php';
 
-        // });
     });

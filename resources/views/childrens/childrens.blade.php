@@ -118,97 +118,96 @@
                     {{-- </div> --}}
 
 
-                    <!-- Basic modal -->
-                    <div class="modal" id="modaldemo8">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content modal-content-demo">
-                                <div class="modal-header">
-                                    <h6 class="modal-children">{{__('messagevalidation.users.addchildren')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                    <div class="modal-body">
-                                        <form action="{{route('childcat.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                                            @csrf
-                                                <div class="form-group">
-                                                    {{-- <input placeholder="{{__('messagevalidation.users.children')}}" type="text" value="{{old('children')}}" class="form-control @error('children') is-invalid @enderror" id="children" name="children">
-                                                    <br> --}}
-
-                                                    <input placeholder="{{__('messagevalidation.users.childrenen')}}" type="text" value="{{old('childrenen')}}" class="form-control @error('childrenen') is-invalid @enderror" id="childrenen" name="title_en">
-                                                    <br>
-                                                    <input placeholder="{{__('messagevalidation.users.childrenar')}}" type="text" value="{{old('childrenar')}}" class="form-control @error('childrenar') is-invalid @enderror" id="childrenar" name="title_ar">
-                                                    <br>
-
-                                                    <select name="category_id" value="{{old('category_id')}}" class="form-control SlectBox" class="@error('category_id') is-invalid @enderror">
-                                                        <option value="" selected disabled>{{__('messagevalidation.users.Categories')}}</option>
-                                                            @forelse ($categories as $categoryone)
-                                                                @if ($categoryone->status == 0)
-                                                                    <option value="{{ $categoryone->id }}"> {{ $categoryone->title }} </option>
-                                                                @endif
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="5" class="text-center">{{__('messagevalidation.users.nocategoryyet')}}</td>
-                                                                </tr>
-                                                            @endforelse
-                                                    </select>
-                                                    <br>
-                                                    <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-                                                    {{-- <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
-                                                    <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
-                                                </div>
-                                        </form>
+                    <!-- Create -->
+                        <div class="modal" id="modaldemo8">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content modal-content-demo">
+                                    <div class="modal-header">
+                                        <h6 class="modal-children">{{__('messagevalidation.users.addchildren')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
+                                        <div class="modal-body">
+                                            <form action="{{route('childcat.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                                                @csrf
+                                                    <div class="form-group">
+                                                        {{-- <input placeholder="{{__('messagevalidation.users.children')}}" type="text" value="{{old('children')}}" class="form-control @error('children') is-invalid @enderror" id="children" name="children">
+                                                        <br> --}}
+
+                                                        <input placeholder="{{__('messagevalidation.users.childrenen')}}" type="text" value="{{old('childrenen')}}" class="form-control @error('childrenen') is-invalid @enderror" id="childrenen" name="title_en">
+                                                        <br>
+                                                        <input placeholder="{{__('messagevalidation.users.childrenar')}}" type="text" value="{{old('childrenar')}}" class="form-control @error('childrenar') is-invalid @enderror" id="childrenar" name="title_ar">
+                                                        <br>
+
+                                                        <select name="category_id" value="{{old('category_id')}}" class="form-control SlectBox" class="@error('category_id') is-invalid @enderror">
+                                                            <option value="" selected disabled>{{__('messagevalidation.users.Categories')}}</option>
+                                                                @forelse ($categories as $categoryone)
+                                                                    @if ($categoryone->status == 0)
+                                                                        <option value="{{ $categoryone->id }}"> {{ $categoryone->title }} </option>
+                                                                    @endif
+                                                                    @empty
+                                                                    <tr>
+                                                                        <td colspan="5" class="text-center">{{__('messagevalidation.users.nocategoryyet')}}</td>
+                                                                    </tr>
+                                                                @endforelse
+                                                        </select>
+                                                        <br>
+                                                        <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
+                                                        {{-- <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
+                                                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
+                                                    </div>
+                                            </form>
+                                        </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Basic modal -->
 
                     <!-- edit -->
-                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-children" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{route('childcat.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
-                                        {{ method_field('patch') }}
-                                        {{ csrf_field() }}
-                                        <div class="form-group">
-                                            <input type="hidden" name="id" id="id">
-                                            <input placeholder="{{__('messagevalidation.users.children')}}" class="form-control" name="children" id="children" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <select name="category_id" class="form-control SlectBox" id="category_id">
-                                                <option value="" selected disabled>{{__('messagevalidation.users.Categories')}}</option>
-                                                    @forelse ($categories as $category)
-                                                        @if ($category->status == 0)
-                                                            <option value="{{ $category->id }}"> {{ $category->title }} </option>
-                                                        @endif
-                                                        @empty
-                                                        <tr>
-                                                            <td colspan="5" class="text-center">{{__('messagevalidation.users.nocategoryyet')}}</td>
-                                                        </tr>
-                                                    @endforelse
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            {{-- <input type="file" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
-                                            <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                        </div>
-                                    </form>
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-children" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{route('childcat.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
+                                            {{ method_field('patch') }}
+                                            {{ csrf_field() }}
+                                            <div class="form-group">
+                                                <input type="hidden" name="id" id="id">
+                                                <input placeholder="{{__('messagevalidation.users.children')}}" class="form-control" name="children" id="children" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <select name="category_id" class="form-control SlectBox" id="category_id">
+                                                    <option value="" selected disabled>{{__('messagevalidation.users.Categories')}}</option>
+                                                        @forelse ($categories as $category)
+                                                            @if ($category->status == 0)
+                                                                <option value="{{ $category->id }}"> {{ $category->title }} </option>
+                                                            @endif
+                                                            @empty
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">{{__('messagevalidation.users.nocategoryyet')}}</td>
+                                                            </tr>
+                                                        @endforelse
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                {{-- <input type="file" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
+                                                <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                     <!-- delete -->
                     <div class="modal" id="modaldemo9">
@@ -289,20 +288,20 @@
         })
     </script>
 
-        <!--Internal Fileuploads js-->
-        <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
-        <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
-        <!--Internal Fancy uploader js-->
-        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
-        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
-        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
-        <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
-        <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
-        <!--Internal  Form-elements js-->
-        {{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
-        <script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
-        <!--Internal Sumoselect js-->
-        <script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
-        <!--Internal quill js -->
-        <script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
+    <!--Internal Fileuploads js-->
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+    <!--Internal Fancy uploader js-->
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+    <!--Internal  Form-elements js-->
+    {{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+    <script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
+    <!--Internal Sumoselect js-->
+    <script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
+    <!--Internal quill js -->
+    <script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
 @endsection

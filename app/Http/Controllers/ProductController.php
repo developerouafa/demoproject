@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\category;
-use App\Models\color;
 use App\Models\image;
 use App\Models\Post;
 use App\Models\product;
@@ -19,7 +18,7 @@ class ProductController extends Controller
         $products = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->productwith();
         $childrens = category::query()->select('id', 'title', 'name_ar', 'name_en', 'status', 'image', 'parent_id')->with('subcategories')->child()->get();
         $categories = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('category')->parent()->get();
-        $posts = Post::query()->select('id', 'title','body', 'category_id', 'parent_id', 'image')->with('category')->with('subcategories')->get();
+        // $posts = Post::query()->select('id', 'title','body', 'category_id', 'parent_id', 'image')->with('category')->with('subcategories')->get();
         return view('products.products', compact('products', 'categories', 'childrens'));
     }
 
@@ -116,7 +115,6 @@ class ProductController extends Controller
                     foreach($request->file('image') as $image){
                         $imageName = '-image'.time().rand(1,1000).'.'.$image->extension();
                         $image->move(public_path('product_images'),$imageName);
-                        // $image = $this->uploadImageproducts($request, 'fileproducts');
                         image::create([
                             'product_id'=>$product_id,
                             'multimg'=>$imageName
@@ -170,6 +168,52 @@ class ProductController extends Controller
             DB::commit();
             toastr()->success(trans('message.delete'));
             return redirect()->route('product_index');
+        }catch(\Exception $execption){
+            DB::rollBack();
+            toastr()->error(trans('message.error'));
+            return redirect()->route('product_index');
+        }
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|between:1,99999999999999',
+            'Category'  => 'required',
+            'children'  => 'required',
+        ],[
+            'title.required' =>__('messagevalidation.users.titleenrequired'),
+            'description.required' =>__('messagevalidation.users.bodyenrequired'),
+            'price.required' =>__('messagevalidation.users.priceisrequired'),
+            'price.between' =>__('messagevalidation.users.priceislow'),
+            'Category.required' =>__('messagevalidation.users.categoryrequired'),
+            'children.required' =>__('messagevalidation.users.childrenrequired')
+        ]);
+        try{
+            $product = $request->id;
+            $productupdate = product::findOrFail($product);
+            $input = $request->all();
+            $b_exists = Post::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
+                if($b_exists){
+                    DB::beginTransaction();
+                    $productupdate->update([
+                        'title' => $request->title,
+                        'description' => $request->description,
+                        'price' => $request->price,
+                        'category_id' => $request->Category,
+                        'parent_id' => $request->children
+                    ]);
+                    DB::commit();
+                    toastr()->success(trans('message.update'));
+                    return redirect()->route('product_index');
+                }
+                else{
+                    toastr()->error(trans('message.thisexist'));
+                    return redirect()->route('product_index');
+                }
+
         }catch(\Exception $execption){
             DB::rollBack();
             toastr()->error(trans('message.error'));

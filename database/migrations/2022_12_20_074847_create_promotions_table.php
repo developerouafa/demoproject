@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('start_time')->nullable();
             $table->date('end_time')->nullable();
             $table->decimal('price',8,2);
-            $table->integer('expired');
+            $table->tinyInteger('expired')->default(0);
             $table->bigInteger('product_id' )->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

@@ -11,18 +11,18 @@
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
     {{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
 
-        <!--- Internal Select2 css-->
-        <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
-        <!---Internal Fileupload css-->
-        <link href="{{ URL::asset('assets/plugins/fileuploads/css/fileupload.css') }}" rel="stylesheet" type="text/css" />
-        <!---Internal Fancy uploader css-->
-        <link href="{{ URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css') }}" rel="stylesheet" />
-        <!--Internal Sumoselect css-->
-        <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
+    <!--- Internal Select2 css-->
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <!---Internal Fileupload css-->
+    <link href="{{ URL::asset('assets/plugins/fileuploads/css/fileupload.css') }}" rel="stylesheet" type="text/css" />
+    <!---Internal Fancy uploader css-->
+    <link href="{{ URL::asset('assets/plugins/fancyuploder/fancy_fileupload.css') }}" rel="stylesheet" />
+    <!--Internal Sumoselect css-->
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
 
-        <!--Internal  Quill css -->
-        <link href="{{URL::asset('assets/plugins/quill/quill.snow.css')}}" rel="stylesheet">
-        <link href="{{URL::asset('assets/plugins/quill/quill.bubble.css')}}" rel="stylesheet">
+    <!--Internal  Quill css -->
+    <link href="{{URL::asset('assets/plugins/quill/quill.snow.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/quill/quill.bubble.css')}}" rel="stylesheet">
 
 @endsection
 @section('page-header')
@@ -68,8 +68,6 @@
 				<!-- row -->
 				<div class="row">
 
-
-                    {{-- <div class="row row-sm"> --}}
                         <div class="col-xl-12">
                             <div class="card mg-b-20">
                                 <div class="card-header pb-0">
@@ -123,38 +121,35 @@
                                 </div>
                             </div>
                         </div>
-                    {{-- </div> --}}
 
-
-                    <!-- Basic modal -->
-                    <div class="modal" id="modaldemo8">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content modal-content-demo">
-                                <div class="modal-header">
-                                    <h6 class="modal-title">{{__('messagevalidation.users.addcatgeory')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                    <div class="modal-body">
-                                        <form action="{{route('categories.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
-                                            @csrf
-                                                <div class="form-group">
-                                                    <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title_en">
-                                                    <br>
-                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
-                                                    <br>
-                                                    <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-
-                                                    {{-- <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
-                                                    <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
-                                                </div>
-                                        </form>
+                    <!-- Create -->
+                        <div class="modal" id="modaldemo8">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content modal-content-demo">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">{{__('messagevalidation.users.addcatgeory')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
+                                        <div class="modal-body">
+                                            <form action="{{route('categories.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                                                @csrf
+                                                    <div class="form-group">
+                                                        <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title_en">
+                                                        <br>
+                                                        <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
+                                                        <br>
+                                                        <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
+
+                                                        {{-- <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
+                                                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('message.close')}}</button>
+                                                    </div>
+                                            </form>
+                                        </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Basic modal -->
 
                     <!-- edit -->
                         <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">

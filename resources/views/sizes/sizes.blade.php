@@ -3,13 +3,13 @@
 {{__('messagevalidation.users.size')}}
 @endsection
 @section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Internal Data table css -->
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -53,100 +53,71 @@
 
 				<!-- row -->
 				<div class="row">
-
-
-            {{-- <div class="row row-sm"> --}}
-                <div class="col-xl-12">
-                    <div class="card mg-b-20">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example1" class="table key-buttons text-md-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-bottom-0">#</th>
-                                            <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
-                                            <th class="border-bottom-0">{{__('messagevalidation.users.height')}}</th>
-                                            <th class="border-bottom-0">{{__('messagevalidation.users.width')}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($sizes as $x)
+                    <div class="col-xl-12">
+                        <div class="card mg-b-20">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example1" class="table key-buttons text-md-nowrap">
+                                        <thead>
                                             <tr>
-                                                <td>{{$x->id}}</td>
-                                                <td><a >{{$product->title}}</a></td>
-                                                <td><a >{{$x->height}}</a></td>
-                                                <td><a >{{$x->width}}</a></td>
-                                                <td>
-                                                    <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                                        data-id="{{ $x->id }}" data-height="{{ $x->height }}" data-width="{{ $x->width }}" data-toggle="modal"
-                                                        href="#exampleModal2" title="Update">
-                                                        <i class="las la-pen"></i>{{$product->title}}</a>
-                                                </td>
+                                                <th class="border-bottom-0">#</th>
+                                                <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
+                                                <th class="border-bottom-0">{{__('messagevalidation.users.height')}}</th>
+                                                <th class="border-bottom-0">{{__('messagevalidation.users.width')}}</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {{-- </div> --}}
-
-            <!-- edit -->
-            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{{route('sizes.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
-                                {{ method_field('patch') }}
-                                {{ csrf_field() }}
-                                <div class="form-group">
-                                    <input type="hidden" name="id" id="id">
-                                    <br>
-                                    <input placeholder="{{__('messagevalidation.users.width')}}" type="number" class="form-control" id="width" name="width">
-                                    <br>
-                                    <input placeholder="{{__('messagevalidation.users.height')}}" type="number" class="form-control" id="height" name="height">
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($sizes as $x)
+                                                <tr>
+                                                    <td>{{$x->id}}</td>
+                                                    <td><a >{{$product->title}}</a></td>
+                                                    <td><a >{{$x->height}}</a></td>
+                                                    <td><a >{{$x->width}}</a></td>
+                                                    <td>
+                                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
+                                                            data-id="{{ $x->id }}" data-height="{{ $x->height }}" data-width="{{ $x->width }}" data-toggle="modal"
+                                                            href="#exampleModal2" title="Update">
+                                                            <i class="las la-pen"></i>{{$product->title}}</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- delete -->
-            <div class="modal" id="modaldemo9">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content modal-content-demo">
-                        <div class="modal-header">
-                            <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
-                                type="button"><span aria-hidden="true">&times;</span></button>
+                    <!-- edit -->
+                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{route('sizes.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        {{ method_field('patch') }}
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <input type="hidden" name="id" id="id">
+                                            <br>
+                                            <input placeholder="{{__('messagevalidation.users.width')}}" type="number" class="form-control" id="width" name="width">
+                                            <br>
+                                            <input placeholder="{{__('messagevalidation.users.height')}}" type="number" class="form-control" id="height" name="height">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <form action="{{route('colors.delete')}}" method="post">
-                            {{ method_field('delete') }}
-                            {{ csrf_field() }}
-                            <div class="modal-body">
-                                <p>{{__('message.aresuredeleting')}}</p><br>
-                                <input type="hidden" name="id" id="id">
-                                <input class="form-control" name="title" id="title" type="text" readonly>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
-                            </div>
-                        </form>
                     </div>
-                </div>
-            </div>
 
 				</div>
 				<!-- row closed -->

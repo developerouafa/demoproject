@@ -4,8 +4,6 @@ namespace App\Http\Controllers\users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// namespace App\Http\Controllers\UserManagement;
-//custom Spatie\Permission
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

@@ -2,11 +2,17 @@
 
 namespace App\Console;
 
+use App\Console\Commands\productexpired;
+use App\Models\promotion;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+
+    protected $commands = [
+        productexpired::class,
+    ];
     /**
      * Define the application's command schedule.
      *
@@ -16,6 +22,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        $schedule->command('product:expired')->everyMinute();
+
     }
 
     /**

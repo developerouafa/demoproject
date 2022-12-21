@@ -8,7 +8,6 @@ use App\Models\Post_tag;
 use App\Models\tag;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller

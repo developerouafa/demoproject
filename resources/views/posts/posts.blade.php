@@ -3,13 +3,13 @@
 {{__('messagevalidation.users.posts')}}
 @endsection
 @section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-{{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
+    <!-- Internal Data table css -->
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+    {{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
 
     <!--- Internal Select2 css-->
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
@@ -62,8 +62,6 @@
 
 				<!-- row -->
     <div class="row">
-
-        {{-- <div class="row row-sm"> --}}
             <div class="col-xl-12">
                 <div class="card mg-b-20">
                     <div class="card-header pb-0">
@@ -124,94 +122,92 @@
                     </div>
                 </div>
             </div>
-        {{-- </div> --}}
 
-                <!-- edit -->
-                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{route('posts.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
-                                    {{ method_field('patch') }}
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <input type="hidden" name="id" id="id">
-                                        <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title" id="title" type="text">
-                                        <br>
-                                        <input placeholder="{{__('messagevalidation.users.bodyy')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
-                                        <br>
-                                        <div class="col">
-                                            <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
-                                            <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
-                                                onchange="console.log('change is firing')">
-                                                <!--placeholder-->
-                                                <option value="" selected disabled>{{__('messagevalidation.users.selectcategory')}}</option>
-                                                @foreach ($categories as $category)
-                                                    @if ($category->status == 0)
-                                                        <option value="{{ $category->id }}"> {{ $category->title }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
-                                            <select id="children" name="children" class="form-control">
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
-                                                @foreach ($tags as $tag)
-                                                        <option value="{{ $tag->id }}">
-                                                            {{ $tag->title }}
-                                                        </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <br>
-                                        <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="150" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                    </div>
-                                </form>
-                            </div>
+        <!-- edit -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                </div>
-
-                <!-- delete -->
-                <div class="modal" id="modaldemo9">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content modal-content-demo">
-                            <div class="modal-header">
-                                <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
-                                    type="button"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <form action="{{route('posts.delete')}}" method="post">
-                                {{ method_field('delete') }}
+                        <div class="modal-body">
+                            <form action="{{route('posts.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
+                                {{ method_field('patch') }}
                                 {{ csrf_field() }}
-                                <div class="modal-body">
-                                    <p>{{__('message.aresuredeleting')}}</p><br>
+                                <div class="form-group">
                                     <input type="hidden" name="id" id="id">
-                                    <input class="form-control" name="title" id="title" type="text" readonly>
+                                    <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title" id="title" type="text">
+                                    <br>
+                                    <input placeholder="{{__('messagevalidation.users.bodyy')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
+                                    <br>
+                                    <div class="col">
+                                        <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
+                                        <select name="Category" class="form-control SlectBox" onclick="console.log($(this).val())"
+                                            onchange="console.log('change is firing')">
+                                            <!--placeholder-->
+                                            <option value="" selected disabled>{{__('messagevalidation.users.selectcategory')}}</option>
+                                            @foreach ($categories as $category)
+                                                @if ($category->status == 0)
+                                                    <option value="{{ $category->id }}"> {{ $category->title }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
+                                        <select id="children" name="children" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
+                                            @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->id }}">
+                                                        {{ $tag->title }}
+                                                    </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="150" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
                                 </div>
+
                                 <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                    <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
 
+        <!-- delete -->
+            <div class="modal" id="modaldemo9">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                                type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form action="{{route('posts.delete')}}" method="post">
+                            {{ method_field('delete') }}
+                            {{ csrf_field() }}
+                            <div class="modal-body">
+                                <p>{{__('message.aresuredeleting')}}</p><br>
+                                <input type="hidden" name="id" id="id">
+                                <input class="form-control" name="title" id="title" type="text" readonly>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </div>
 				<!-- row closed -->
 			</div>
@@ -220,91 +216,91 @@
 		<!-- main-content closed -->
 @endsection
 @section('js')
-<!-- Internal Data tables -->
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
-<!--Internal  Datatable js -->
-<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
-<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+    <!-- Internal Data tables -->
+    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
+    <!--Internal  Datatable js -->
+    <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+    <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
-<script>
-    $(document).ready(function() {
-        $('select[name="Category"]').on('change', function() {
-            var CategoryId = $(this).val();
-            if (CategoryId) {
-                $.ajax({
-                    url: "{{ URL::to('category') }}/" + CategoryId,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $('select[name="children"]').empty();
-                        $.each(data, function(key, value) {
-                            $('select[name="children"]').append('<option value="' +
-                            value + '">' + key + '</option>');
-                        });
-                    },
-                });
-            } else {
-                console.log('AJAX load did not work');
-            }
+    <script>
+        $(document).ready(function() {
+            $('select[name="Category"]').on('change', function() {
+                var CategoryId = $(this).val();
+                if (CategoryId) {
+                    $.ajax({
+                        url: "{{ URL::to('category') }}/" + CategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('select[name="children"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="children"]').append('<option value="' +
+                                value + '">' + key + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    console.log('AJAX load did not work');
+                }
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    $('#exampleModal2').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var body = button.data('body')
-        var category_id = button.data('category_id')
-        var children_id = button.data('children_id')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-        modal.find('.modal-body #body').val(body);
-        modal.find('.modal-body #category_id').val(category_id);
-        modal.find('.modal-body #children_id').val(children_id);
-    })
-</script>
+    <script>
+        $('#exampleModal2').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var title = button.data('title')
+            var body = button.data('body')
+            var category_id = button.data('category_id')
+            var children_id = button.data('children_id')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #body').val(body);
+            modal.find('.modal-body #category_id').val(category_id);
+            modal.find('.modal-body #children_id').val(children_id);
+        })
+    </script>
 
-<script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-    })
-</script>
+    <script>
+        $('#modaldemo9').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var title = button.data('title')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #title').val(title);
+        })
+    </script>
 
-<!--Internal Fileuploads js-->
-<script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
-<!--Internal Fancy uploader js-->
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
-<!--Internal  Form-elements js-->
-{{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
-<script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
-<!--Internal Sumoselect js-->
-<script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
+    <!--Internal Fileuploads js-->
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fileuploads/js/file-upload.js')}}"></script>
+    <!--Internal Fancy uploader js-->
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+    <!--Internal  Form-elements js-->
+    {{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
+    <script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
+    <!--Internal Sumoselect js-->
+    <script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
 @endsection
