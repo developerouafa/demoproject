@@ -98,5 +98,7 @@ return [
         'viewimages' => 'View Images',
         'viewcolor' => 'View Colors',
         'viewsize' => 'View Size',
+        'index' => 'Index',
+
     ],
 ];

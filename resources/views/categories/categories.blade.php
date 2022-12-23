@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-{{__('messagevalidation.users.Categories')}}
+    {{__('messagevalidation.users.Categories')}}
 @endsection
 @section('css')
     <!-- Internal Data table css -->
@@ -9,7 +9,6 @@
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
     <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-    {{-- <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet"> --}}
 
     <!--- Internal Select2 css-->
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
@@ -47,27 +46,10 @@
                         </div>
                     @endif
 
-                    @if (session()->has('Success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>{{ session()->get('Success') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-
-                    @if (session()->has('Error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>{{ session()->get('Error') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-
 				<!-- row -->
 				<div class="row">
 
+                    {{-- Index --}}
                         <div class="col-xl-12">
                             <div class="card mg-b-20">
                                 <div class="card-header pb-0">
@@ -270,9 +252,6 @@
     <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
     <script src="{{URL::asset('assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
     <script src="{{URL::asset('assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
-    <!--Internal  Form-elements js-->
-    {{-- <script src="{{URL::asset('assets/js/advanced-form-elements.js')}}"></script>
-    <script src="{{URL::asset('assets/js/select2.js')}}"></script> --}}
     <!--Internal Sumoselect js-->
     <script src="{{URL::asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
     <!--Internal quill js -->

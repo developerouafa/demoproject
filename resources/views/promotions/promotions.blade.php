@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-{{__('messagevalidation.users.promotion')}}
+    {{__('messagevalidation.users.promotion')}}
 @endsection
 @section('css')
     <!-- Internal Data table css -->
@@ -12,165 +12,148 @@
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
-				<!-- breadcrumb -->
-				<div class="breadcrumb-header justify-content-between">
-					<div class="my-auto">
-						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">{{__('messagevalidation.users.promotion')}}</h4>
-						</div>
-					</div>
-				</div>
-				<!-- breadcrumb -->
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-title mb-0 my-auto">{{__('messagevalidation.users.promotion')}}</h4>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
 @endsection
 @section('content')
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-                    @if (session()->has('Success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>{{ session()->get('Success') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <!-- row -->
+        <div class="row">
+            {{-- Index --}}
+            <div class="col-xl-12">
+                <div class="card mg-b-20">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example1" class="table key-buttons text-md-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0">#</th>
+                                        <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
+                                        <th class="border-bottom-0">{{__('messagevalidation.users.start_time')}}</th>
+                                        <th class="border-bottom-0">{{__('messagevalidation.users.end_time')}}</th>
+                                        <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
+                                        <th class="border-bottom-0">{{__('messagevalidation.users.expired')}}</th>
+                                        <th class="border-bottom-0"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($promotion as $x)
+                                        <tr>
+                                            <td>{{$x->id}}</td>
+                                            <td><a>{{$product->title}}</a></td>
+                                            <td><a>{{$x->start_time}}</a></td>
+                                            <td><a>{{$x->end_time}}</a></td>
+                                            <td><a>{{$x->price}}</a></td>
+                                            <td>
+                                                @if ($x->expired == 1)
+                                                    <a href="{{route('promotions.editstatusactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
+                                                @endif
+                                                @if ($x->expired == 0)
+                                                    <a href="{{route('promotions.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a class="modal-effect btn btn-sm btn-success" data-effect="effect-scale"
+                                                    data-id="{{ $x->id }}" data-start_time="{{ $x->start_time }}" data-end_time="{{ $x->end_time }}" data-price="{{ $x->price }}" data-toggle="modal"
+                                                    href="#exampleModal2" title="Update">
+                                                    <i class="las la-pen"></i>
+                                                    {{__('messagevalidation.users.updatepromotion')}}
+                                                </a>
+                                                <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                                    data-id="{{ $x->id }}" data-price="{{ $x->price }}" data-toggle="modal"
+                                                    href="#modaldemo9" title="Delete">
+                                                    {{__('messagevalidation.users.deletepromotion')}}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- edit -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    @endif
-
-                    @if (session()->has('Error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>{{ session()->get('Error') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-
-				<!-- row -->
-				<div class="row">
-                    <div class="col-xl-12">
-                        <div class="card mg-b-20">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="example1" class="table key-buttons text-md-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-bottom-0">#</th>
-                                                <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
-                                                <th class="border-bottom-0">{{__('messagevalidation.users.start_time')}}</th>
-                                                <th class="border-bottom-0">{{__('messagevalidation.users.end_time')}}</th>
-                                                <th class="border-bottom-0">{{__('messagevalidation.users.products')}}</th>
-                                                <th class="border-bottom-0">{{__('messagevalidation.users.expired')}}</th>
-                                                <th class="border-bottom-0"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($promotion as $x)
-                                                <tr>
-                                                    <td>{{$x->id}}</td>
-                                                    <td><a>{{$product->title}}</a></td>
-                                                    <td><a>{{$x->start_time}}</a></td>
-                                                    <td><a>{{$x->end_time}}</a></td>
-                                                    <td><a>{{$x->price}}</a></td>
-                                                    <td>
-                                                        @if ($x->expired == 1)
-                                                            <a href="{{route('promotions.editstatusactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
-                                                        @endif
-                                                        @if ($x->expired == 0)
-                                                            <a href="{{route('promotions.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <a class="modal-effect btn btn-sm btn-success" data-effect="effect-scale"
-                                                            data-id="{{ $x->id }}" data-start_time="{{ $x->start_time }}" data-end_time="{{ $x->end_time }}" data-price="{{ $x->price }}" data-toggle="modal"
-                                                            href="#exampleModal2" title="Update">
-                                                            <i class="las la-pen"></i>
-                                                            {{__('messagevalidation.users.updatepromotion')}}
-                                                        </a>
-                                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                            data-id="{{ $x->id }}" data-price="{{ $x->price }}" data-toggle="modal"
-                                                            href="#modaldemo9" title="Delete">
-                                                            {{__('messagevalidation.users.deletepromotion')}}
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                        <div class="modal-body">
+                            <form action="{{route('promotions.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
+                                {{ method_field('patch') }}
+                                {{ csrf_field() }}
+                                <div class="form-group">
+                                    <input type="hidden" name="id" id="id">
+                                    <label for="price">{{__('messagevalidation.users.price')}}</label>
+                                    <input placeholder="price" class="form-control" name="price" id="price" type="text">
+                                    <br>
+                                    <label for="price">{{__('messagevalidation.users.start_time')}}</label>
+                                    <input class="form-control fc-datepicker" name="start_time" placeholder="YYYY-MM-DD"
+                                    type="date"  id="start_time">
+                                    <br>
+                                    <label for="price">{{__('messagevalidation.users.end_time')}}</label>
+                                    <input class="form-control fc-datepicker" name="end_time" placeholder="YYYY-MM-DD"
+                                    type="date" id="end_time">
+                                    <br>
                                 </div>
-                            </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- edit -->
-                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">{{__('message.updatetitle')}}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{route('promotions.update')}}" enctype="multipart/form-data" method="post" autocomplete="off">
-                                        {{ method_field('patch') }}
-                                        {{ csrf_field() }}
-                                        <div class="form-group">
-                                            <input type="hidden" name="id" id="id">
-                                            <label for="price">{{__('messagevalidation.users.price')}}</label>
-                                            <input placeholder="price" class="form-control" name="price" id="price" type="text">
-                                            <br>
-                                            <label for="price">{{__('messagevalidation.users.start_time')}}</label>
-                                            <input class="form-control fc-datepicker" name="start_time" placeholder="YYYY-MM-DD"
-                                            type="date"  id="start_time">
-                                            <br>
-                                            <label for="price">{{__('messagevalidation.users.end_time')}}</label>
-                                            <input class="form-control fc-datepicker" name="end_time" placeholder="YYYY-MM-DD"
-                                            type="date" id="end_time">
-                                            <br>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+            <!-- delete -->
+            <div class="modal" id="modaldemo9">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                                type="button"><span aria-hidden="true">&times;</span></button>
                         </div>
-                    </div>
-
-                    <!-- delete -->
-                    <div class="modal" id="modaldemo9">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content modal-content-demo">
-                                <div class="modal-header">
-                                    <h6 class="modal-title">{{__('message.deletee')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
-                                        type="button"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <form action="{{route('promotion.delete')}}" method="post">
-                                    {{ method_field('delete') }}
-                                    {{ csrf_field() }}
-                                    <div class="modal-body">
-                                        <p>{{__('message.aresuredeleting')}}</p><br>
-                                        <input type="hidden" name="id" id="id">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
-                                        <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
-                                    </div>
-                                </form>
+                        <form action="{{route('promotion.delete')}}" method="post">
+                            {{ method_field('delete') }}
+                            {{ csrf_field() }}
+                            <div class="modal-body">
+                                <p>{{__('message.aresuredeleting')}}</p><br>
+                                <input type="hidden" name="id" id="id">
                             </div>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('message.close')}}</button>
+                                <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
+                            </div>
+                        </form>
                     </div>
+                </div>
+            </div>
 
-				</div>
-				<!-- row closed -->
+        </div>
+    <!-- row closed -->
 			</div>
 			<!-- Container closed -->
 		</div>

@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
+    //* Page UploadImageTrait inside it function Image
     Use UploadImageTrait;
 
+    //* function index Catgeory
     public function index()
     {
         $categoriesindex = category::query()->select('id', 'title', 'status', 'image')->with('category')->parent()->get();
         return view('categories.categories', compact('categoriesindex'));
     }
 
+    //* function create other category
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title_en' => 'required',
             'title_ar' => 'required',
@@ -27,6 +31,7 @@ class CategoryController extends Controller
             'title_ar.required' =>__('messagevalidation.users.titlearrequired'),
         ]);
         try{
+            //Added photo
             if($request->has('image')){
                 $exists = category::where('name_en', '=',  $request->title_en)->where('name_ar', '=',  $request->title_ar)->exists();
                 if($exists){
@@ -48,6 +53,7 @@ class CategoryController extends Controller
                     return redirect()->route('category_index');
                 }
             }
+            // No Added photo
             else{
                 toastr()->error(trans('messagevalidation.users.imagerequired'));
                 return redirect()->route('category_index');
@@ -60,6 +66,7 @@ class CategoryController extends Controller
         }
     }
 
+    //* Hide category
     public function editstatusdéactive($id)
     {
         try{
@@ -78,6 +85,7 @@ class CategoryController extends Controller
         }
     }
 
+    //* show category
     public function editstatusactive($id)
     {
         try{
@@ -96,8 +104,10 @@ class CategoryController extends Controller
         }
     }
 
+    //* fucntion update category
     public function update(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title' => 'required',
         ],[
@@ -163,6 +173,7 @@ class CategoryController extends Controller
         }
     }
 
+    //* fucntion delete category
     public function delete(Request $request)
     {
         try{

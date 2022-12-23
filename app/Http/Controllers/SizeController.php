@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class SizeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //* function index Size
     public function index($id)
     {
         $sizes = size::query()->select('id', 'height', 'width')->where('product_id', $id)->with('product')->get();
@@ -21,8 +17,10 @@ class SizeController extends Controller
         return view('sizes.sizes', compact('sizes', 'product'));
     }
 
+    //* function update Size
     public function update(Request $request)
     {
+        // validations
         $this->validate($request, [
             'width' => 'required',
             'height' => 'required',
@@ -34,13 +32,13 @@ class SizeController extends Controller
             $product_id = $request->id;
             $size = size::findOrFail($product_id);
             DB::beginTransaction();
-                    $size->update([
-                        'height' => $request->height,
-                        'width' => $request->width
-                    ]);
-                    DB::commit();
-                    toastr()->success(trans('message.update'));
-                    return redirect()->back();
+                $size->update([
+                    'height' => $request->height,
+                    'width' => $request->width
+                ]);
+            DB::commit();
+            toastr()->success(trans('message.update'));
+            return redirect()->back();
         }catch(\Exception $execption){
             DB::rollBack();
             toastr()->error(trans('message.error'));

@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+    //* Page UploadImageTrait inside it function Image
     use UploadImageTrait;
 
+    //* function index Post
     public function index()
     {
         $childrens = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('subcategories')->child()->get();
@@ -23,6 +25,7 @@ class PostController extends Controller
         return view('posts.posts', compact('posts', 'categories', 'childrens', 'tags'));
     }
 
+    //* function create other Post
     public function create()
     {
         $categories = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('category')->parent()->get();
@@ -31,14 +34,17 @@ class PostController extends Controller
         return view('posts.postscreate', compact('categories', 'childrens', 'tags'));
     }
 
+    //* DropDown Children
     public function getchild($id)
     {
         $childrens = DB::table("categories")->where("parent_id", $id)->pluck('id', 'name_'.app()->getLocale().'');
         return json_encode($childrens);
     }
 
+    //* function create other Post
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title' => 'required',
             'title_ar' => 'required',
@@ -57,6 +63,7 @@ class PostController extends Controller
             'children.required' =>__('messagevalidation.users.childrenrequired'),
         ]);
         try{
+            //Added photo
             if($request->has('image')){
                 $image = $this->uploadImageposts($request, 'fileposts');
                 DB::beginTransaction();
@@ -81,6 +88,7 @@ class PostController extends Controller
                 toastr()->success(trans('message.create'));
                 return redirect()->route('posts_index');
             }
+            //No Added photo
             else{
                 toastr()->error(trans('messagevalidation.users.imagerequired'));
                 return redirect()->route('posts_index');
@@ -93,8 +101,10 @@ class PostController extends Controller
         }
     }
 
+    //* update Post
     public function update(Request $request, Post $post)
     {
+        // validations
         $this->validate($request, [
             'title' => 'required'
         ],[
@@ -103,6 +113,7 @@ class PostController extends Controller
         try{
             $post = $request->id;
             $posts = Post::findOrFail($post);
+            //Added photo
             if($request->hasFile('image')){
                 $input = $request->all();
                 $b_exists = Post::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
@@ -137,6 +148,7 @@ class PostController extends Controller
                     return redirect()->route('posts_index');
                 }
             }
+            //No Added photo
             else{
                 $input = $request->all();
                 $b_exists = Post::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
@@ -165,6 +177,7 @@ class PostController extends Controller
         }
     }
 
+    //* delete Post
     public function delete(Request $request)
     {
         try{

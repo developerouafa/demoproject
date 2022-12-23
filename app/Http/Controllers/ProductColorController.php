@@ -10,11 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProductColorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    //* function index Product
     public function index($id)
     {
         $product = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->where('id',$id)->firstOrFail();
@@ -22,31 +19,33 @@ class ProductColorController extends Controller
         return view('product_color.product_color',compact('product','product_color'));
     }
 
+    //* function create other ProductColor
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'color' => 'required',
         ],[
             'color.required' =>__('messagevalidation.users.colorrequired'),
         ]);
         try{
-                DB::beginTransaction();
-                $input = $request->all();
-                $b_exists = Product_Color::where('product_id', '=', $input['product_id'])->where('color', '=', $input['color'])->exists();
-                if($b_exists){
-                    DB::commit();
-                    toastr()->error(trans('message.thisexist'));
-                    return redirect()->back();
-                }
-                else{
-                    Product_Color::create([
-                        'product_id' => $request->product_id,
-                        'color' => $request->color
-                    ]);
-                    DB::commit();
-                    toastr()->success(trans('message.create'));
-                    return redirect()->back();
-                }
+            DB::beginTransaction();
+            $input = $request->all();
+            $b_exists = Product_Color::where('product_id', '=', $input['product_id'])->where('color', '=', $input['color'])->exists();
+            if($b_exists){
+                DB::commit();
+                toastr()->error(trans('message.thisexist'));
+                return redirect()->back();
+            }
+            else{
+                Product_Color::create([
+                    'product_id' => $request->product_id,
+                    'color' => $request->color
+                ]);
+                DB::commit();
+                toastr()->success(trans('message.create'));
+                return redirect()->back();
+            }
         }
         catch(\Exception $exception){
             DB::rollBack();
@@ -55,6 +54,7 @@ class ProductColorController extends Controller
         }
     }
 
+    //* fucntion delete ProductColor
     public function delete(Request $request)
     {
         try{

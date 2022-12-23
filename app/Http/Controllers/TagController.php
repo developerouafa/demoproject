@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
+    //* function index Tag
     public function index()
     {
         $tags = tag::query()->select('id', 'title')->with('post_tags')->get();
         return view('tags.tags', compact('tags'));
     }
 
+    //* function index Tag_Post
     public function tag_posts($id)
     {
         $tag_posts = Post_tag::query()->where('tag_id', $id)->get();
@@ -23,8 +25,10 @@ class TagController extends Controller
         return view('tag_posts.tag_posts',compact('tag_posts', 'posts'));
     }
 
+    //* function create other Tag
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title' => 'required|max:255',
         ],[
@@ -56,9 +60,10 @@ class TagController extends Controller
         }
     }
 
-
+    //* function update Tag
     public function update(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title' => 'required|max:255',
         ],[
@@ -90,6 +95,7 @@ class TagController extends Controller
         }
     }
 
+    //* function delete Tag
     public function delete(Request $request)
     {
         try{

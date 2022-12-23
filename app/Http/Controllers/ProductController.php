@@ -13,21 +13,23 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    //* function index Product
     public function index()
     {
         $products = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->productwith();
         $childrens = category::query()->select('id', 'title', 'name_ar', 'name_en', 'status', 'image', 'parent_id')->with('subcategories')->child()->get();
         $categories = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('category')->parent()->get();
-        // $posts = Post::query()->select('id', 'title','body', 'category_id', 'parent_id', 'image')->with('category')->with('subcategories')->get();
         return view('products.products', compact('products', 'categories', 'childrens'));
     }
 
+    //* DropDown Children
     public function getchildproduct($id)
     {
         $childrens = DB::table("categories")->where("parent_id", $id)->pluck("id", 'name_'.app()->getLocale().'');
         return json_encode($childrens);
     }
 
+    //* Hide Product
     public function editstatusdéactive($id)
     {
         try{
@@ -46,6 +48,7 @@ class ProductController extends Controller
         }
     }
 
+    //* Show Product
     public function editstatusactive($id)
     {
         try{
@@ -63,6 +66,7 @@ class ProductController extends Controller
         }
     }
 
+    //* Create Product
     public function create()
     {
         $products = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->productwith();
@@ -71,8 +75,10 @@ class ProductController extends Controller
         return view('products.productscreate', compact('products', 'categories', 'childrens'));
     }
 
+    //* function create other Product
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title' => 'required',
             'title_ar' => 'required',
@@ -99,6 +105,7 @@ class ProductController extends Controller
             'height.required' =>__('messagevalidation.users.heightisrequired')
         ]);
         try{
+            //Added photo
             if($request->has('image')){
                 DB::beginTransaction();
                 product::create([
@@ -121,10 +128,10 @@ class ProductController extends Controller
                         ]);
                     }
 
-                        product_color::create([
-                            'product_id'=>$product_id,
-                            'color'=>$request->color
-                        ]);
+                    product_color::create([
+                        'product_id'=>$product_id,
+                        'color'=>$request->color
+                    ]);
 
                     $size = new size();
                     $size->product_id = $product_id;
@@ -141,6 +148,7 @@ class ProductController extends Controller
                     toastr()->success(trans('message.create'));
                     return redirect()->route('product_index');
             }
+            // No Added photo
             else{
                 toastr()->error(trans('messagevalidation.users.imagerequired'));
                 return redirect()->route('product_index');
@@ -153,28 +161,7 @@ class ProductController extends Controller
         }
     }
 
-    public function delete(Request $request)
-    {
-        try{
-            $id = $request->id;
-            $images  = image::select('multimg')->where('product_id',$id)->get();
-            foreach($images as $x){
-                if(!$x->multimg) abort(404);
-                unlink(public_path('product_images/'.$x->multimg));
-            }
-            $product = product::findorFail($id);
-            DB::beginTransaction();
-            $product->delete();
-            DB::commit();
-            toastr()->success(trans('message.delete'));
-            return redirect()->route('product_index');
-        }catch(\Exception $execption){
-            DB::rollBack();
-            toastr()->error(trans('message.error'));
-            return redirect()->route('product_index');
-        }
-    }
-
+    //* fucntion ipdate Product
     public function update(Request $request)
     {
         $this->validate($request, [
@@ -214,6 +201,29 @@ class ProductController extends Controller
                     return redirect()->route('product_index');
                 }
 
+        }catch(\Exception $execption){
+            DB::rollBack();
+            toastr()->error(trans('message.error'));
+            return redirect()->route('product_index');
+        }
+    }
+
+    //* fucntion delete Product
+    public function delete(Request $request)
+    {
+        try{
+            $id = $request->id;
+            $images  = image::select('multimg')->where('product_id',$id)->get();
+            foreach($images as $x){
+                if(!$x->multimg) abort(404);
+                unlink(public_path('product_images/'.$x->multimg));
+            }
+            $product = product::findorFail($id);
+            DB::beginTransaction();
+            $product->delete();
+            DB::commit();
+            toastr()->success(trans('message.delete'));
+            return redirect()->route('product_index');
         }catch(\Exception $execption){
             DB::rollBack();
             toastr()->error(trans('message.error'));

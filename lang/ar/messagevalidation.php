@@ -98,6 +98,7 @@ return [
         'viewimages' => 'مشاهدة الصور',
         'viewcolor' => 'عرض الألوان',
         'viewsize' => 'عرض الحجم',
+        'index' => 'الرئيسية',
 
     ],
 ];

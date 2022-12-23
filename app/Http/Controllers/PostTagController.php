@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class PostTagController extends Controller
 {
+    //* function index PostTag
     public function index($id)
     {
         $post = Post::where('id',$id)->firstOrFail();
@@ -19,6 +20,7 @@ class PostTagController extends Controller
         return view('post_tag.post_tag',compact('post','post_tag','post_tagupdate','tags'));
     }
 
+    //* function create other PostTag
     public function store(Request $request)
     {
 
@@ -52,6 +54,7 @@ class PostTagController extends Controller
         }
     }
 
+    //* delete PostTag
     public function delete($id)
     {
         try{

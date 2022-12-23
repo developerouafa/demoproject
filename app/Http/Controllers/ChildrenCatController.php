@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class ChildrenCatController extends Controller
 {
+    //* Page UploadImageTrait inside it function Image
     Use UploadImageTrait;
 
+    //* function index Catgeory
     public function index()
     {
         $childrens = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('subcategories')->child()->get();
@@ -18,8 +20,10 @@ class ChildrenCatController extends Controller
         return view('childrens.childrens', compact('childrens', 'categories'));
     }
 
+    //* function create other category
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'title_en' => 'required',
             'title_ar' => 'required',
@@ -30,6 +34,8 @@ class ChildrenCatController extends Controller
             'image.required' =>__('messagevalidation.users.imagerequired'),
         ]);
         try{
+            //Added photo
+            if($request->has('image')){
                 $image = $this->uploadImageChildrenCat($request, 'fileChildren');
                 $input = $request->all();
                 $b_exists = category::where('name_en', '=',  $request->title_en)->where('name_ar', '=',  $request->title_ar)->where('parent_id', '=', $input['category_id'])->exists();
@@ -50,6 +56,12 @@ class ChildrenCatController extends Controller
                     toastr()->success(trans('message.create'));
                     return redirect()->route('childcat_index');
                 }
+            }
+            // No Added photo
+            else{
+                toastr()->error(trans('messagevalidation.users.imagerequired'));
+                return redirect()->route('category_index');
+            }
         }
         catch(\Exception $exception){
             DB::rollBack();
@@ -58,8 +70,10 @@ class ChildrenCatController extends Controller
         }
     }
 
+    //* function update children
     public function update(Request $request)
     {
+        // validations
         $this->validate($request, [
             'children' => 'required',
         ],[
@@ -127,6 +141,7 @@ class ChildrenCatController extends Controller
         }
     }
 
+    //* delete children
     public function delete(Request $request)
     {
         try{

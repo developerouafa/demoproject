@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ImageController extends Controller
 {
+    //* function Index Image
     public function index($id)
     {
         $Product = product::where('id',$id)->firstOrFail();
@@ -16,14 +17,17 @@ class ImageController extends Controller
         return view('images.images',compact('Product','images'));
     }
 
+    //* function store Image
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'image' => 'required',
         ],[
             'image.required' =>__('messagevalidation.users.imagerequired')
         ]);
         try{
+            //Added photo
             if($request->has('image')){
                 DB::beginTransaction();
                     foreach($request->file('image') as $image){
@@ -38,6 +42,7 @@ class ImageController extends Controller
                     toastr()->success(trans('message.create'));
                     return redirect()->back();
             }
+            // No Add photo
             else{
                 toastr()->error(trans('messagevalidation.users.imagerequired'));
                 return redirect()->back();
@@ -50,6 +55,7 @@ class ImageController extends Controller
         }
     }
 
+    //* function delete Image
     public function delete(Request $request)
     {
         try{

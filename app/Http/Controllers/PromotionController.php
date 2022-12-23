@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class PromotionController extends Controller
 {
+    //* function index Promotion
     public function index($id)
     {
         $promotion = promotion::query()->where('product_id', $id)->with('product')->get();
@@ -16,8 +17,10 @@ class PromotionController extends Controller
         return view('promotions.promotions', compact('promotion', 'product'));
     }
 
+    //* function create other Promotion
     public function store(Request $request)
     {
+        // validations
         $this->validate($request, [
             'price' => 'required|between:1,99999999999999',
             'start_time' => 'required',
@@ -31,16 +34,16 @@ class PromotionController extends Controller
         try{
                 $id = $request->id;
                 $product = product::findOrFail($id);
-                    DB::beginTransaction();
+                DB::beginTransaction();
                     promotion::create([
                         'start_time' => $request->start_time,
                         'end_time' => $request->end_time,
                         'price' => $request->price,
                         'product_id' => $product->id
                     ]);
-                    DB::commit();
-                    toastr()->success(trans('message.create'));
-                    return redirect()->back();
+                DB::commit();
+                toastr()->success(trans('message.create'));
+                return redirect()->back();
         }
         catch(\Exception $exception){
             DB::rollBack();
@@ -49,8 +52,10 @@ class PromotionController extends Controller
         }
     }
 
+    //* function update other Promotion
     public function update(Request $request)
     {
+        // validations
         $this->validate($request, [
             'price' => 'required|between:1,99999999999999',
             'start_time' => 'required',
@@ -65,14 +70,14 @@ class PromotionController extends Controller
             $promotion_id = $request->id;
             $promotion = Promotion::findOrFail($promotion_id);
             DB::beginTransaction();
-                    $promotion->update([
-                        'price' => $request->price,
-                        'start_time' => $request->start_time,
-                        'end_time' => $request->end_time
-                    ]);
-                    DB::commit();
-                    toastr()->success(trans('message.update'));
-                    return redirect()->back();
+                $promotion->update([
+                    'price' => $request->price,
+                    'start_time' => $request->start_time,
+                    'end_time' => $request->end_time
+                ]);
+            DB::commit();
+            toastr()->success(trans('message.update'));
+            return redirect()->back();
         }catch(\Exception $execption){
             DB::rollBack();
             DB::rollBack();
@@ -81,6 +86,7 @@ class PromotionController extends Controller
         }
     }
 
+    //* Hide Promotion
     public function editstatusdéactive($id)
     {
         try{
@@ -99,6 +105,7 @@ class PromotionController extends Controller
         }
     }
 
+    //* show Promotion
     public function editstatusactive($id)
     {
         try{
@@ -117,6 +124,7 @@ class PromotionController extends Controller
         }
     }
 
+    //* function delete other Promotion
     public function delete(Request $request)
     {
         try{

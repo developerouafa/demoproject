@@ -1,27 +1,26 @@
 @extends('layouts.master')
 @section('title')
-{{__('messagevalidation.users.products')}}
+    {{__('messagevalidation.users.products')}}
 @endsection
 @section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
-
+    <!-- Internal Data table css -->
+    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
+    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 @endsection
 @section('page-header')
-				<!-- breadcrumb -->
-				<div class="breadcrumb-header justify-content-between">
-					<div class="my-auto">
-						<div class="d-flex">
-							<h4 class="content-children mb-0 my-auto">{{__('messagevalidation.users.products')}}</h4>
-						</div>
-					</div>
-				</div>
-				<!-- breadcrumb -->
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="my-auto">
+            <div class="d-flex">
+                <h4 class="content-children mb-0 my-auto">{{__('messagevalidation.users.products')}}</h4>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
 @endsection
 @section('content')
     @if ($errors->any())
@@ -34,116 +33,99 @@
         </div>
     @endif
 
-    @if (session()->has('Success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ session()->get('Success') }}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-
-    @if (session()->has('Error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>{{ session()->get('Error') }}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-
 	<!-- row -->
     <div class="row">
 
-        <div class="col-xl-12">
-            <div class="card mg-b-20">
-                <div class="card-header pb-0">
-                    <div class="d-flex justify-content-between">
-                        <a class="btn btn-outline-primary btn-block" href="{{route('product.createprod')}}">{{__('messagevalidation.users.addproducts')}}</a>
+        <!-- Index -->
+            <div class="col-xl-12">
+                <div class="card mg-b-20">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                            <a class="btn btn-outline-primary btn-block" href="{{route('product.createprod')}}">{{__('messagevalidation.users.addproducts')}}</a>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">{{__('messagevalidation.users.title')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.description')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.price')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.category')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.children')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.image')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.color')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.size')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.status')}}</th>
-                                    <th scope="col">{{__('messagevalidation.users.promotion')}}</th>
-                                    <th scope="col"></th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($products as $x)
-                                    @if ($x->category->status == 0)
-                                        <tr>
-                                            <td>{{$x->id}}</td>
-                                            <td>{{$x->title}}</td>
-                                            <td>{{$x->description}}</td>
-                                            <td>{{$x->price}}</td>
-                                            <td>{{$x->category->title}}</td>
-                                            <td>{{$x->subcategories->title}}</td>
-                                            <td><a href="{{ url('images/images') }}/{{ $x->id }}">{{__('messagevalidation.users.viewimages')}}</a></td>
-                                            <td><a href="{{ url('product_color/product_color') }}/{{ $x->id }}">{{__('messagevalidation.users.viewcolor')}}</a></td>
-                                            <td><a href="{{ url('sizes/sizes') }}/{{ $x->id }}">{{__('messagevalidation.users.viewsize')}}</a></td>
-                                            <td>
-                                                @if ($x->status == 0)
-                                                    <a href="{{route('products.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
-                                                @endif
-                                                @if ($x->status == 1)
-                                                    <a href="{{route('products.editstatusactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @forelse ($x->promotion as $promo)
-                                                    @if ($promo->expired == 0)
-                                                        <a href="{{ url('promotions/promotions') }}/{{ $x->id }}">
-                                                            {{__('messagevalidation.users.thereisanpromotionfortheproduct')}}
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ url('promotions/promotions') }}/{{ $x->id }}">
-                                                            {{__('messagevalidation.users.promotioniscancel')}}
-                                                        </a>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example1" class="table key-buttons text-md-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">{{__('messagevalidation.users.title')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.description')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.price')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.category')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.children')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.image')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.color')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.size')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.status')}}</th>
+                                        <th scope="col">{{__('messagevalidation.users.promotion')}}</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($products as $x)
+                                        @if ($x->category->status == 0)
+                                            <tr>
+                                                <td>{{$x->id}}</td>
+                                                <td>{{$x->title}}</td>
+                                                <td>{{$x->description}}</td>
+                                                <td>{{$x->price}}</td>
+                                                <td>{{$x->category->title}}</td>
+                                                <td>{{$x->subcategories->title}}</td>
+                                                <td><a href="{{ url('images/images') }}/{{ $x->id }}">{{__('messagevalidation.users.viewimages')}}</a></td>
+                                                <td><a href="{{ url('product_color/product_color') }}/{{ $x->id }}">{{__('messagevalidation.users.viewcolor')}}</a></td>
+                                                <td><a href="{{ url('sizes/sizes') }}/{{ $x->id }}">{{__('messagevalidation.users.viewsize')}}</a></td>
+                                                <td>
+                                                    @if ($x->status == 0)
+                                                        <a href="{{route('products.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
                                                     @endif
-                                                @empty
-                                                    <a class="modal-effect btn btn-sm btn-secondary" data-effect="effect-scale"
-                                                    data-id="{{ $x->id }}" data-price="{{ $x->price }}" data-toggle="modal"
-                                                    href="#modaldemopromotion">{{__('messagevalidation.users.addpromotion')}}</a>
-                                                @endforelse ()
-                                            </td>
-                                            <td>
-                                                    <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                                        data-id="{{ $x->id }}" data-title="{{ $x->title }}"
-                                                        data-description="{{ $x->description }}" data-price="{{ $x->price }}" data-category_id="{{ $x->category->title }}" data-children_id="{{ $x->subcategories->title }}" data-toggle="modal"
-                                                        href="#exampleModal2" title="Update">
-                                                        <i class="las la-pen"></i>
-                                                    </a>
-                                            </td>
-                                            <td>
-                                                    <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                        data-id="{{ $x->id }}" data-title="{{ $x->title }}"
-                                                        data-toggle="modal" href="#modaldemo9" title="Delete">
-                                                        <i class="las la-trash"></i>
-                                                    </a>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                    @if ($x->status == 1)
+                                                        <a href="{{route('products.editstatusactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @forelse ($x->promotion as $promo)
+                                                        @if ($promo->expired == 0)
+                                                            <a href="{{ url('promotions/promotions') }}/{{ $x->id }}">
+                                                                {{__('messagevalidation.users.thereisanpromotionfortheproduct')}}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ url('promotions/promotions') }}/{{ $x->id }}">
+                                                                {{__('messagevalidation.users.promotioniscancel')}}
+                                                            </a>
+                                                        @endif
+                                                    @empty
+                                                        <a class="modal-effect btn btn-sm btn-secondary" data-effect="effect-scale"
+                                                        data-id="{{ $x->id }}" data-price="{{ $x->price }}" data-toggle="modal"
+                                                        href="#modaldemopromotion">{{__('messagevalidation.users.addpromotion')}}</a>
+                                                    @endforelse ()
+                                                </td>
+                                                <td>
+                                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
+                                                            data-id="{{ $x->id }}" data-title="{{ $x->title }}"
+                                                            data-description="{{ $x->description }}" data-price="{{ $x->price }}" data-category_id="{{ $x->category->title }}" data-children_id="{{ $x->subcategories->title }}" data-toggle="modal"
+                                                            href="#exampleModal2" title="Update">
+                                                            <i class="las la-pen"></i>
+                                                        </a>
+                                                </td>
+                                                <td>
+                                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                                            data-id="{{ $x->id }}" data-title="{{ $x->title }}"
+                                                            data-toggle="modal" href="#modaldemo9" title="Delete">
+                                                            <i class="las la-trash"></i>
+                                                        </a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- Add Promotion -->
             <div class="modal" id="modaldemopromotion">
@@ -263,89 +245,89 @@
 		<!-- main-content closed -->
 @endsection
 @section('js')
-<!-- Internal Data tables -->
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
-<!--Internal  Datatable js -->
-<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
-<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+    <!-- Internal Data tables -->
+    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
+    <!--Internal  Datatable js -->
+    <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+    <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
-<script>
-    $(document).ready(function() {
-        $('select[name="Category"]').on('change', function() {
-            var CategoryId = $(this).val();
-            if (CategoryId) {
-                $.ajax({
-                    url: "{{ URL::to('category') }}/" + CategoryId,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $('select[name="children"]').empty();
-                        $.each(data, function(key, value) {
-                            $('select[name="children"]').append('<option value="' +
-                            value + '">' + key + '</option>');
-                        });
-                    },
-                });
-            } else {
-                console.log('AJAX load did not work');
-            }
+    <script>
+        $(document).ready(function() {
+            $('select[name="Category"]').on('change', function() {
+                var CategoryId = $(this).val();
+                if (CategoryId) {
+                    $.ajax({
+                        url: "{{ URL::to('category') }}/" + CategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('select[name="children"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="children"]').append('<option value="' +
+                                value + '">' + key + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    console.log('AJAX load did not work');
+                }
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    $('#exampleModal2').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var description = button.data('description')
-        var category_id = button.data('category_id')
-        var children_id = button.data('children_id')
-        var price = button.data('price')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-        modal.find('.modal-body #description').val(description);
-        modal.find('.modal-body #category_id').val(category_id);
-        modal.find('.modal-body #children_id').val(children_id);
-        modal.find('.modal-body #price').val(price);
-    })
-</script>
+    <script>
+        $('#exampleModal2').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var title = button.data('title')
+            var description = button.data('description')
+            var category_id = button.data('category_id')
+            var children_id = button.data('children_id')
+            var price = button.data('price')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #description').val(description);
+            modal.find('.modal-body #category_id').val(category_id);
+            modal.find('.modal-body #children_id').val(children_id);
+            modal.find('.modal-body #price').val(price);
+        })
+    </script>
 
-<script>
-    $('#modaldemopromotion').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var price = button.data('price')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #price').val(price);
-    })
-</script>
+    <script>
+        $('#modaldemopromotion').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var price = button.data('price')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #price').val(price);
+        })
+    </script>
 
-<script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var title = button.data('title')
-        var modal = $(this)
-        modal.find('.modal-body #id').val(id);
-        modal.find('.modal-body #title').val(title);
-    })
-</script>
+    <script>
+        $('#modaldemo9').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var title = button.data('title')
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #title').val(title);
+        })
+    </script>
 @endsection
