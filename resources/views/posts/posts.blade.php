@@ -58,6 +58,7 @@
                                                 <th scope="col">#</th>
                                                 <th scope="col">{{__('messagevalidation.users.title')}}</th>
                                                 <th scope="col">{{__('messagevalidation.users.bodyy')}}</th>
+                                                <th scope="col">{{__('messagevalidation.users.status')}}</th>
                                                 <th scope="col">{{__('messagevalidation.users.image')}}</th>
                                                 <th scope="col">{{__('message.tags')}}</th>
                                                 <th scope="col">{{__('messagevalidation.users.category')}}</th>
@@ -79,6 +80,14 @@
                                                         <td>{{$x->id}}</td>
                                                         <td>{{$x->title}}</td>
                                                         <td>{{$x->body}}</td>
+                                                        <td>
+                                                            @if ($x->status == 0)
+                                                                <a href="{{route('posts.editstatusdéactive', $x->id)}}">{{__('messagevalidation.users.disabled')}}</a>
+                                                            @endif
+                                                            @if ($x->status == 1)
+                                                                <a href="{{route('posts.editstatusactive', $x->id)}}">{{__('messagevalidation.users.active')}}</a>
+                                                            @endif
+                                                        </td>
                                                         <td><img src="{{asset('storage/'.$x->image)}}" alt="" style="height: 50px; width:50px;"></td>
                                                         <td><a href="{{ url('post_tags/post_tags') }}/{{ $x->id }}">{{__('message.viewtags')}}</a></td>
                                                         <td>{{$x->category->title}}</td>
@@ -120,9 +129,9 @@
                                         {{ csrf_field() }}
                                         <div class="form-group">
                                             <input type="hidden" name="id" id="id">
-                                            <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title" id="title" type="text">
+                                            <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title_{{app()->getLocale()}}" id="title" type="text">
                                             <br>
-                                            <input placeholder="{{__('messagevalidation.users.bodyy')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
+                                            <input placeholder="{{__('messagevalidation.users.bodyy')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body_{{app()->getLocale()}}">
                                             <br>
                                             <div class="col">
                                                 <label for="inputName" class="control-label">{{__('messagevalidation.users.Categories')}}</label>
@@ -140,15 +149,6 @@
                                             <div class="col">
                                                 <label for="inputName1" class="control-label">{{__('messagevalidation.users.children')}}</label>
                                                 <select id="children" name="children" class="form-control">
-                                                </select>
-                                            </div>
-                                            <div class="col">
-                                                <select name="tag_id[]" multiple value="{{old('tag_id')}}" class="form-control SlectBox" class="@error('tag_id') is-invalid @enderror" multiselect-search="true" multiselect-select-all="true">
-                                                    @foreach ($tags as $tag)
-                                                            <option value="{{ $tag->id }}">
-                                                                {{ $tag->title }}
-                                                            </option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <br>

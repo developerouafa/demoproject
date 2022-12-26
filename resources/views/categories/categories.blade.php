@@ -115,13 +115,11 @@
                                             <form action="{{route('categories.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                                 @csrf
                                                     <div class="form-group">
-                                                        <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title_en">
+                                                        <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title_en')}}" class="form-control @error('title_en') is-invalid @enderror" id="title_en" name="title_en">
                                                         <br>
                                                         <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
                                                         <br>
                                                         <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-
-                                                        {{-- <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn ripple btn-primary" type="submit">{{__('message.save')}}</button>
@@ -149,11 +147,10 @@
                                             {{ csrf_field() }}
                                             <div class="form-group">
                                                 <input type="hidden" name="id" id="id">
-                                                <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title" id="title" type="text">
+                                                <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title_{{app()->getLocale()}}" id="title" type="text">
                                             </div>
                                             <div class="form-group">
                                                 <input type="file" class="dropify @error('image') is-invalid @enderror" data-height="200" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"/>
-                                                {{-- <input type="file" id="image" name="image" accept=".pdf,.jpg, .png, image/jpeg, image/png"> --}}
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">{{__('message.save')}}</button>

@@ -14,6 +14,12 @@ class size extends Model
         'width',
         'product_id',
     ];
+    /*-------------------- Scope --------------------*/
+
+    public function scopeSelectsize(mixed $query)
+    {
+        return $query->select('id', 'height', 'width');
+    }
 
     /*-------------------- Relations --------------------*/
     public function product()

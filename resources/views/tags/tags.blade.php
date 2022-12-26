@@ -88,9 +88,9 @@
                                         <form action="{{route('tags.create')}}" method="post" enctype="multipart/form-data" autocomplete="off">
                                             @csrf
                                                 <div class="form-group">
-                                                    <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                                    <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title_en')}}" class="form-control @error('title_en') is-invalid @enderror" id="title_en" name="title_en">
                                                     <br>
-                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('titlear')}}" class="form-control @error('titlear') is-invalid @enderror" id="titlear" name="titlear">
+                                                    <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
                                                     <br>
                                                 </div>
                                                 <div class="modal-footer">
@@ -119,7 +119,7 @@
                                         {{ csrf_field() }}
                                         <div class="form-group">
                                             <input type="hidden" name="id" id="id">
-                                            <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                            <input placeholder="{{__('messagevalidation.users.title')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title_{{app()->getLocale()}}">
                                             <br>
                                         </div>
                                         <div class="modal-footer">

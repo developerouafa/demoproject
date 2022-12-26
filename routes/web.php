@@ -3,12 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\SocialiteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChildrenCatController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\ColorProduct;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageUserController;
 use App\Http\Controllers\PostController;
@@ -124,6 +120,10 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                 Route::post('/createpost', [PostController::class, 'store'])->name('posts.create');
                 Route::patch('/updatepost', [PostController::class, 'update'])->name('posts.update');
                 Route::delete('/deletepost', [PostController::class, 'delete'])->name('posts.delete');
+                Route::get('/posts/editstatusdéactive/{id}', [PostController::class, 'editstatusdéactive'])->name('posts.editstatusdéactive');
+                Route::get('/posts/editstatusactive/{id}', [PostController::class, 'editstatusactive'])->name('posts.editstatusactive');
+                Route::get('/page_detailsposts/{id}', [PostController::class, 'detailsposts'])->name('page_detailsposts');
+                Route::get('Notification/markAdRead', [PostController::class, 'markeAsRead'])->name('Notification.Read');
             });
             Route::get('/category/{id}', [PostController::class, 'getchild']);
 

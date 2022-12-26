@@ -12,7 +12,7 @@ class SizeController extends Controller
     //* function index Size
     public function index($id)
     {
-        $sizes = size::query()->select('id', 'height', 'width')->where('product_id', $id)->with('product')->get();
+        $sizes = size::query()->selectsize()->where('product_id', $id)->with('product')->get();
         $product = product::where('id', $id)->first();
         return view('sizes.sizes', compact('sizes', 'product'));
     }

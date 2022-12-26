@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title')}}" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+                                        <input placeholder="{{__('messagevalidation.users.titleen')}}" type="text" value="{{old('title_en')}}" class="form-control @error('title_en') is-invalid @enderror" id="title" name="title_en">
                                     </div>
                                     <div class="col-lg-6">
                                         <input placeholder="{{__('messagevalidation.users.titlear')}}" type="text" value="{{old('title_ar')}}" class="form-control @error('title_ar') is-invalid @enderror" id="title_ar" name="title_ar">
@@ -63,7 +63,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <input placeholder="{{__('messagevalidation.users.body')}}" type="text" value="{{old('body')}}" class="form-control @error('body') is-invalid @enderror" id="body" name="body">
+                                        <input placeholder="{{__('messagevalidation.users.body')}}" type="text" value="{{old('body_en')}}" class="form-control @error('body_en') is-invalid @enderror" id="body" name="body_en">
                                     </div>
                                     <div class="col-lg-4">
                                         <input placeholder="{{__('messagevalidation.users.bodyar')}}" type="text" value="{{old('body_ar')}}" class="form-control @error('body_ar') is-invalid @enderror" id="body_ar" name="body_ar">

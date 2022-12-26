@@ -8,24 +8,29 @@ use App\Models\Post;
 use App\Models\product;
 use App\Models\product_color;
 use App\Models\size;
+use App\Models\User;
+use App\Notifications\productntf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ProductController extends Controller
 {
     //* function index Product
     public function index()
     {
-        $products = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->productwith();
-        $childrens = category::query()->select('id', 'title', 'name_ar', 'name_en', 'status', 'image', 'parent_id')->with('subcategories')->child()->get();
-        $categories = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('category')->parent()->get();
+        $products = product::query()->productselect()->productwith()->get();
+        $childrens = category::query()->selectchildrens()->withchildrens()->child()->get();
+        $categories = category::query()->selectcategories()->withcategories()->parent()->get();
         return view('products.products', compact('products', 'categories', 'childrens'));
     }
 
     //* DropDown Children
     public function getchildproduct($id)
     {
-        $childrens = DB::table("categories")->where("parent_id", $id)->pluck("id", 'name_'.app()->getLocale().'');
+        $childrens = DB::table("categories")->where("parent_id", $id)->pluck("id", 'id');
         return json_encode($childrens);
     }
 
@@ -39,7 +44,6 @@ class ProductController extends Controller
                 'status' => 1,
             ]);
             DB::commit();
-            return redirect()->back();
             return redirect()->back();
         }catch(\Exception $exception){
             DB::rollBack();
@@ -69,9 +73,9 @@ class ProductController extends Controller
     //* Create Product
     public function create()
     {
-        $products = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->productwith();
-        $categories = category::query()->select('id', 'title', 'image', 'status','parent_id')->with('category')->parent()->get();
-        $childrens = category::query()->select('id', 'title', 'name_ar', 'name_en', 'status', 'image', 'parent_id')->with('subcategories')->child()->get();
+        $products = product::query()->productselect()->productwith()->get();
+        $childrens = category::query()->selectchildrens()->withchildrens()->child()->get();
+        $categories = category::query()->selectcategories()->withcategories()->parent()->get();
         return view('products.productscreate', compact('products', 'categories', 'childrens'));
     }
 
@@ -80,10 +84,10 @@ class ProductController extends Controller
     {
         // validations
         $this->validate($request, [
-            'title' => 'required',
-            'title_ar' => 'required',
-            'description' => 'required',
-            'description_ar' => 'required',
+            'title_en' => 'required|unique:products,title->en',
+            'title_ar' => 'required|unique:products,title->ar',
+            'description_en' => 'required|unique:products,description->en',
+            'description_ar' => 'required|unique:products,description->ar',
             'image' => 'required',
             'Category'  => 'required',
             'children'  => 'required',
@@ -92,9 +96,11 @@ class ProductController extends Controller
             'width' => 'required',
             'height' => 'required',
         ],[
-            'title.required' =>__('messagevalidation.users.titleenrequired'),
+            'title_en.required' =>__('messagevalidation.users.titleenrequired'),
+            'title_en.unique' =>__('messagevalidation.users.titleaddenunique'),
             'title_ar.required' =>__('messagevalidation.users.titlearrequired'),
-            'description.required' =>__('messagevalidation.users.bodyenrequired'),
+            'title_ar.unique' =>__('messagevalidation.users.titleaddarunique'),
+            'description_en.required' =>__('messagevalidation.users.bodyenrequired'),
             'description_ar.required' =>__('messagevalidation.users.bodyarrequired'),
             'image.required' =>__('messagevalidation.users.imagerequired'),
             'Category.required' =>__('messagevalidation.users.categoryrequired'),
@@ -109,12 +115,10 @@ class ProductController extends Controller
             if($request->has('image')){
                 DB::beginTransaction();
                 product::create([
-                    'title' => ['en' => $request->title, 'ar' => $request->title_ar],
-                    'description' => ['en' => $request->description, 'ar' => $request->description_ar],
+                    'title' => ['en' => $request->title_en, 'ar' => $request->title_ar],
+                    'description' => ['en' => $request->description_en, 'ar' => $request->description_ar],
                     'category_id' => $request->Category,
                     'parent_id' => $request->children,
-                    'name_en' => $request->title,
-                    'name_ar' => $request->title_ar,
                     'status' => 0,
                     'price' => $request->price
                 ]);
@@ -139,10 +143,13 @@ class ProductController extends Controller
                     $size->width = $request->width;
                     $size->save();
 
-                    // $users = admin_user::where('id', '!=', Auth::guard('admin_users')->user()->id)->get();
-                    // $user_create = Auth::guard('admin_users')->user()->name;
-                    // $product_id = Product::latest()->first();
-                    // Notification::send($users, new Productntf($product_id, $user_create, $request->title, $request->description));
+                    //* Notification database Product
+                    $users = User::where('id', '!=', Auth::user()->id)->get();
+                    $user_create = Auth::user()->name;
+                    $idd = product::latest()->first();
+                    $title = product::latest()->first();
+                    $body = product::latest()->first();
+                    Notification::send($users, new productntf($idd, $user_create, $title, $body));
 
                     DB::commit();
                     toastr()->success(trans('message.create'));
@@ -161,18 +168,19 @@ class ProductController extends Controller
         }
     }
 
-    //* fucntion ipdate Product
+    //* function ipdate Product
     public function update(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required',
+            'title_'.app()->getLocale() => 'required|unique:products,title->'.app()->getLocale().','.$request->id,
+            'description_'.app()->getLocale() => 'required',
             'price' => 'required|between:1,99999999999999',
             'Category'  => 'required',
             'children'  => 'required',
         ],[
-            'title.required' =>__('messagevalidation.users.titleenrequired'),
-            'description.required' =>__('messagevalidation.users.bodyenrequired'),
+            'title_'.app()->getLocale().'.required' =>__('messagevalidation.users.titlerequired'),
+            'title_'.app()->getLocale().'.unique' =>__('messagevalidation.users.titlunique'),
+            'description_'.app()->getLocale().'.required' =>__('messagevalidation.users.bodyrequired'),
             'price.required' =>__('messagevalidation.users.priceisrequired'),
             'price.between' =>__('messagevalidation.users.priceislow'),
             'Category.required' =>__('messagevalidation.users.categoryrequired'),
@@ -181,26 +189,28 @@ class ProductController extends Controller
         try{
             $product = $request->id;
             $productupdate = product::findOrFail($product);
-            $input = $request->all();
-            $b_exists = Post::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
-                if($b_exists){
-                    DB::beginTransaction();
+                DB::beginTransaction();
+                if(App::isLocale('en')){
                     $productupdate->update([
-                        'title' => $request->title,
-                        'description' => $request->description,
+                        'title' => $request->title_en,
+                        'description' => $request->description_en,
                         'price' => $request->price,
                         'category_id' => $request->Category,
                         'parent_id' => $request->children
                     ]);
-                    DB::commit();
-                    toastr()->success(trans('message.update'));
-                    return redirect()->route('product_index');
                 }
-                else{
-                    toastr()->error(trans('message.thisexist'));
-                    return redirect()->route('product_index');
+                elseif(App::isLocale('ar')){
+                    $productupdate->update([
+                        'title' => $request->title_ar,
+                        'description' => $request->description_ar,
+                        'price' => $request->price,
+                        'category_id' => $request->Category,
+                        'parent_id' => $request->children
+                    ]);
                 }
-
+                DB::commit();
+                toastr()->success(trans('message.update'));
+                return redirect()->route('product_index');
         }catch(\Exception $execption){
             DB::rollBack();
             toastr()->error(trans('message.error'));
@@ -208,7 +218,7 @@ class ProductController extends Controller
         }
     }
 
-    //* fucntion delete Product
+    //* function delete Product
     public function delete(Request $request)
     {
         try{
@@ -230,4 +240,5 @@ class ProductController extends Controller
             return redirect()->route('product_index');
         }
     }
+
 }

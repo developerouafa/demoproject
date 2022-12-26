@@ -71,15 +71,16 @@
                                                         <td>{{$Product->id}}</td>
                                                         <td>{{$Product->title}}</td>
                                                             @foreach ($images as $x)
-                                                            <td>
-                                                                <form action="{{route('image.delete')}}" method="post">
-                                                                    {{ method_field('delete') }}
-                                                                    {{ csrf_field() }}
-                                                                    <input type="hidden" value="{{$x->id}}" name="id">
-                                                                    <img src="{{asset('product_images/'.$x->multimg)}}" alt="" style="width: 50px; height:50px;">
-                                                                    <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
-                                                                </form>
-                                                            <br></td>
+                                                                <td>
+                                                                    <form action="{{route('image.delete')}}" method="post">
+                                                                        {{ method_field('delete') }}
+                                                                        {{ csrf_field() }}
+                                                                        <input type="hidden" value="{{$x->id}}" name="id">
+                                                                        <img src="{{asset('product_images/'.$x->multimg)}}" alt="" style="width: 50px; height:50px;">
+                                                                        <button type="submit" class="btn btn-danger">{{__('message.deletee')}}</button>
+                                                                    </form>
+                                                                    <br>
+                                                                </td>
                                                             @endforeach
                                                     </tr>
                                             </tbody>

@@ -10,9 +10,14 @@ class tag extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $fillable = ['title', 'name_en', 'name_ar'];
+    protected $fillable = ['title'];
     public $translatable = ['title'];
 
+    /*-------------------- Scope --------------------*/
+    public function scopeSelectags(mixed $query)
+    {
+        return $query->select('id', 'title');
+    }
     /*-------------------- Relations --------------------*/
     public function post_tags(){
         return $this->hasMany(Post_tag::class, 'tag_id', 'id');

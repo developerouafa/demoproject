@@ -19,8 +19,7 @@ class Post extends Model
         'category_id',
         'parent_id',
         'image',
-        'name_en',
-        'name_ar'
+        'status'
     ];
 
     public $translatable = ['title', 'body'];
@@ -38,17 +37,21 @@ class Post extends Model
             return $query->whereNotNull('parent_id');
         }
 
+        public function scopeSelectposts(mixed $query): ?object
+        {
+            return $query->select('id', 'title','body', 'category_id', 'parent_id', 'image', 'status');
+        }
+
+        public function scopeWithposts(mixed $query): ?object
+        {
+            return $query->with('category')->with('subcategories');
+        }
     /*-------------------- Relations --------------------*/
 
         public function subcategories(): BelongsTo
         {
             return $this->BelongsTo(category::class, 'parent_id')->child();
         }
-
-        // public function category(): BelongsTo
-        // {
-        //     return $this->BelongsTo(category::class, 'parent_id')->parent();
-        // }
 
         public function category(): BelongsTo
         {

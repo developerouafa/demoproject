@@ -13,7 +13,7 @@ class ImageController extends Controller
     public function index($id)
     {
         $Product = product::where('id',$id)->firstOrFail();
-        $images  = image::select('id', 'multimg', 'product_id')->where('product_id',$id)->get();
+        $images  = image::selectimage()->where('product_id',$id)->get();
         return view('images.images',compact('Product','images'));
     }
 

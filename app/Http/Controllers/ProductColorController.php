@@ -14,8 +14,8 @@ class ProductColorController extends Controller
     //* function index Product
     public function index($id)
     {
-        $product = product::query()->select('id', 'title', 'name_en', 'name_ar', 'description', 'price', 'status', 'category_id', 'parent_id')->where('id',$id)->firstOrFail();
-        $product_color  = Product_Color::query()->select('id', 'product_id', 'color')->where('product_id',$id)->get();
+        $product = product::query()->productselect()->where('id',$id)->firstOrFail();
+        $product_color  = Product_Color::query()->selectProductcolor()->where('product_id',$id)->get();
         return view('product_color.product_color',compact('product','product_color'));
     }
 

@@ -14,6 +14,12 @@ class image extends Model
         'product_id',
     ];
 
+    /*-------------------- Scope --------------------*/
+    public function scopeSelectimage(mixed $query)
+    {
+        return $query->select('id', 'multimg', 'product_id');
+    }
+
     /*-------------------- Relations --------------------*/
     public function product()
     {

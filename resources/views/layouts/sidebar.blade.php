@@ -12,7 +12,7 @@
 						<!-- Tabs -->
 						<ul class="nav panel-tabs">
 							<li class=""><a href="#side1" class="active" data-toggle="tab"><i class="ion ion-md-chatboxes tx-18 ml-2"></i> Chat</a></li>
-							<li><a href="#side2" data-toggle="tab"><i class="ion ion-md-notifications tx-18  ml-2"></i> Notifications</a></li>
+							<li><a href="#side2" data-toggle="tab"><i class="ion ion-md-notifications tx-18  ml-2"></i> {{__('messagevalidation.users.notifications')}}</a></li>
 							<li><a href="#side3" data-toggle="tab"><i class="ion ion-md-contacts tx-18 ml-2"></i> Friends</a></li>
 						</ul>
 					</div>
@@ -155,85 +155,23 @@
 								</a>
 							</div>
 						</div>
-						<div class="tab-pane  " id="side2">
-							<div class="list-group list-group-flush ">
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/12.jpg')}}"><span class="avatar-status bg-success"></span></span>
-									</div>
-									<div>
-										<strong>Madeleine</strong> Hey! there I' am available....
-										<div class="small text-muted">
-											3 hours ago
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/1.jpg')}}"></span>
-									</div>
-									<div>
-										<strong>Anthony</strong> New product Launching...
-										<div class="small text-muted">
-											5 hour ago
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/2.jpg')}}"><span class="avatar-status bg-success"></span></span>
-									</div>
-									<div>
-										<strong>Olivia</strong> New Schedule Realease......
-										<div class="small text-muted">
-											45 mintues ago
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/8.jpg')}}"><span class="avatar-status bg-success"></span></span>
-									</div>
-									<div>
-										<strong>Madeleine</strong> Hey! there I' am available....
-										<div class="small text-muted">
-											3 hours ago
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/11.jpg')}}"></span>
-									</div>
-									<div>
-										<strong>Anthony</strong> New product Launching...
-										<div class="small text-muted">
-											5 hour ago
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/6.jpg')}}"><span class="avatar-status bg-success"></span></span>
-									</div>
-									<div>
-										<strong>Olivia</strong> New Schedule Realease......
-										<div class="small text-muted">
-											45 mintues ago
-										</div>
-									</div>
-								</div>
-								<div class="list-group-item d-flex  align-items-center">
-									<div class="ml-3">
-										<span class="avatar avatar-lg brround cover-image" data-image-src="{{URL::asset('assets/img/faces/9.jpg')}}"><span class="avatar-status bg-success"></span></span>
-									</div>
-									<div>
-										<strong>Olivia</strong> Hey! there I' am available....
-										<div class="small text-muted">
-											12 mintues ago
-										</div>
-									</div>
-								</div>
+						<div class="tab-pane" id="side2">
+							<div class="list-group list-group-flush" id="unreadNotificationssidebar">
+								{{-- <div class="list-group-item d-flex  align-items-center"> --}}
+                                    {{-- <div class="main-notification-list Notification-scroll"> --}}
+                                        @foreach (auth()->user()->unreadNotifications as $notification)
+                                            <a class="d-flex p-3 border-bottom" href="{{ route('page_detailsposts', $notification->data['idd'])}}">
+                                                <div>
+                                                    <strong>{{$notification->data['user_create']}}</strong>
+                                                    <div class="notification-subtext">{{$notification->data['title']}}</div>
+                                                    <div class="small text-muted">
+                                                        {{$notification->created_at}}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    {{-- </div> --}}
+								{{-- </div> --}}
 							</div>
 						</div>
 						<div class="tab-pane  " id="side3">
@@ -399,3 +337,8 @@
 			</div>
 		</div>
 <!--/Sidebar-right-->
+<script>
+    setInterval(function() {
+        $("#unreadNotificationssidebar").load(window.location.href + " #unreadNotificationssidebar");
+    }, 5000);
+</script>

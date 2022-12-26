@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Post_tag;
 use App\Models\tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
@@ -13,7 +14,7 @@ class TagController extends Controller
     //* function index Tag
     public function index()
     {
-        $tags = tag::query()->select('id', 'title')->with('post_tags')->get();
+        $tags = tag::query()->selectags()->with('post_tags')->get();
         return view('tags.tags', compact('tags'));
     }
 
@@ -30,28 +31,22 @@ class TagController extends Controller
     {
         // validations
         $this->validate($request, [
-            'title' => 'required|max:255',
+            'title_en' => 'required|unique:tags,title->en',
+            'title_ar' => 'required|unique:tags,title->ar',
         ],[
-            'title.required' =>__('messagevalidation.users.titlerequired'),
+            'title_en.required' =>__('messagevalidation.users.titleenrequired'),
+            'title_en.unique' =>__('messagevalidation.users.titleaddenunique'),
+            'title_ar.required' =>__('messagevalidation.users.titlearrequired'),
+            'title_ar.unique' =>__('messagevalidation.users.titleaddarunique'),
         ]);
-
         try{
-            $exists = tag::where('name_en', '=',  $request->title)->where('name_ar', '=',  $request->titlear)->exists();
-            if($exists){
-                toastr()->error('Tag Is Exist');
-                return redirect()->route('tags_index');
-            }
-            else{
-                DB::beginTransaction();
-                tag::create([
-                    'title' => ['en' => $request->title, 'ar' => $request->titlear],
-                    'name_en' => $request->title,
-                    'name_ar' => $request->titlear,
-                ]);
-                DB::commit();
-                toastr()->success(trans('message.create'));
-                return redirect()->route('tags_index');
-            }
+            DB::beginTransaction();
+            tag::create([
+                'title' => ['en' => $request->title_en, 'ar' => $request->title_ar]
+            ]);
+            DB::commit();
+            toastr()->success(trans('message.create'));
+            return redirect()->route('tags_index');
         }
         catch(\Exception $exception){
             DB::rollBack();
@@ -65,29 +60,28 @@ class TagController extends Controller
     {
         // validations
         $this->validate($request, [
-            'title' => 'required|max:255',
+            'title_'.app()->getLocale() => 'required|unique:tags,title->'.app()->getLocale().','.$request->id,
         ],[
-            'title.required' =>'Title Is Required',
+            'title_'.app()->getLocale().'.required' =>__('messagevalidation.users.titlerequired'),
+            'title_'.app()->getLocale().'.unique' =>__('messagevalidation.users.titlunique')
         ]);
         try{
             $tag = $request->id;
             $tags = tag::findOrFail($tag);
-            $input = $request->all();
-            $b_exists = tag::where('name_'.app()->getLocale().'' , '=', $input['title'])->exists();
-            if($b_exists){
-                toastr()->success(trans('Tag Is Exist'));
-                return redirect()->route('tags_index');
-            }
-            else{
                 DB::beginTransaction();
-                $tags->update([
-                    'title' => $request->title,
-                    'name_'.app()->getLocale().'' => $request->title
-                ]);
+                if(App::isLocale('en')){
+                    $tags->update([
+                        'title' => $request->title_en
+                    ]);
+                }
+                elseif(App::isLocale('ar')){
+                    $tags->update([
+                        'title' => $request->title_er
+                    ]);
+                }
                 DB::commit();
                 toastr()->success(trans('message.update'));
                 return redirect()->route('tags_index');
-            }
         }catch(\Exception $execption){
             DB::rollBack();
             toastr()->error(trans('message.error'));

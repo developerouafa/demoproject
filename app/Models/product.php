@@ -13,8 +13,6 @@ class product extends Model
 
     protected $fillable = [
         'title',
-        'name_en',
-        'name_ar',
         'description',
         'category_id',
         'parent_id',
@@ -26,7 +24,11 @@ class product extends Model
 
     // Scopes
     public function scopeProductwith($query){
-        return $query->with('category')->with('subcategories')->with('image')->with('product_color')->with('size')->with('promotion')->get();
+        return $query->with('category')->with('subcategories')->with('image')->with('product_color')->with('size')->with('promotion');
+    }
+
+    public function scopeProductselect($query){
+        return $query->select('id', 'title', 'description', 'price', 'status', 'category_id', 'parent_id');
     }
 
     public function scopeParent(mixed $query)

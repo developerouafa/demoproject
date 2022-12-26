@@ -14,6 +14,11 @@ class product_color extends Model
         'color',
     ];
 
+    // Scopes
+        public function scopeSelectProductcolor($query){
+            return $query->select('id', 'product_id', 'color');
+        }
+
     /*-------------------- Relations --------------------*/
     public function product()
     {

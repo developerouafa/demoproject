@@ -14,8 +14,6 @@ class category extends Model
 
     protected $fillable = [
         'title',
-        'name_ar',
-        'name_en',
         'status',
         'image',
         'parent_id',
@@ -30,13 +28,30 @@ class category extends Model
         return $query->whereNull('parent_id');
     }
 
-
-
-    public function scopeChild(mixed $query): ?object
+    public function scopeChild(mixed $query)
     {
         return $query->whereNotNull('parent_id');
     }
 
+    public function scopeSelectcategories(mixed $query)
+    {
+        return $query->select('id', 'title', 'image', 'status','parent_id');
+    }
+
+    public function scopeSelectchildrens(mixed $query)
+    {
+        return $query->select('id', 'title', 'image', 'status','parent_id');
+    }
+
+    public function scopeWithchildrens(mixed $query)
+    {
+        return $query->with('subcategories');
+    }
+
+    public function scopeWithcategories(mixed $query)
+    {
+        return $query->with('category');
+    }
     /*-------------------- Relations --------------------*/
 
     public function subcategories(): HasMany

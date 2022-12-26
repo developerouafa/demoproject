@@ -177,9 +177,9 @@
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <input type="hidden" name="id" id="id">
-                                    <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title" id="title" type="text">
+                                    <input placeholder="{{__('messagevalidation.users.title')}}" class="form-control" name="title_{{app()->getLocale()}}" id="title" type="text">
                                     <br>
-                                    <input placeholder="{{__('messagevalidation.users.description')}}" type="text" value="{{old('description')}}" class="form-control @error('description') is-invalid @enderror" id="description" name="description">
+                                    <input placeholder="{{__('messagevalidation.users.description')}}" type="text" value="{{old('description')}}" class="form-control @error('description') is-invalid @enderror" id="description" name="description_{{app()->getLocale()}}">
                                     <br>
                                     <input placeholder="{{__('messagevalidation.users.price')}}" class="form-control" name="price" id="price" type="text">
                                     <br>
