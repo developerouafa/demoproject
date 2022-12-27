@@ -78,7 +78,7 @@
                                                 @if ($x->category->status == 0)
                                                     <tr>
                                                         <td>{{$x->id}}</td>
-                                                        <td>{{$x->title}}</td>
+                                                        <td> <a href="{{ route('page_details', $x->id)}}">{{$x->title}}</a> </td>
                                                         <td>{{$x->body}}</td>
                                                         <td>
                                                             @if ($x->status == 0)

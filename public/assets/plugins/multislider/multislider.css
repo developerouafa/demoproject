@@ -115,7 +115,7 @@
 #basicSlider .MS-content .item {
 	margin:10px;
   display: inline-block;
-  width: 20%;
+  width: 10%;
   position: relative;
   vertical-align: top;
   overflow: hidden;
@@ -126,15 +126,15 @@
 }
 @media (max-width: 991px) {
 
-#basicSlider .MS-content .item { width: 25%; }
+#basicSlider .MS-content .item { width: 15%; }
 }
 @media (max-width: 767px) {
 
-#basicSlider .MS-content .item { width: 35%; }
+#basicSlider .MS-content .item { width: 25%; }
 }
 @media (max-width: 500px) {
 
-#basicSlider .MS-content .item { width: 50%; }
+#basicSlider .MS-content .item { width: 40%; }
 }
 
 #basicSlider .MS-content .item a {

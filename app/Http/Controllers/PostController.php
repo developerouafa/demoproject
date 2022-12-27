@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use App\Models\product_color;
+use App\Models\promotion;
 use App\Models\size;
 
 class PostController extends Controller
@@ -255,6 +256,7 @@ class PostController extends Controller
         }
     }
 
+    //* Details|posts&products notification
     public function detailsposts($id){
         $posts = Post::query()->where('status','=','0')->where('id', $id)->withposts()->first();
         $products = product::query()->where('status','=','0')->where('id', $id)->productwith()->first();
@@ -265,6 +267,18 @@ class PostController extends Controller
         $getID = DB::table('notifications')->where('data->idd', $id)->pluck('id');
         DB::table('notifications')->where('id', $getID)->update(['read_at'=>now()]);
         return view('posts_ntf.post_detailsntf', compact('posts', 'products', 'images', 'product_color', 'sizes', 'tags'));
+    }
+
+    //* Details|posts&products
+    public function page_details($id){
+        $posts = Post::query()->where('status','=','0')->where('id', $id)->withposts()->first();
+        $products = product::query()->where('status','=','0')->where('id', $id)->productwith()->first();
+        $images  = image::selectimage()->where('product_id',$id)->get();
+        $product_color  = Product_Color::query()->selectProductcolor()->where('product_id',$id)->get();
+        $promotion = promotion::query()->where('product_id', $id)->withPromotion()->get();
+        $sizes = size::query()->selectsize()->where('product_id', $id)->with('product')->get();
+        $tags = tag::query()->selectags()->get();
+        return view('posts_ntf.post_detailsntf', compact('posts', 'products', 'images', 'product_color', 'promotion', 'sizes', 'tags'));
     }
 
     //* function markeAsRead | Delete

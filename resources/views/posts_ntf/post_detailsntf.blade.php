@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="details col-xl-7 col-lg-12 col-md-12 mt-4 mt-xl-0">
-                                <h4 class="product-title mb-1">{{$posts->title}}</h4><br>
+                                <h4 class="product-title mb-1">{{$posts->title}}</h4>
                                 <h6 class="price"> {{__('messagevalidation.users.Categories')}} : {{$posts->category->title}}
                                     <span class="ml-2"> {{__('messagevalidation.users.children')}} : {{$posts->subcategories->title}}</span>
                                 </h6>
@@ -78,58 +78,89 @@
             </div>
         </div>
     @else
-    <div class="row row-sm">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body h-100">
-                    <div class="row row-sm">
-                        <div class="col-xl-5 col-lg-12 col-md-12">
-                            <div class="card custom-card">
-                                <div class="card-body ht-100p">
-                                    <div id="basicSlider">
-                                        <div class="MS-content">
-                                            @foreach ($images as $x)
-                                                <div class="item">
-                                                    <img src="{{asset('product_images/'.$x->multimg)}}" alt="image" style="width: 150px; height:100px;">
-                                                </div>
-                                            @endforeach
+        <div class="row row-sm">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body h-100">
+                        <div class="row row-sm">
+                            <div class="col-xl-5 col-lg-12 col-md-12">
+                                <div class="card custom-card">
+                                    <div class="card-body ht-100p">
+                                        <div id="basicSlider">
+                                            <div class="MS-content">
+                                                @foreach ($images as $x)
+                                                    <div class="item">
+                                                        <a href="{{asset('product_images/'.$x->multimg)}}">
+                                                            <img src="{{asset('product_images/'.$x->multimg)}}" alt="image" style="height:100px;">
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="details col-xl-7 col-lg-12 col-md-12 mt-4 mt-xl-0">
-                            <h4 class="product-title mb-1">{{$products->title}}</h4><br>
-                            <h6 class="price"> {{__('messagevalidation.users.Categories')}} : {{$products->category->title}}
-                                <span class="ml-2"> {{__('messagevalidation.users.children')}} : {{$products->subcategories->title}}</span>
-                            </h6>
-                            <h6 class="price"> {{__('messagevalidation.users.price')}} : <span class="h3 ml-2">{{$products->price}}</span></h6>
-                            <b class="product-description"> {{__('messagevalidation.users.description')}} : {{$products->description}}</b>
-                            <div class="sizes d-flex">  {{__('messagevalidation.users.colors')}} :
-                                @foreach ($product_color as $x)
-                                        <span class="size d-flex"  data-toggle="tooltip" title="small">
-                                            <label class="rdiobox mb-0">
-                                                <b><input type="color" value="{{$x->color}}" class="form-control" style="width: 70px;"></b>
-                                            </label>
-                                        </span>
-                                @endforeach
-                            </div>
-                            <div class="sizes d-flex">  {{__('messagevalidation.users.size')}} :
-                                @foreach ($sizes as $x)
-                                        <span class="size d-flex"  data-toggle="tooltip" title="small">
-                                            <label class="rdiobox mb-0">
-                                                <b>{{__('messagevalidation.users.height')}} : {{$x->height}}</b>
-                                                <b>{{__('messagevalidation.users.width')}} : {{$x->width}}</b>
-                                            </label>
-                                        </span>
-                                @endforeach
+                            <div class="details col-xl-7 col-lg-12 col-md-12 mt-4 mt-xl-0">
+                                <h4 class="product-title mb-1">{{$products->title}}</h4><br>
+                                <h6 class="price"> {{__('messagevalidation.users.Categories')}} : {{$products->category->title}}
+                                    <span class="ml-2"> {{__('messagevalidation.users.children')}} : {{$products->subcategories->title}}</span>
+                                </h6>
+                                <h6 class="price">
+                                    {{__('messagevalidation.users.price')}} : <span class="h3 ml-2">{{$products->price}}</span>
+                                    <b> <br>   -- </b>
+                                        @forelse ($promotion as $promo)
+                                            @if ($promo->expired == 0)
+                                                {{__('messagevalidation.users.promotion')}} : <span class="h3 ml-2" style="color: red" >{{$promo->price}}</span>
+                                                {{__('messagevalidation.users.start_time')}} : <span class="h6 ml-2" >{{$promo->start_time}}</span>
+                                                {{__('messagevalidation.users.end_time')}} : <span class="h6 ml-2" >{{$promo->end_time}}</span>
+                                            @else
+                                                {{__('message.nopromotion')}}
+                                            @endif
+                                        @empty
+                                            {{__('message.nopromotion')}}
+                                        @endforelse ()
+                                </h6>
+                                <b class="product-description"> {{__('messagevalidation.users.description')}} : {{$products->description}}</b>
+                                <div class="sizes d-flex">  {{__('messagevalidation.users.colors')}} :
+                                    @foreach ($product_color as $x)
+                                            <span class="size d-flex"  data-toggle="tooltip" title="small">
+                                                <label class="rdiobox mb-0">
+                                                    <b><input type="color" value="{{$x->color}}" class="form-control" style="width: 70px;"></b>
+                                                </label>
+                                            </span>
+                                    @endforeach
+                                </div>
+                                <div class="sizes d-flex">  {{__('messagevalidation.users.size')}} :
+                                    @foreach ($sizes as $x)
+                                            <span class="size d-flex"  data-toggle="tooltip" title="small">
+                                                <label class="rdiobox mb-0">
+                                                    <b>{{__('messagevalidation.users.height')}} : {{$x->height}}</b>
+                                                    <b>{{__('messagevalidation.users.width')}} : {{$x->width}}</b>
+                                                </label>
+                                            </span>
+                                    @endforeach
+                                </div>
+                                <div class="action">
+                                    <form action="{{ route('page_add_cart', $products->id) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="d-flex  mt-2">
+                                            <div class="mt-2 product-title"> {{__('message.Quantity')}} :</div>
+                                            <div class="d-flex ml-2">
+                                                <input type="number" value="1" name="quantity" min="1">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="action">
+                                            <button class="add-to-cart btn btn-success" type="submit">{{__('messagevalidation.users.addtocart')}} </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
     <!-- /row -->

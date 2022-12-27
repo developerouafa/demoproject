@@ -67,6 +67,7 @@ return [
         'posts' => 'المشاركات',
         'createposts' => 'إنشاء مشاركات',
         'products' => 'المنتجات',
+        'product' => 'المنتج',
         'description' => 'الوصف',
         'price' => 'سعر',
         'color' => 'اللون',
@@ -107,7 +108,6 @@ return [
         'youhave' => 'لديك',
         'unreadntf' => 'إشعارات غير مقروءة',
         'viewall' => 'عرض الكل',
-        'addtowishlist' => 'أضف إلى قائمة المفضلة',
         'addtocart' => 'أضف إلى السلة',
     ],
 ];

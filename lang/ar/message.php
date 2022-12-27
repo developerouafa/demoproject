@@ -135,4 +135,13 @@ return [
     'thisexist' => 'موجود',
     'addcolor' => 'أضف اللون',
     'nocoloryet' => 'لا لون بعد!',
+    'addincart' => 'تمت الاضافة بنجاح إلى السلة',
+    'Quantity' => 'كمية',
+    'nopromotion' => 'لا يوجد تخفيض',
+    'thereareno' => 'لا توجد اشعارات',
+    'cartisempty' => 'السلة خالية',
+    'cart' => 'السلة',
+    'productincart' => 'المنتجات في سلة التسوق',
+    'clearcart' => 'مسح السلة',
+
 ];

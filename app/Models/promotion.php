@@ -17,6 +17,13 @@ class promotion extends Model
         'product_id',
     ];
 
+    /*-------------------- Scope --------------------*/
+
+    public function scopeWithPromotion(mixed $query)
+    {
+        return $query->with('product');
+    }
+
     /*-------------------- Relations --------------------*/
     public function product()
     {

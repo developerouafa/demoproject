@@ -67,6 +67,7 @@ return [
         'posts' => 'Posts',
         'createposts' => 'Create Posts',
         'products' => 'Products',
+        'product' => 'Product',
         'description' => 'Description',
         'price' => 'Price',
         'color' => 'Color',
@@ -107,7 +108,6 @@ return [
         'youhave' => 'You have',
         'unreadntf' => 'unread Notifications',
         'viewall' => 'VIEW ALL',
-        'addtowishlist' => 'ADD TO WISHLIST',
         'addtocart' => 'ADD TO Cart',
     ],
 ];

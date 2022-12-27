@@ -186,6 +186,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
+        Darryldecode\Cart\CartServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -220,6 +221,7 @@ return [
         'Socialite' => 'Laravel\Socialite\Facades\Socialite',
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
 
         'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth'
     ])->toArray(),

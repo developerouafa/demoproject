@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\SocialiteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChildrenCatController;
 use App\Http\Controllers\ImageController;
@@ -123,6 +124,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                 Route::get('/posts/editstatusdéactive/{id}', [PostController::class, 'editstatusdéactive'])->name('posts.editstatusdéactive');
                 Route::get('/posts/editstatusactive/{id}', [PostController::class, 'editstatusactive'])->name('posts.editstatusactive');
                 Route::get('/page_detailsposts/{id}', [PostController::class, 'detailsposts'])->name('page_detailsposts');
+                Route::get('/page_details/{id}', [PostController::class, 'page_details'])->name('page_details');
                 Route::get('Notification/markAdRead', [PostController::class, 'markeAsRead'])->name('Notification.Read');
             });
             Route::get('/category/{id}', [PostController::class, 'getchild']);
@@ -162,6 +164,13 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                 Route::get('/promotions/editstatusdéactive/{id}', [PromotionController::class, 'editstatusdéactive'])->name('promotions.editstatusdéactive');
                 Route::get('/promotions/editstatusactive/{id}', [PromotionController::class, 'editstatusactive'])->name('promotions.editstatusactive');
                 Route::delete('/deletepromotion', [PromotionController::class, 'delete'])->name('promotion.delete');
+            });
+
+            Route::prefix('page_cart')->group(function (){
+                Route::post('/page_cart/{id}', [CartController::class, 'store'])->name('page_add_cart');
+                Route::patch('/page_cart_update', [CartController::class, 'update'])->name('page_cart_update');
+                Route::get('/page_cart_delete/{id}', [CartController::class, 'delete'])->name('page_cart_delete');
+                Route::get('/page_cart_deleteall', [CartController::class, 'deleteall'])->name('page_cart_deleteall');
             });
         });
 

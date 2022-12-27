@@ -92,4 +92,5 @@ class ImageUserController extends Controller
             return redirect()->route('profile.edit');
         }
     }
+
 }

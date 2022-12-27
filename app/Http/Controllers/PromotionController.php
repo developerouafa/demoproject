@@ -12,7 +12,7 @@ class PromotionController extends Controller
     //* function index Promotion
     public function index($id)
     {
-        $promotion = promotion::query()->where('product_id', $id)->with('product')->get();
+        $promotion = promotion::query()->where('product_id', $id)->withPromotion()->get();
         $product = product::where('id', $id)->first();
         return view('promotions.promotions', compact('promotion', 'product'));
     }
