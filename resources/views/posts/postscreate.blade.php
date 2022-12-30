@@ -387,7 +387,7 @@
                             $('select[name="children"]').empty();
                             $.each(data, function(key, value) {
                                 $('select[name="children"]').append('<option value="' +
-                                value + '">' + key + '</option>');
+                                value + '">' + translate(key)  + '</option>');
                             });
                         },
                     });

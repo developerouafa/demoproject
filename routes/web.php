@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\SocialiteController;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -18,6 +19,14 @@ use App\Http\Controllers\roles\RolesController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\users\UserController;
+use App\Http\Resources\categoryResource;
+use App\Http\Resources\postResource;
+use App\Http\Resources\TagCollection;
+use App\Http\Resources\tagResource;
+use App\Models\category;
+use App\Models\Post;
+use App\Models\product;
+use App\Models\tag;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -172,6 +181,10 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
                 Route::get('/page_cart_delete/{id}', [CartController::class, 'delete'])->name('page_cart_delete');
                 Route::get('/page_cart_deleteall', [CartController::class, 'deleteall'])->name('page_cart_deleteall');
             });
+
+            // Route::get('/scout', function(){
+            //     return product::search('wwww')->get();
+            // });
         });
 
         //* Login With Github
@@ -180,4 +193,32 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
         require __DIR__.'/auth.php';
 
+    });
+
+    /* Resource Tag  */
+    Route::get('/tag/{id}', function ($id) {
+        return new tagResource(tag::findOrFail($id));
+    });
+
+    Route::get('/tags', function () {
+        return tagResource::collection(tag::all());
+    });
+
+    Route::get('/tagscollection', function () {
+        return new TagCollection(tag::all());
+    });
+
+
+    Route::get('/tagsPreserveKeys', function () {
+        return tagResource::collection(tag::all()->keyBy->id);
+    });
+
+    /* Resource Catgeory  */
+    Route::get('/catgeories', function () {
+        return categoryResource::collection(category::all()->keyBy->id);
+    });
+
+    /* Resource Post  */
+    Route::get('/posts', function () {
+        return postResource::collection(Post::all()->keyBy->id);
     });

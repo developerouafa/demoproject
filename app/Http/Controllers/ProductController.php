@@ -30,7 +30,7 @@ class ProductController extends Controller
     //* DropDown Children
     public function getchildproduct($id)
     {
-        $childrens = DB::table("categories")->where("parent_id", $id)->pluck("id", 'id');
+        $childrens = DB::table("categories")->where('parent_id', $id)->pluck('id', 'title');
         return json_encode($childrens);
     }
 

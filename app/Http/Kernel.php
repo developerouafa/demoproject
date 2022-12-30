@@ -73,5 +73,8 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'xss' => \App\Http\Middleware\xss::class,
         'UserStatus' => \App\Http\Middleware\UserStatus::class,
+        'CheckadminToken' => \App\Http\Middleware\checkAdminToken::class,
+        'getadmintoken' => \App\Http\Middleware\AssingGuard::class,
+        'gettoken' => \App\Http\Middleware\GetassingGuard::class,
     ];
 }
